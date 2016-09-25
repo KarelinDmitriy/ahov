@@ -1,0 +1,324 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using static System.Math;
+
+namespace Forcast
+{
+	public class Forcast
+	{
+		private readonly IEnumerable<Barrel> _barrels;
+		private readonly StorageData _storageData;
+		private readonly ActiveData _activeData;
+		private readonly Table_3_3 _airStable;
+
+		public Forcast(IEnumerable<Barrel> barrels, StorageData storageData, ActiveData activeData)
+		{
+			_barrels = barrels;
+			_storageData = storageData;
+			_activeData = activeData;
+			_airStable = activeData.AirVerticalStable;
+		}
+
+		public ForcastResult DoForcast()
+		{
+			var clouds = CalcClouds();
+			var kp = _storageData.QInside.Sum(x => x.Ay*x.Kp);
+			var qpa1 = GetQpa1(kp);
+			var ga1 = qpa1.Select(x => _airStable.Kg*_activeData.Ku9*Pow(x, _airStable.Kv));
+			var gam1 = qpa1.Select(x => _airStable.Kgm*_activeData.Ku9*Pow(x/kp, _airStable.Kvm));
+			var sa1 = qpa1.Select(x => Pow(_activeData.Ku9,2)* _airStable.Ks*Pow(x, _airStable.Ka));
+			var sam1 = qpa1.Select(x => Pow(_activeData.Ku9,2)*_airStable.Ksm*Pow(x/kp,_airStable.Kam));
+			var qpa2 = GetQpa2(kp);
+			var ga2 = qpa2.Select(x => _airStable.Kg*_activeData.Ku2*Pow(x, _airStable.Kv));
+			var gam2 = qpa2.Select(x => _airStable.Kgm*_activeData.Ku2*Pow(x/kp, _airStable.Kvm));
+			var sa2 = qpa2.Select(x => _airStable.Ks*Pow(_activeData.Ku2, 2)*Pow(x/kp, _airStable.Ka));
+			var sam2 = qpa2.Select(x => _airStable.Ksm*Pow(_activeData.Ku2, 2)*Pow(x/kp, _airStable.Kam));
+			var gaoAndSao1 = CalcGaoAndSao(ga1, gam1, sa1, sam1);
+			var gaoAndSao2 = CalcGaoAndSao(ga2, gam2, sa2, sam2);
+			var gasAndSas = CalcGasAndSas(gaoAndSao1, gaoAndSao2);
+			var gauAndSau = CalcGuaAndSau(gasAndSas.Item1, gasAndSas.Item2);
+			var squareBeforeAndAfter = CalcSomthing(gauAndSau.Item1, gauAndSau.Item2);
+		}
+
+
+		private SquareBeforeAndAfter CalcSomthing(DoubleArray gau, DoubleArray sau)
+		{
+			var rz = _storageData.Rz;
+			var q = _activeData.q;
+			var u = _activeData.U;
+			var t = _activeData.T;
+			var sap = new DoubleArray();
+			var saw = new DoubleArray();
+			var aap = new DoubleArray();
+			foreach (var i in Index.GenerateIndices(5,2))
+			{
+				var tn = _activeData.Tn[i.Y];
+				var ii = i.Y;
+				var rzu = rz / u - tn;
+				if (_activeData.T*_activeData.U <= rz || gau[i] <= rz)
+					sap[i] = saw[i] = 0; // на всякий случай))) 
+				var cup = _storageData.Цу/2 + q >= sau[i]/(2*gau[i]) ? sau[i]/gau[i] - q + _storageData.Цу/2 : _storageData.Цу;
+				var y = cup < sau[i]/gau[i] ? cup : sau[i]/gau[i];
+				if (tn*u <= t*u && t*u <= gau[i]*_storageData.Цу + rz)
+				{
+					sap[i] = 0;
+					saw[i] = y*(t*u - rz);
+					var fan = _storageData.apr[ii]*(1 - Exp(-_storageData.b[ii]*rzu));
+					var fawn  = _storageData.aw[ii]*(1 - Exp(-_storageData.bw[ii]*rzu));
+					var faun  = _storageData.au[ii]*(1 - Exp(-_storageData.bu[ii]*rzu));
+					var faan  = _storageData.aa[ii]*(1 - Exp(-_storageData.ba[ii]*rzu));
+					double fak, fawk, fauk, faak;
+					Formala347(t, out fak, out fawk, out fauk, out faak, tn, ii);
+					double fa, faw, fau, faa;
+					Formula348(fan, fawn, faun, faan, fak, fawk, fauk, faak, out fa, out faw, out fau, out faa);
+					Formula349(aap, fa, faw, fau, faa, i);
+				}
+				else if (tn*u < rz && rz < gau[i] && gau[i] <= t*u && gau[i] <= _storageData.Цу + rz) //TODO: что значит gau[i] < (T*U; Цх+rz)
+				{
+					sap[i] = 0;
+					saw[i] = y*(gau[i] - rz);
+					var fan = _storageData.apr[ii] * (1 - Exp(-_storageData.b[ii] * rzu));
+					var fawn = _storageData.aw[ii] * (1 - Exp(-_storageData.bw[ii] * rzu));
+					var faun = _storageData.au[ii] * (1 - Exp(-_storageData.bu[ii] * rzu));
+					var faan = _storageData.aa[ii] * (1 - Exp(-_storageData.ba[ii] * rzu));
+					var fak = _storageData.apr[ii] * (1 - Exp(-_storageData.b[ii] * (gau[i]/u - tn)));
+					var fawk = _storageData.aw[ii] * (1 - Exp(-_storageData.bw[ii] * (gau[i] / u - tn)));
+					var fauk = _storageData.au[ii] * (1 - Exp(-_storageData.bu[ii] * (gau[i] / u - tn)));
+					var faak = _storageData.aa[ii] * (1 - Exp(-_storageData.ba[ii] * (gau[i] / u - tn)));
+					var fa= new[] { fan, fak }.Average();
+					var faw = new[] { fawn, fawk }.Average();
+					var fau = new[] { faun, fauk }.Average();
+					var faa = new[] { faan, faak }.Average();
+					aap[i] = (1 - fa) * (1 - faw) * (1 - fau) * (1 - faa);
+				}
+				else if (tn*u <= rz && rz + _storageData.Цу <= t*u && rz + _storageData.Цу <= gau[i])
+				{
+					var tmp = (_storageData.Цу + rz) / u - tn;
+					sap[i] = 0;
+					saw[i] = y * _storageData.Цу;
+					var fan = _storageData.apr[ii] * (1 - Exp(-_storageData.b[ii] * rzu));
+					var fawn = _storageData.aw[ii] * (1 - Exp(-_storageData.bw[ii] * rzu));
+					var faun = _storageData.au[ii] * (1 - Exp(-_storageData.bu[ii] * rzu));
+					var faan = _storageData.aa[ii] * (1 - Exp(-_storageData.ba[ii] * rzu));
+					double fak, fawk, fauk, faak;
+					Formula355(out fak, out fawk, out fauk, out faak, tmp, ii);
+					var fa = new[] { fan, fak }.Average();
+					var faw = new[] { fawn, fawk }.Average();
+					var fau = new[] { faun, fauk }.Average();
+					var faa = new[] { faan, faak }.Average();
+					aap[i] = (1 - fa) * (1 - faw) * (1 - fau) * (1 - faa);
+				}
+				else if (rz < tn*u && tn*u <= t*u && t*u <= gau[i] && t*u <= _storageData.Цу + rz)
+				{
+					sap[i] = y * (tn * u - rz);
+					saw[i] = y * (t * u - tn * u);
+					double fak, fawk, fauk, faak;
+					Formala347(t, out fak, out fawk, out fauk, out faak, tn, ii);
+					double fa, faw, fau, faa;
+					Formula348(0, 0, 0, 0, fak, fawk, fauk, faak, out fa, out faw, out fau, out faa);
+					Formula349(aap, fa, faw, fau, faa,i);
+				}
+				else if (rz <= tn*u && gau[i].MyEquals(tn*u) && gau[i] < t*u && gau[i] < _storageData.Цу + rz)
+				{
+					sap[i] = y*(tn*u - rz);
+					saw[i] = y*(gau[i] - tn*u);
+					double fak, fawk, fauk, faak;
+					Formala347(t, out fak, out fawk, out fauk, out faak, tn, ii);
+					double fa, faw, fau, faa;
+					Formula348(0, 0, 0, 0, fak, fawk, fauk, faak, out fa, out faw, out fau, out faa);
+					Formula349(aap, fa, faw, fau, faa, i);
+				}
+				else if (rz < tn*u*(_storageData.Цу + rz) && tn*u*(_storageData.Цу + rz) <= t*u && tn*u*(_storageData.Цу + rz) < gau[i])
+				{
+					var tmp = (_storageData.Цу + rz) / u - tn;
+					sap[i] = y*(tn*u - rz);
+					saw[i] = y*(_storageData.Цу + rz - tn*u);
+					double fak, fawk, fauk, faak;
+					Formula355(out fak, out fawk, out fauk, out faak, tmp, ii);
+					double fa, faw, fau, faa;
+					Formula348(0, 0, 0, 0, fak, fawk, fauk, faak, out fa, out faw, out fau, out faa);
+					Formula349(aap, fa, faw, fau, faa, i);
+				}
+				else if (rz < t*u && t*u <= tn*u && t*u <= gau[i] && t*u <= _storageData.Цу + rz)
+				{
+					sap[i] = y*(t*u - rz);
+					saw[i] = 0;
+					aap[i] = 1;
+				}
+				else if (rz <= gau[i] && gau[i] <= tn*u && gau[i] <= t*u && gau[i] <= _storageData.Цу + rz)
+				{
+					sap[i] = y*(gau[i] - rz);
+					saw[i] = 0;
+					aap[i] = 1;
+				}
+				else
+				{
+					sap[i] = 0;
+					saw[i] = y * _storageData.Цу;
+					aap[i] = 1;
+				}
+			}
+			return new SquareBeforeAndAfter {Sap = sap, Saw = saw, aap = aap};
+		}
+
+		private void Formula355(out double fak, out double fawk, out double fauk, out double faak,  double tmp, int i)
+		{
+			fak = _storageData.apr[i] * (1 - Exp(-_storageData.b[i] * tmp));
+			fawk = _storageData.aw[i] * (1 - Exp(-_storageData.bw[i] * tmp));
+			fauk = _storageData.au[i] * (1 - Exp(-_storageData.bu[i] * tmp));
+			faak = _storageData.aa[i] * (1 - Exp(-_storageData.ba[i] * tmp));
+		}
+
+		private static void Formula349(DoubleArray aap, double fa, double faw, double fau, double faa, Index i)
+		{
+			aap[i] = (1 - fa) * (1 - faw) * (1 - fau) * (1 - faa);
+		}
+
+		private static void Formula348(double fan, double fawn, double faun, double faan, double fak, double fawk, double fauk, double faak, out double fa,  out double faw, out double fau, out double faa)
+		{
+			fa = new[] { fan, fak }.Average();
+			faw= new[] { fawn, fawk  }.Average();
+			fau = new[] { faun, fauk }.Average();
+			faa = new[] { faan, faak }.Average();
+		}
+
+		private void Formala347(double t, out double fak, out double fawk, out double fauk, out double faak, double tn, int ii)
+		{
+			fak = _storageData.apr[ii] * (1 - Exp(-_storageData.b[ii] * (t - tn)));
+			fawk = _storageData.aw[ii] * (1 - Exp(-_storageData.bw[ii] * (t - tn)));
+			fauk = _storageData.au[ii] * (1 - Exp(-_storageData.bu[ii] * (t - tn)));
+			faak  = _storageData.aa[ii] * (1 - Exp(-_storageData.ba[ii] * (t - tn)));
+		}
+
+		private Tuple<DoubleArray, DoubleArray> CalcGuaAndSau(DoubleArray gas, DoubleArray sas)
+		{
+			var gdl = _storageData.Gdl;
+			var gl = _storageData.Gl;
+			var w = _storageData.W;
+			var gau = new DoubleArray();
+			var sau = new DoubleArray();
+			foreach (var i in Index.GenerateIndices(5,2))
+			{
+				if (gas[i] <= gdl)
+					gau[i] = gas[i];
+				else if (gdl < gas[i] && gas[i] <= gdl + gl)
+					gau[i] = gdl + Min(4000, 0.3*(gas[i] - gdl)) - 15*w;
+				else if (gas[i] > gdl + gl && gl < 4000)
+					gau[i] = gas[i] > 3.5*gl + gdl ? gas[i] - 2.5*gl - 15*w : gdl + Min(4000, 0.3*(gas[i] - gdl)) - 15*w;
+				else if (gl > 4000)
+					gau[i] = gas[i] >= 3.5*gl + gdl ? gdl + 4000 - 15*w : gdl + Min(4000, 0.3*(gas[i] - gdl)) - 15*w;
+				else throw new InvalidOperationException("плохая ветка выполнения");
+				sau[i] = sas[i]*gau[i]/gas[i];
+			}
+			return new Tuple<DoubleArray, DoubleArray>(gau, sau);
+		}
+
+		private Tuple<DoubleArray, DoubleArray> CalcGasAndSas(Tuple<DoubleArray, DoubleArray> primary,
+			Tuple<DoubleArray, DoubleArray> secondary)
+		{
+			var gas = new DoubleArray();
+			var sas = new DoubleArray();
+			foreach (var i in Index.GenerateIndices(5,2))
+			{
+				gas[i] = Max(primary.Item1[i], secondary.Item1[i]);
+				sas[i] = Max(primary.Item2[i], secondary.Item2[i]) + Min(primary.Item2[i], secondary.Item2[i])/2;
+			}
+			return new Tuple<DoubleArray, DoubleArray>(gas,sas);
+		}
+
+		private Tuple<DoubleArray, DoubleArray> CalcGaoAndSao(DoubleArray ga, DoubleArray gam, DoubleArray sa, DoubleArray sam)
+		{
+			var rz = _storageData.Rz;
+			var gao = new DoubleArray();
+			var sao = new DoubleArray();
+			foreach (var i in Index.GenerateIndices(5,2))
+			{
+				if (gam[i] <= rz)
+				{
+					gao[i] = gam[i];
+					sao[i] = sam[i];
+					continue;
+				}
+				var ka = gam[i]/ga[i];
+				if (ka >= 1)
+				{
+					gao[i] = gam[i] <= ka*_storageData.Цх + rz ? rz + (gam[i] - rz)/ka : gam[i] - (1 - 1/ka)*_storageData.Цх;
+					sao[i] = sam[i]*gao[i]/gam[i];
+					continue;
+				}
+				var kak = ga[i]/gam[i];
+				if (kak > 1)
+				{
+					gao[i] = _storageData.Цх > gam[i] - rz ? (ga[i] + rz)/kak - rz : (ga[i] - _storageData.Цх)/kak + _storageData.Цх;
+					sao[i] = sa[i]*gao[i]/ga[i];
+					continue;
+				}
+				throw new InvalidOperationException("плохая ветка выполнения");
+			}
+			return new Tuple<DoubleArray, DoubleArray>(gao, sao);
+		}
+
+		private QCloud[] CalcClouds()
+		{
+			return _barrels.Select(x =>
+			{
+				double primary = 0;
+				switch(x.MatterSaveType)
+				{
+					case MatterSaveType.Cx1:
+						primary = x.Q*0.02;
+						break;
+					case MatterSaveType.Cx2:
+						primary =
+							x.Q*
+							Min(x.Matter.Cv*(x.Matter.Tcg - x.Matter.Tck)/x.Matter.I, 1) //TODO: 0<value<1
+							+ (x.Matter.Tck > 20 ? 0.02*Pow((20/x.Matter.Tck), 3) : 0.02);
+						break;
+					case MatterSaveType.Cx3:
+						primary = x.Q*0.02*Min(20/x.Matter.Tck, 20);
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+				return new QCloud {Barrel = x, Primary = primary, Secondary = x.Q - primary};
+			}).ToArray();
+		}
+
+		private DoubleArray GetQpa1(double kp)
+		{
+			return new DoubleArray().Select((x,i) =>
+			{
+				return (kp/Pow(_activeData.U, .7))
+				       *_storageData.Kf
+				       *_barrels.Sum(y => y.Q*(y.Matter.ToksiDose.PrimaryArray[i]*Constants.Kad[i.X]));
+			});
+		}
+
+		public DoubleArray GetQpa2(double kp)
+		{
+			var u = _activeData.U;
+			Func<Barrel, double> er =
+				b =>
+					Pow(10, -6)*Sqrt(b.Matter.M)*Pow(10, 2.76 - 0.019*b.Matter.Tck + 0.024*_activeData.Tcw)*(5.4 + 2.7*u);
+			return new DoubleArray().Select((x, i) =>
+			{
+				return 2826*1000*kp/Pow(u, 0.7)*_storageData.Kf*_barrels.Sum(b =>
+					b.D*er(b)*4/(b.Matter.ToksiDose.SecondaryArray[i]*Constants.Kad[i.X]));
+			});
+		}
+
+		public class SquareBeforeAndAfter
+		{
+			public DoubleArray Sap { get; set; }
+			public DoubleArray Saw { get; set; }
+			public DoubleArray aap { get; set; }
+		}
+	}
+
+	
+
+	public class ForcastResult
+	{
+	}
+}
