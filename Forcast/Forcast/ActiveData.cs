@@ -22,6 +22,11 @@ namespace Forcast
 		public double[] Tn { get; set; }
 
 		/// <summary>
+		/// Время оповещения персонала
+		/// </summary>
+		public double To { get; set; }
+
+		/// <summary>
 		/// Рассояние между центром пораженного объета и осью распространения ветра
 		/// </summary>
 		public double q { set; get; }

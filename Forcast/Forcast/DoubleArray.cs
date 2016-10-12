@@ -6,8 +6,8 @@ namespace Forcast
 	public class DoubleArray
 	{
 		private readonly double[,] _data;
-		private readonly int x;
-		private readonly int y;
+		private readonly int _x;
+		private readonly int _y;
 
 		public DoubleArray() 
 			: this(5,2)
@@ -15,15 +15,15 @@ namespace Forcast
 
 		public DoubleArray(int x, int y)
 		{
-			this.x = x;
-			this.y = y;
+			this._x = x;
+			this._y = y;
 			_data = new double[x,y];
 		}
 
 		public DoubleArray Select(Func<double, double> transform)
 		{
-			var result = new DoubleArray(x, y);
-			foreach (var index in Index.GenerateIndices(x,y))
+			var result = new DoubleArray(_x, _y);
+			foreach (var index in Index.GenerateIndices(_x,_y))
 			{
 				result[index] = transform(this[index]);
 			}
@@ -32,13 +32,13 @@ namespace Forcast
 
 		public DoubleArray Select(Func<double, Index, double> transform)
 		{
-			var result = new DoubleArray(x,y);
-			foreach (var index in Index.GenerateIndices(x,y))
+			var result = new DoubleArray(_x,_y);
+			foreach (var index in Index.GenerateIndices(_x,_y))
 			{
 				result[index] = transform(this[index], index);
 			}
 			return result;
-		};
+		}
 
 		public double this[int x, int y]
 		{
@@ -58,11 +58,20 @@ namespace Forcast
 		public int X { get; set; }
 		public int Y { get; set; }
 
+		public Index() { }
+
+		public Index(int x, int y)
+		{
+			X = x;
+			Y = y;
+		}
 		public static IEnumerable<Index> GenerateIndices(int x, int y)
 		{
 			for (int i=0; i<x; i++)
 				for (int j=0; j<y; j++)
 					yield return new Index {X = i, Y = j};
 		}
+
+		public Index PrevX() => new Index(X -1, Y);
 	}
 }

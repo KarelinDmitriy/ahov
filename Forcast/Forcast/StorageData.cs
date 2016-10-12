@@ -2,6 +2,8 @@
 {
 	public class StorageData
 	{
+		
+
 		/// <summary>
 		/// Сила проникновения в здания
 		/// </summary>
@@ -10,6 +12,11 @@
 		/// Коэффициент проникновения
 		/// </summary>
 		public double Kf { get; set; }
+
+		/// <summary>
+		/// Радиус хим.объекта
+		/// </summary>
+		public double Ro { get; set; }
 
 		/// <summary>
 		/// Радиус санитарной зоны
@@ -40,6 +47,11 @@
 		/// Время надевания СИЗ персоналом
 		/// </summary>
 		public double Top { get; set; }
+
+		/// <summary>
+		/// Время надевания СИЗ мирным населением ???
+		/// </summary>
+		public double Tow { get; set; }
 
 		/// <summary>
 		/// Рассояние от очага аварии до леса
@@ -75,6 +87,16 @@
 		/// Доля населения применяющих антидоты
 		/// </summary>
 		public double[] aa { get; set; }
+
+		/// <summary>
+		/// Численность персонала, применяющих антидоты
+		/// </summary>
+		public double aao { get; set; }
+
+		/// <summary>
+		/// Для населения по возрастам
+		/// </summary>
+		public double[] a { get; set; }
 
 		/// <summary>
 		/// Параметр функции скорости для использующих противогаз
