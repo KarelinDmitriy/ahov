@@ -20,6 +20,15 @@ namespace Forcast
 			_data = new double[x,y];
 		}
 
+		public DoubleArray(IReadOnlyList<double> init, int y = 1)
+		{
+			_data = new double[init.Count, y];
+			for (var i = 0; i < init.Count; i++)
+				_data[i, 0] = init[i];
+			_x = init.Count;
+			_y = 1;
+		}
+
 		public DoubleArray Select(Func<double, double> transform)
 		{
 			var result = new DoubleArray(_x, _y);
@@ -50,6 +59,29 @@ namespace Forcast
 		{
 			get { return _data[i.X, i.Y]; }
 			set { _data[i.X, i.Y] = value; }
+		}
+
+		public double[] ToDoubleArray()
+		{
+			if (_y != 1)
+				throw new InvalidOperationException("Не верная размерность массива");
+			var result = new double[_x];
+			for (var i = 0; i < _x; i++)
+				result[i] = _data[i, 0];
+			return result;
+		}
+
+		public double[] Zip(Func<double, double, double> transform)
+		{
+			var result = new double[_x];
+			for (int i = 0; i < _x; i++)
+			{
+				var buffer = 0d;
+				for (var j = 0; j < _y; j++)
+					buffer = transform(buffer, _data[i, j]);
+				result[i] = buffer;
+			}
+			return result;
 		}
 	}
 
