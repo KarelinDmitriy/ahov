@@ -2,14 +2,12 @@
 {
 	public class StorageData
 	{
-		
-
 		/// <summary>
 		/// Сила проникновения в здания
 		/// </summary>
 		public QInside[] QInside { get; set; }
 		/// <summary>
-		/// Коэффициент проникновения
+		/// Коеф.физической нагрузки
 		/// </summary>
 		public double Kf { get; set; }
 
@@ -34,7 +32,7 @@
 		public double Цу { get; set; }
 
 		/// <summary>
-		/// Численность персонала
+		/// Численность населения
 		/// </summary>
 		public double N { get; set; }
 
@@ -114,7 +112,5 @@
 		/// Параметр функции скорости для использующих антидоты
 		/// </summary>
 		public double[] ba { get; set; }
-
-
 	}
 }

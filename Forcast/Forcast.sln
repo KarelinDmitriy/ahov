@@ -5,6 +5,23 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forcast", "Forcast\Forcast.csproj", "{92175B59-6905-4827-96C2-5EFB5BD30C47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AhovRepository", "AhovRepository\AhovRepository.csproj", "{E81D5EB7-238C-4044-A967-4972EEBF426A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{1BD3E2DB-463E-425A-BAAD-D17C5F257C40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{97D3B4B5-D697-4AC9-B268-8B4BAB599FE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{FE6053C5-893A-4440-92C4-793DFE4B26CC}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Scripts\Deploy-AzureResourceGroup.ps1 = PublishScripts\Scripts\Deploy-AzureResourceGroup.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{5AD70EF0-1858-498A-8440-F8EDFCC43786}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Templates\Web.json = PublishScripts\Templates\Web.json
+		PublishScripts\Templates\Web.param.dev.json = PublishScripts\Templates\Web.param.dev.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +32,20 @@ Global
 		{92175B59-6905-4827-96C2-5EFB5BD30C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92175B59-6905-4827-96C2-5EFB5BD30C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92175B59-6905-4827-96C2-5EFB5BD30C47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E81D5EB7-238C-4044-A967-4972EEBF426A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E81D5EB7-238C-4044-A967-4972EEBF426A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E81D5EB7-238C-4044-A967-4972EEBF426A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E81D5EB7-238C-4044-A967-4972EEBF426A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BD3E2DB-463E-425A-BAAD-D17C5F257C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BD3E2DB-463E-425A-BAAD-D17C5F257C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BD3E2DB-463E-425A-BAAD-D17C5F257C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BD3E2DB-463E-425A-BAAD-D17C5F257C40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE6053C5-893A-4440-92C4-793DFE4B26CC} = {97D3B4B5-D697-4AC9-B268-8B4BAB599FE3}
+		{5AD70EF0-1858-498A-8440-F8EDFCC43786} = {97D3B4B5-D697-4AC9-B268-8B4BAB599FE3}
 	EndGlobalSection
 EndGlobal

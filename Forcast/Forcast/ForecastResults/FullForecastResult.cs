@@ -9,7 +9,7 @@
 		public DoubleArray Nps { get; set; }
 		public DoubleArray Nf { get; set; }
 		public double[] Nf_san { get; set; }
-		public DoubleArray Nos { get; set; }
+		public double[] Nos { get; set; }
 		public double[] Nof { get; set; }
 		public double Nof_San { get; set; }
 		public DoubleArray Nfs { get; set; }

@@ -1,0 +1,29 @@
+{
+  "siteName": {
+    "value": "asoiu"
+  },
+  "hostingPlanName": {
+    "value": "ServicePlan96a87b3c-bea6"
+  },
+  "siteLocation": {
+    "value": "South Central US"
+  },
+  "sku": {
+    "value": "Free"
+  },
+  "workerSize": {
+    "value": "0"
+  },
+  "siteMode": {
+    "value": "Limited"
+  },
+  "computeMode": {
+    "value": "0"
+  },
+  "subscriptionId": {
+    "value": "8a00eca1-ffaf-4ce0-b270-d7c830b4f4c6"
+  },
+  "resourceGroup": {
+    "value": "Ахов"
+  }
+}
