@@ -1,0 +1,48 @@
+﻿@model List<AhovRepository.WebCity>
+
+@{
+	ViewBag.Title = "Доступные для редактирования города";
+}
+
+@if (Model.Any())
+{
+	<div class="container">
+		<div class="col-lg-6">
+			<h3>Доступные для редактирования города</h3>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="col-lg-9">
+			<table class="table table-hover">
+				<tr>
+					<th>Название</th>
+					<th>Население, человек</th>
+					<th>Детей, %</th>
+				</tr>
+				@foreach (var city in Model)
+				{
+					<tr>
+						<td>@Html.ActionLink(city.Name, "Edit", new {cityId = city.Id})</td>
+						<td>@city.Population</td>
+						<td>@city.ChildPrecent</td>
+					</tr>
+				}
+			</table>
+		</div>
+	</div>
+}
+else
+{
+	<div class="container">
+		<div class="col-lg-6">
+			<h3>Нет доступных городов</h3>
+		</div>
+	</div>
+}
+
+<div class="container">
+	<div class="col-gl-9">
+		@Html.ActionLink("Добавить новый город", "Create", null, new {@class= "btn btn-default btn-xs" })
+	</div>
+</div>

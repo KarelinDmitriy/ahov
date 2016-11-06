@@ -1,0 +1,30 @@
+﻿@model System.Collections.Generic.List<AhovRepository.WebUser>
+
+@{
+	ViewBag.Title = "Зарегистрированные пользователи";
+}
+
+<div>
+	@Html.ActionLink("Добавить пользователя", "Create", "User")
+</div>
+
+@if (Model.Any())
+{
+	<table>
+		<tr>
+			<th>Логин</th>
+			<th>E-mail</th>
+		</tr>
+		@foreach (var user in Model)
+		{
+			<tr>
+				<td>@user.Login</td>
+				<td>@user.Email</td>
+			</tr>
+		}
+	</table>
+}
+else
+{
+	<h3>Не пользователей</h3>
+}

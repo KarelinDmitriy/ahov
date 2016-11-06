@@ -1,0 +1,30 @@
+﻿@model AhovRepository.WebCity
+
+@{
+	ViewBag.Title = "Редактирование города";
+}
+
+<script type="text/javascript" src="~/Scripts/City/CityTypesScripts.js"></script>
+
+<div class="container">
+	<div class="col-lg-6">
+		<h3>Редактирование города @Model.Name</h3>
+	</div>
+</div>
+
+@using (Html.BeginForm("Edit", "City", FormMethod.Post))
+{
+	Html.RenderPartial("CityTabs", Model, null);
+	@Html.HiddenFor(x => x.Id)
+	<div class="container row">
+		<div class="navbar navbar-static navbar-fixed-bottom">
+			<div class="container-fluid	">
+				<div class="navbar-header">
+					<ul class="nav navbar-nav navbar-left">
+						<li><input type="submit" class="btn btn-primary" value="Сохранить основные параметры"/></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+}

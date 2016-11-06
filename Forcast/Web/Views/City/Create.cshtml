@@ -1,0 +1,25 @@
+﻿@model AhovRepository.WebCity
+
+@{
+	ViewBag.Title = "Добавление города";
+}
+
+<div class="container">
+	<div class="col-lg-6">
+		<h3>Добавление нового города</h3>
+	</div>
+</div>
+
+@using (Html.BeginForm("Create", "City", FormMethod.Post))
+{
+	Html.RenderPartial("CityTabs", Model, null);
+	<div class="navbar navbar-fixed-bottom">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<ul class="nav navbar-nav navbar-left">
+					<li><input type="submit" class="btn btn-primary" value="Сохранить" /></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+}
