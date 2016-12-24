@@ -50,10 +50,10 @@ namespace Forcast
 			//TODO: время нахождения в противогазах (3.85)
 			return new FullForecastResult
 			{
-				Go1 = ForcastForWithoutDef().Go1,
-				Go2 = ForcastForWithoutDef().Go2,
-				So1 = ForcastForWithoutDef().So1,
-				So2 = ForcastForWithoutDef().So2,
+				Go1 = resultWithoutDef.Go1,
+				Go2 = resultWithoutDef.Go2,
+				So1 = resultWithoutDef.So1,
+				So2 = resultWithoutDef.So2,
 				Nps = nps,
 				Nf = nf,
 				Nf_san = nfs_san, //TODO: Error (расчитать)
@@ -242,7 +242,7 @@ namespace Forcast
 				var cup = _storageData.Цу / 2 + q >= sau[i] / (2 * gau[i]) ? sau[i] / gau[i] - q + _storageData.Цу / 2 : _storageData.Цу;
 				var y = cup < sau[i] / gau[i] ? cup : sau[i] / gau[i];
 				цур[i] = y;
-				if (tn * u <= t * u && t * u <= gau[i] * _storageData.Цу + rz)
+				if (tn * u <= t * u && rz < t*u && t * u <= gau[i] * _storageData.Цу + rz)
 				{
 					sap[i] = 0;
 					saw[i] = y * (t * u - rz);
@@ -473,7 +473,7 @@ namespace Forcast
 			{
 				return (kp / Pow(_activeData.U, .7))
 					   * _storageData.Kf
-					   * _barrels.Sum(y => y.Q * (y.Matter.ToksiDose.PrimaryArray[i] * kad[i.X]));
+					   * _barrels.Sum(y => y.Q / (y.Matter.ToksiDose.PrimaryArray[i] * kad[i.X]));
 			});
 		}
 

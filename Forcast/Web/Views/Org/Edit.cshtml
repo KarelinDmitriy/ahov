@@ -1,0 +1,56 @@
+﻿@model Web.Models.Org.OrgModel
+
+@{
+	ViewBag.Title = "Редактирование организации";
+}
+<div class="container">
+	<div class="col-lg-6">
+		<h3>Редактирование организации @Model.Org.Name</h3>
+	</div>
+</div>
+
+@using (Html.BeginForm("Edit", "Org", FormMethod.Post))
+{
+
+	<div class="container">
+		<div class="col-gl-9">
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#Main" aria-controls="Main" role="tab" data-toggle="tab">Основные параметры</a></li>
+				<li role="presentation"><a href="#Special" aria-controls="Special" role="tab" data-toggle="tab">Доп.параметры</a></li>
+				<li role="presentation"><a href="#Rate" aria-controls="Rate" role="tab" data-toggle="tab">Параметры скоростей</a></li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="Main">
+					@{
+						Html.RenderPartial("MainOrgParams", Model, null);
+					}
+				</div>
+				<div role="tabpanel" class="tab-pane" id="Special">
+					<div class="container">
+						@{
+							Html.RenderPartial("SpecialOrgParams", Model.Org, null);
+						}
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="Rate">
+					<div class="container">
+						@{
+							Html.RenderPartial("RateOrgParams", Model.Org, null);
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="navbar navbar-fixed-bottom">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<ul class="nav navbar-nav navbar-left">
+					<li><input type="submit" class="btn btn-primary" value="Сохранить" /></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+							}
+

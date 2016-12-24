@@ -1,0 +1,24 @@
+﻿@model AhovRepository.WebOrganization
+
+<div class="col-md-4">
+	<div class="form-group">
+		@Html.LabelFor(x => x.Gdl)
+		@Html.EditorFor(x => x.Gdl, new { htmlAttributes = new { @class = "form-control", placeholder = "Название" } })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(x => x.Gl)
+		@Html.EditorFor(x => x.Gl, new { htmlAttributes = new { @class = "form-control", placeholder = "Название" } })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(x => x.Tow)
+		@Html.EditorFor(x => x.Tow, new { htmlAttributes = new { @class = "form-control", placeholder = "Название" } })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(x => x.Top)
+		@Html.EditorFor(x => x.Top, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(x => x.Aao)
+		@Html.EditorFor(x => x.Aao, new { htmlAttributes = new { @class = "form-control", placeholder = "Название" } })
+	</div>
+</div>

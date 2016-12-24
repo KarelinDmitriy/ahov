@@ -153,14 +153,18 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BarrelController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MatterController.cs" />
+    <Compile Include="Controllers\OrgController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Core\Container.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\City\CityModel.cs" />
+    <Compile Include="Models\Org\OrgModel.cs" />
     <Compile Include="Models\User\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -181,6 +185,12 @@
     <Content Include="Views\City\CityTypesTab.cshtml" />
     <Content Include="Views\City\CityTypeSaveResult.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Views\Org\Create.cshtml" />
+    <Content Include="Views\Org\List.cshtml" />
+    <Content Include="Views\Org\Edit.cshtml" />
+    <Content Include="Views\Org\MainOrgParams.cshtml" />
+    <Content Include="Views\Org\SpecialOrgParams.cshtml" />
+    <Content Include="Views\Org\RateOrgParams.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

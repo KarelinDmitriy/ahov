@@ -13,28 +13,28 @@ namespace Forcast
 			PrimaryArray = new DoubleArray()
 			{
 				[0, 0] = Dsm1,
-				[1, 0] = Dp1,
-				[2, 0] = Dt1,
-				[3, 0] = Ds1,
-				[4, 0] = Dl1,
+				[1, 0] = Dt1,
+				[2, 0] = Ds1,
+				[3, 0] = Dl1,
+				[4, 0] = Dp1,
 				[0, 1] = Dsm1.Child(),
-				[1, 1] = Dp1.Child(),
-				[2, 1] = Dt1.Child(),
-				[3, 1] = Ds1.Child(),
-				[4, 1] = Dl1.Child()
+				[1, 1] = Dt1.Child(),
+				[2, 1] = Ds1.Child(),
+				[3, 1] = Dl1.Child(),
+				[4, 1] = Dp1.Child()
 			};
 			SecondaryArray = new DoubleArray
 			{
 				[0, 0] = Dsm2,
-				[1, 0] = Dp2,
-				[2, 0] = Dt2,
-				[3, 0] = Ds2,
-				[4, 0] = Dl2,
+				[1, 0] = Dt2,
+				[2, 0] = Ds2,
+				[3, 0] = Dl2,
+				[4, 0] = Dp2,
 				[0, 1] = Dsm2.Child(),
-				[1, 1] = Dp2.Child(),
-				[2, 1] = Dt2.Child(),
-				[3, 1] = Ds2.Child(),
-				[4, 1] = Dl2.Child()
+				[1, 1] = Dt2.Child(),
+				[2, 1] = Ds2.Child(),
+				[3, 1] = Dl2.Child(),
+				[4, 1] = Dp2.Child()
 			};
 
 		}

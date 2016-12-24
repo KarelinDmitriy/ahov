@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AhovRepository
 {
-	public class MySqlAhovReporitory : IAhovRepository
+	public partial class MySqlAhovReporitory : IAhovRepository
 	{
 		private readonly Ahov_Connection _connection;
 

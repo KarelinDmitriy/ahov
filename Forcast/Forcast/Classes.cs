@@ -14,7 +14,7 @@ namespace Forcast
 	{
 		public MatterSaveType MatterSaveType { get; set; }
 		public Draining Draining { get; set; }
-		public double Q { get; set; } //кол-во вещества
+		public double Q { get; set; } //кол-во вещества (в граммах!)
 		public double H { get; set; } //высота поддона
 		public Matter Matter { get; set; }
 
@@ -30,13 +30,34 @@ namespace Forcast
 	{
 		private ToksiDose _toksiDose;
 
-		public double Cv { get; set; } //удельная теплоемкость
-		public double Tcg { get; set; } //температура до разрушения емкости 
-		public double Tck { get; set; } //температура кипения
-		public double I { get; set; } //теплота испарения
-		public double Pg { get; set; } //плотность жидкости
-		public double M { get; set; } //моярная масса
-		public double E { get; set; } //скорость испарения
+		/// <summary>
+		/// удельная теплоемкость
+		/// </summary>
+		public double Cv { get; set; }
+		/// <summary>
+		/// температура до разрушения емкости 
+		/// </summary>
+		public double Tcg { get; set; }
+		/// <summary>
+		/// температура кипения
+		/// </summary>
+		public double Tck { get; set; }
+		/// <summary>
+		/// теплота испарения
+		/// </summary>
+		public double I { get; set; }
+		/// <summary>
+		/// плотность жидкости
+		/// </summary>
+		public double Pg { get; set; }
+		/// <summary>
+		/// моярная масса
+		/// </summary>
+		public double M { get; set; }
+		/// <summary>
+		/// скорость испарения
+		/// </summary>
+		public double E { get; set; } 
 
 		public ToksiDose ToksiDose => _toksiDose ?? (_toksiDose = new ToksiDose(ToksiAndTempture));
 		public ToksiAndTempture ToksiAndTempture { get; set; }
@@ -44,20 +65,56 @@ namespace Forcast
 
 	public class ToksiAndTempture
 	{
-		public double Asm { get; set; } //А для смертельных
-		public double Bsm { get; set; } //B для смертельных
-		public double Ap { get; set; } //A для пороговых
-		public double Bp { get; set; } //B для пороговых
+		/// <summary>
+		/// А для смертельных
+		/// </summary>
+		public double Asm { get; set; }
+		/// <summary>
+		/// B для смертельных
+		/// </summary>
+		public double Bsm { get; set; }
+		/// <summary>
+		/// A для пороговых
+		/// </summary>
+		public double Ap { get; set; }
+		/// <summary>
+		/// B для пороговых 
+		/// </summary>
+		public double Bp { get; set; }
 
-		public double M40pr { get; set; } //коэффициент для -40 для первичного
-		public double P0pr { get; set; } //коэффициент для 0 для первичного
-		public double P20pr { get; set; } //коэффициент для 20 для первичного
-		public double P40pr { get; set; } //коэффициент для 40 для первичного
+		/// <summary>
+		/// коэффициент для -40 для первичного
+		/// </summary>
+		public double M40pr { get; set; }
+		/// <summary>
+		/// коэффициент для 0 для первичного 
+		/// </summary>
+		public double P0pr { get; set; } 
+		/// <summary>
+		/// коэффициент для 20 для первичного
+		/// </summary>
+		public double P20pr { get; set; }
+		/// <summary>
+		/// коэффициент для 40 для первичного
+		/// </summary>
+		public double P40pr { get; set; }
 
-		public double M40sc { get; set; } //коэффициент для -40 для вторичного
-		public double P0sc { get; set; } //коэффициент для 0 для вторичного
-		public double P20sc { get; set; } //коэффициент для 20 для вторичного
-		public double P40sc { get; set; } //коэффициент для 40 для вторичного
+		/// <summary>
+		///коэффициент для -40 для вторичного
+		/// </summary>
+		public double M40sc { get; set; }
+		/// <summary>
+		///коэффициент для 0 для вторичного
+		/// </summary>
+		public double P0sc { get; set; }
+		/// <summary>
+		///коэффициент для 20 для вторичного
+		/// </summary>
+		public double P20sc { get; set; }
+		/// <summary>
+		///коэффициент для 40 для вторичного
+		/// </summary>
+		public double P40sc { get; set; } 
 
 		public double Ku9Pr(double T)
 		{
@@ -101,8 +158,14 @@ namespace Forcast
 
 	public class QInside //коэффциент проникновения 
 	{
-		public double Kp { get; set; } //коэффициент проникновения
-		public double Ay { get; set; } //доля населения (или персонала)
+		/// <summary>
+		/// коэффициент проникновения
+		/// </summary>
+		public double Kp { get; set; }
+		/// <summary>
+		/// доля населения (или персонала)
+		/// </summary>
+		public double Ay { get; set; } 
 	}
 
 	public static class Expentions

@@ -9,6 +9,9 @@ namespace Forcast
 		private readonly int _x;
 		private readonly int _y;
 
+		public int X => _x;
+		public int Y => _y;
+
 		public DoubleArray() 
 			: this(5,2)
 		{ }
@@ -26,7 +29,7 @@ namespace Forcast
 			for (var i = 0; i < init.Count; i++)
 				_data[i, 0] = init[i];
 			_x = init.Count;
-			_y = 1;
+			_y = y;
 		}
 
 		public DoubleArray Select(Func<double, double> transform)
@@ -51,20 +54,28 @@ namespace Forcast
 
 		public double this[int x, int y]
 		{
-			get { return _data[x, y]; }
+			get
+			{
+				if (x < 0 || y < 0)
+					return 0;
+				return _data[x, y];
+			}
 			set { _data[x, y] = value; }
 		}
 
 		public double this[Index i]
 		{
-			get { return _data[i.X, i.Y]; }
+			get
+			{
+				if (i.X < 0 || i.Y < 0)
+					return 0;
+				return _data[i.X, i.Y];
+			}
 			set { _data[i.X, i.Y] = value; }
 		}
 
 		public double[] ToDoubleArray()
 		{
-			if (_y != 1)
-				throw new InvalidOperationException("Не верная размерность массива");
 			var result = new double[_x];
 			for (var i = 0; i < _x; i++)
 				result[i] = _data[i, 0];
@@ -82,6 +93,13 @@ namespace Forcast
 				result[i] = buffer;
 			}
 			return result;
+		}
+
+		public static double SafeSubstruct(DoubleArray array, Index i)
+		{
+			if (i.X == 0)
+				return array[i];
+			return array[i] - array[i.PrevX()];
 		}
 	}
 

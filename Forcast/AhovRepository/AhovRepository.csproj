@@ -88,6 +88,7 @@
       <DependentUpon>AhovModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MySqlAhovReporitory.cs" />
+    <Compile Include="MySqlAhovRepository.Matter.cs" />
     <Compile Include="organization.cs">
       <DependentUpon>AhovModel.tt</DependentUpon>
     </Compile>
@@ -98,6 +99,8 @@
     <Compile Include="usertoorg.cs">
       <DependentUpon>AhovModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebMatter.cs" />
+    <Compile Include="WebOrganization.cs" />
     <Compile Include="WebUser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +112,7 @@
       <DependentUpon>AhovModel.edmx</DependentUpon>
     </None>
     <None Include="App.config" />
+    <Compile Include="MySqlAhovReporitory.Org.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
