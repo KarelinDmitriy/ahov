@@ -1,47 +1,53 @@
 ﻿using System.Web.Mvc;
-using AhovRepository;
+using AhovRepository.Entity;
+using AhovRepository.Factory;
 using Web.Models.Org;
 
 namespace Web.Controllers
 {
 	public class OrgController : Controller
 	{
-		private readonly IAhovRepository _repository;
-		public OrgController(IAhovRepository repository)
+		private readonly IOrgDataproviderFactory _orgProviderFactory;
+		private readonly ICityProviderFactory _cityProviderFactory;
+
+		public OrgController(IOrgDataproviderFactory orgProviderFactory, ICityProviderFactory cityProviderFactory)
 		{
-			_repository = repository;
+			this._orgProviderFactory = orgProviderFactory;
+			_cityProviderFactory = cityProviderFactory;
 		}
 
 		public ActionResult List()
 		{
-			var orgs = _repository.GetOrganizations(1);
+			var orgProvider = _orgProviderFactory.CreateOrgProvider(0);
+			var orgs = orgProvider.GetOrgs();
 
 			return View(orgs);
 		}
 
 		public ActionResult Create()
 		{
-			var org = new WebOrganization();
-			var avaliableCities = _repository.GetAvalibleCity(1);
+			var org = new OrgEntity();
+			var cities = _cityProviderFactory.CreateCityProvider(0).GetCities();
 			var model = new OrgModel
 			{
 				Org = org,
-				AvaliableCities = avaliableCities
+				AvaliableCities = cities
 			};
 			return View(model);
 		}
 
 		[HttpPost]
-		public ActionResult Create(WebOrganization org)
+		public ActionResult Create(OrgEntity org)
 		{
-			_repository.AddOrganization(org, 1);
+			var orgProvider = _orgProviderFactory.CreateOrgProvider(0);
+			orgProvider.AddOrganization(org);
 			return RedirectToAction("List");
 		}
 
 		public ActionResult Edit(int orgId)
 		{
-			var org = _repository.GetOrganization(orgId, 1);
-			var avaliableCities = _repository.GetAvalibleCity(1);
+			var org = _orgProviderFactory.CreateOrgProvider(0).GetOrg(orgId);
+			var avaliableCities = _cityProviderFactory.CreateCityProvider(0).GetCities();
 			var model = new OrgModel
 			{
 				Org = org,
@@ -51,9 +57,9 @@ namespace Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Edit(WebOrganization org)
+		public ActionResult Edit(OrgEntity org)
 		{
-			_repository.UpdateOrganizatino(org, 1);
+			_orgProviderFactory.CreateOrgProvider(0).UpdateOrganization(org);
 			return RedirectToAction("List");
 		}
 	}

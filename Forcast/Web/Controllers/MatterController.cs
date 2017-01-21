@@ -5,9 +5,9 @@ namespace Web.Controllers
 {
 	public class MatterController : Controller
 	{
-		private readonly IAhovRepository _repository;
+		private readonly IDatabaseProvider _repository;
 
-		public MatterController(IAhovRepository repository)
+		public MatterController(IDatabaseProvider repository)
 		{
 			_repository = repository;
 		}

@@ -1,14 +1,16 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using AhovRepository;
+using AhovRepository.Entity;
 using Web.Models.User;
 
 namespace Web.Controllers
 {
 	public class UserController : Controller
 	{
-		private readonly IAhovRepository _repository;
+		private readonly IDatabaseProvider _repository;
 
-		public UserController(IAhovRepository repository)
+		public UserController(IDatabaseProvider repository)
 		{
 			_repository = repository;
 		}
@@ -22,13 +24,14 @@ namespace Web.Controllers
 		[HttpPost]
 		public ActionResult Create(UserModel model)
 		{
-			_repository.AddUser(model.Info, model.Password);
+			model.Info.PasswordHash = model.Password;
+			_repository.Insert(model.Info);
 			return RedirectToAction("List");
 		}
 
 		public ActionResult List()
 		{
-			var users = _repository.GetAllUsers();
+			var users = _repository.GetAll<UserEntity>().Select(x => new UserModel(x)).ToList();
 			return View(users);
 		}
 	}

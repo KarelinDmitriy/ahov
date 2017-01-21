@@ -11,7 +11,7 @@
 
 @using (Html.BeginForm("Edit", "Org", FormMethod.Post))
 {
-
+	@Html.HiddenFor(x => x.Org.Id)
 	<div class="container">
 		<div class="col-gl-9">
 			<ul class="nav nav-tabs" role="tablist">

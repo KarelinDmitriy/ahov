@@ -1,4 +1,4 @@
-﻿@model List<AhovRepository.WebCity>
+﻿@model List<AhovRepository.Entity.CityEntity>
 
 @{
 	ViewBag.Title = "Доступные для редактирования города";
@@ -23,9 +23,9 @@
 				@foreach (var city in Model)
 				{
 					<tr>
-						<td>@Html.ActionLink(city.Name, "Edit", new {cityId = city.Id})</td>
+						<td>@Html.ActionLink(city.Name, "Edit", new {cityId = city.CityId})</td>
 						<td>@city.Population</td>
-						<td>@city.ChildPrecent</td>
+						<td>@city.ChildPercent</td>
 					</tr>
 				}
 			</table>

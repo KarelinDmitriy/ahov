@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using AhovRepository;
+using AhovRepository.Entity;
 
 namespace Web.Models.Org
 {
 	public class OrgModel
 	{
-		public WebOrganization Org { get; set; }
-		public List<WebCity> AvaliableCities { get; set; }
+		public OrgEntity Org { get; set; }
+		public List<CityEntity> AvaliableCities { get; set; }
 	}
 }

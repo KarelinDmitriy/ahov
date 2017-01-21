@@ -5,9 +5,9 @@ namespace Web.Controllers
 {
 	public class BarrelController : Controller
 	{
-		private readonly IAhovRepository _repository;
+		private readonly IDatabaseProvider _repository;
 
-		public BarrelController(IAhovRepository repository)
+		public BarrelController(IDatabaseProvider repository)
 		{
 			_repository = repository;
 		}

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using AhovRepository;
+using AhovRepository.Entity;
 
 namespace Web.Models.User
 {
@@ -7,14 +7,14 @@ namespace Web.Models.User
 	{
 		public UserModel()
 		{
-			Info = new WebUser();
+			Info = new UserEntity();
 		}
 
-		public UserModel(WebUser user)
+		public UserModel(UserEntity user)
 		{
 			Info = user;
 		}
-		public WebUser Info { get; set; }
+		public UserEntity Info { get; set; }
 
 		[DisplayName("Пароль")]
 		public string Password { get; set; }

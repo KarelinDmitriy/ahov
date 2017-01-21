@@ -23,13 +23,13 @@
 			@Html.EditorFor(x => x.Org.Kf, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
 		</div>
 		<div class="form-group">
-			@Html.LabelFor(x => x.Org.CityId)
-			@Html.DropDownListFor(x => x.Org.CityId, Model
+			@Html.LabelFor(x => x.Org.City.CityId)
+			@Html.DropDownListFor(x => x.Org.City.CityId, Model
 				.AvaliableCities.Select(x => new SelectListItem
 				{
-					Selected = Model.Org.CityId == x.Id,
+					Selected = Model.Org.City.CityId == x.CityId,
 					Text = x.Name,
-					Value = x.Id.ToString()
+					Value = x.CityId.ToString()
 				}))
 		</div>
 	</div>

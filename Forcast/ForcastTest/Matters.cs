@@ -4,8 +4,8 @@ namespace ForcastTest
 {
 	public static class Matters
 	{
-		public static Matter Azontay_Kislota() =>
-			new Matter
+		public static HMatter Azontay_Kislota() =>
+			new HMatter
 			{
 				Cv = 1.32,
 				E = 0.003,
@@ -31,8 +31,8 @@ namespace ForcastTest
 				}
 			};
 
-		public static Matter Brom() =>
-			new Matter
+		public static HMatter Brom() =>
+			new HMatter
 			{
 				Pg = 3.102,
 				M = 159.8,
@@ -58,8 +58,8 @@ namespace ForcastTest
 				}
 			};
 
-		public static Matter Iprit() =>
-			new Matter
+		public static HMatter Iprit() =>
+			new HMatter
 			{
 				M = 159,
 				I = 385,

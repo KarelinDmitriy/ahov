@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.List<AhovRepository.WebUser>
+﻿@model System.Collections.Generic.List<Web.Models.User.UserModel>
 
 @{
 	ViewBag.Title = "Зарегистрированные пользователи";
@@ -18,8 +18,8 @@
 		@foreach (var user in Model)
 		{
 			<tr>
-				<td>@user.Login</td>
-				<td>@user.Email</td>
+				<td>@user.Info.Name</td>
+				<td>@user.Info.Email</td>
 			</tr>
 		}
 	</table>

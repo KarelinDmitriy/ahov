@@ -1,4 +1,4 @@
-﻿@model AhovRepository.CityType
+﻿@model AhovRepository.Entity.CityTypeEntity
 
 @{
 	var formId = "CityTypeForm_" + Model.Id;
@@ -11,11 +11,11 @@
 	<div class="col-md-5">
 		<div class="panel panel-default ">
 			<div class="panel-body">
-				<div id="DeleteCityType_@Model.CityId" class="text-right">
+				<div id="DeleteCityType_@Model.City.CityId" class="text-right">
 					<i class="glyphicon glyphicon-remove"></i>
 				</div>
 				@Html.HiddenFor(x => x.Id)
-				@Html.HiddenFor(x => x.CityId)
+				@Html.HiddenFor(x => x.City.CityId)
 				<div class="form-group">
 					@Html.LabelFor(x => x.Name)
 					@Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Тип здания" } })

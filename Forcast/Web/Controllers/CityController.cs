@@ -1,63 +1,68 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
-using AhovRepository;
-using Web.Models.City;
+using AhovRepository.Entity;
+using AhovRepository.Factory;
 
 namespace Web.Controllers
 {
 	public class CityController : Controller
 	{
-		private readonly IAhovRepository _repository;
-		public CityController(IAhovRepository repository)
+		private readonly ICityProviderFactory _providerFactory;
+
+		public CityController(ICityProviderFactory providerFactory)
 		{
-			_repository = repository;
+			_providerFactory = providerFactory;
 		}
 
 		public ActionResult List()
 		{
-			var city = _repository.GetAvalibleCity(1);
+			var provider = _providerFactory.CreateCityProvider(0);
+			var city = provider.GetCities();
 			return View(city);
 		}
 
 		public ActionResult Create()
 		{
-			var city = new WebCity();
+			var city = new CityEntity();
 			return View(city);
 		}
 
 		[HttpPost]
-		public ActionResult Create(WebCity model)
+		public ActionResult Create(CityEntity model)
 		{
-			_repository.AddNewCity(model);
+			var provider = _providerFactory.CreateCityProvider(0);
+			provider.AddCity(model);
 			return RedirectToAction("List");
 		}
 
 		public ActionResult Edit(int cityId)
 		{
-			var city = _repository.GetCity(cityId, 1);
+			var provider = _providerFactory.CreateCityProvider(0);
+			var city = provider.GetCity(cityId);
 			return View(city);
 		}
 
 		[HttpPost]
-		public ActionResult Edit(WebCity model)
+		public ActionResult Edit(CityEntity model)
 		{
-			_repository.UpdateCity(model, 1);
+			var provider = _providerFactory.CreateCityProvider(0);
+			provider.UpdateCity(model);
 			return RedirectToAction("List");
 		}
 
 		public ActionResult NewCityType(int cityId)
 		{
-			return PartialView("CityTypesTab", new CityType {Id = cityId});
+			return PartialView("CityTypesTab", new CityTypeEntity {City = new CityEntity {CityId = cityId}});
 		}
 
 		[HttpPost]
-		public PartialViewResult EditCityType(CityType cityType)
+		public PartialViewResult EditCityType(CityTypeEntity cityType)
 		{
 			var success = true;
+			var provider = _providerFactory.CreateCityProvider(0);
 			try
 			{
-				_repository.UpdateCityType(cityType, 1);
+				provider.UpdateCityType(cityType);
 			}
 			catch (Exception ex)
 			{
@@ -67,11 +72,11 @@ namespace Web.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult AddNewCityType(CityType cityType)
+		public JsonResult AddNewCityType(CityTypeEntity cityType)
 		{
-			//TODO: не забыть использовать город
-			_repository.AddNewCityType(cityType, 1);
-			return new JsonResult { Data = new { success = true } };
+			var provider = _providerFactory.CreateCityProvider(0);
+			provider.AddCityType(cityType);
+			return new JsonResult {Data = new {success = true}};
 		}
 	}
 }

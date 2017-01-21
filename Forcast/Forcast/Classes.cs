@@ -16,17 +16,17 @@ namespace Forcast
 		public Draining Draining { get; set; }
 		public double Q { get; set; } //кол-во вещества (в граммах!)
 		public double H { get; set; } //высота поддона
-		public Matter Matter { get; set; }
+		public HMatter HMatter { get; set; }
 
 		public double D => Draining == Draining.Vp1
-			? 1.22/Sqrt(H)*Sqrt(Q/Matter.Pg)
-			: 5.04*Sqrt(Q/Matter.Pg);
+			? 1.22/Sqrt(H)*Sqrt(Q/HMatter.Pg)
+			: 5.04*Sqrt(Q/HMatter.Pg);
 
 		public double Er(double tcw, double u)
-			=> Pow(10, -6)*Sqrt(Matter.M)*Pow(10, 2.76 - 0.019*Matter.Tck + 0.024*tcw)*(5.4 + 2.7*u);
+			=> Pow(10, -6)*Sqrt(HMatter.M)*Pow(10, 2.76 - 0.019*HMatter.Tck + 0.024*tcw)*(5.4 + 2.7*u);
 	}
 
-	public class Matter // вещество
+	public class HMatter // вещество
 	{
 		private ToksiDose _toksiDose;
 

@@ -237,12 +237,16 @@ namespace Forcast
 				var tn = _activeData.Tn[i.Y];
 				var ii = i.Y;
 				var rzu = rz / u - tn;
-				if (_activeData.T * _activeData.U <= rz || gau[i] <= rz)
-					sap[i] = saw[i] = 0; // на всякий случай))) 
-				var cup = _storageData.Цу / 2 + q >= sau[i] / (2 * gau[i]) ? sau[i] / gau[i] - q + _storageData.Цу / 2 : _storageData.Цу;
+				if (t*u <= rz || gau[i] <= rz)
+				{
+					sap[i] = saw[i] = 0;
+					aap[i] = 0; // на всякий случай))) 
+				}
+					
+				var cup = _storageData.Цу_p / 2 + q >= sau[i] / (2 * gau[i]) ? sau[i] / gau[i] - q + _storageData.Цу_p / 2 : _storageData.Цу_p;
 				var y = cup < sau[i] / gau[i] ? cup : sau[i] / gau[i];
 				цур[i] = y;
-				if (tn * u <= t * u && rz < t*u && t * u <= gau[i] * _storageData.Цу + rz)
+				if (tn * u <= rz && rz < t*u && t * u <= gau[i] * _storageData.Цу_p + rz)
 				{
 					sap[i] = 0;
 					saw[i] = y * (t * u - rz);
@@ -256,7 +260,7 @@ namespace Forcast
 					Formula348(fan, fawn, faun, faan, fak, fawk, fauk, faak, out fa, out faw, out fau, out faa);
 					Formula349(aap, fa, faw, fau, isFaaZero ? 0 : faa, i);
 				}
-				else if (tn * u < rz && rz < gau[i] && gau[i] <= t * u && gau[i] <= _storageData.Цу + rz) //TODO: что значит gau[i] < (T*U; Цх+rz)
+				else if (tn * u < rz && rz < gau[i] && gau[i] <= t * u && gau[i] <= _storageData.Цу_p + rz) //TODO: что значит gau[i] < (T*U; Цх+rz)
 				{
 					sap[i] = 0;
 					saw[i] = y * (gau[i] - rz);
@@ -274,11 +278,11 @@ namespace Forcast
 					var faa = isFaaZero ? 0 : new[] { faan, faak }.Average();
 					aap[i] = (1 - fa) * (1 - faw) * (1 - fau) * (1 - faa);
 				}
-				else if (tn * u <= rz && rz + _storageData.Цу <= t * u && rz + _storageData.Цу <= gau[i])
+				else if (tn * u <= rz && rz + _storageData.Цу_p <= t * u && rz + _storageData.Цу_p <= gau[i])
 				{
-					var tmp = (_storageData.Цу + rz) / u - tn;
+					var tmp = (_storageData.Цу_p + rz) / u - tn;
 					sap[i] = 0;
-					saw[i] = y * _storageData.Цу;
+					saw[i] = y * _storageData.Цx_p;
 					var fan = _storageData.apr[ii] * (1 - Exp(-_storageData.b[ii] * rzu));
 					var fawn = _storageData.aw[ii] * (1 - Exp(-_storageData.bw[ii] * rzu));
 					var faun = _storageData.au[ii] * (1 - Exp(-_storageData.bu[ii] * rzu));
@@ -291,7 +295,7 @@ namespace Forcast
 					var faa = isFaaZero ? 0 : new[] { faan, faak }.Average();
 					aap[i] = (1 - fa) * (1 - faw) * (1 - fau) * (1 - faa);
 				}
-				else if (rz < tn * u && tn * u <= t * u && t * u <= gau[i] && t * u <= _storageData.Цу + rz)
+				else if (rz < tn * u && tn * u <= t * u && t * u <= gau[i] && t * u <= _storageData.Цу_p + rz)
 				{
 					sap[i] = y * (tn * u - rz);
 					saw[i] = y * (t * u - tn * u);
@@ -301,7 +305,7 @@ namespace Forcast
 					Formula348(0, 0, 0, 0, fak, fawk, fauk, faak, out fa, out faw, out fau, out faa);
 					Formula349(aap, fa, faw, fau, isFaaZero ? 0 : faa, i);
 				}
-				else if (rz <= tn * u && gau[i].MyEquals(tn * u) && gau[i] < t * u && gau[i] < _storageData.Цу + rz)
+				else if (rz <= tn * u && gau[i].MyEquals(tn * u) && gau[i] < t * u && gau[i] < _storageData.Цу_p + rz)
 				{
 					sap[i] = y * (tn * u - rz);
 					saw[i] = y * (gau[i] - tn * u);
@@ -311,18 +315,18 @@ namespace Forcast
 					Formula348(0, 0, 0, 0, fak, fawk, fauk, faak, out fa, out faw, out fau, out faa);
 					Formula349(aap, fa, faw, fau, isFaaZero ? 0 : faa, i);
 				}
-				else if (rz < tn * u * (_storageData.Цу + rz) && tn * u * (_storageData.Цу + rz) <= t * u && tn * u * (_storageData.Цу + rz) < gau[i])
+				else if (rz < tn * u * (_storageData.Цу_p + rz) && tn * u * (_storageData.Цу_p + rz) <= t * u && tn * u * (_storageData.Цу_p + rz) < gau[i])
 				{
-					var tmp = (_storageData.Цу + rz) / u - tn;
+					var tmp = (_storageData.Цу_p + rz) / u - tn;
 					sap[i] = y * (tn * u - rz);
-					saw[i] = y * (_storageData.Цу + rz - tn * u);
+					saw[i] = y * (_storageData.Цу_p + rz - tn * u);
 					double fak, fawk, fauk, faak;
 					Formula355(out fak, out fawk, out fauk, out faak, tmp, ii);
 					double fa, faw, fau, faa;
 					Formula348(0, 0, 0, 0, fak, fawk, fauk, faak, out fa, out faw, out fau, out faa);
 					Formula349(aap, fa, faw, fau, isFaaZero ? 0 : faa, i);
 				}
-				else if (rz < t * u && t * u <= tn * u && t * u <= gau[i] && t * u <= _storageData.Цу + rz)
+				else if (rz < t * u && t * u <= tn * u && t * u <= gau[i] && t * u <= _storageData.Цу_p + rz)
 				{
 					sap[i] = y * (t * u - rz);
 					saw[i] = 0;
@@ -337,7 +341,7 @@ namespace Forcast
 				else
 				{
 					sap[i] = 0;
-					saw[i] = y * _storageData.Цу;
+					saw[i] = y * _storageData.Цx_p;
 					aap[i] = 1;
 				}
 			}
@@ -454,11 +458,11 @@ namespace Forcast
 					case MatterSaveType.Cx2:
 						primary =
 							x.Q *
-							Min(x.Matter.Cv * (x.Matter.Tcg - x.Matter.Tck) / x.Matter.I, 1) //TODO: 0<value<1
-							+ (x.Matter.Tck > 20 ? 0.02 * Pow((20 / x.Matter.Tck), 3) : 0.02);
+							Min(x.HMatter.Cv * (x.HMatter.Tcg - x.HMatter.Tck) / x.HMatter.I, 1) //TODO: 0<value<1
+							+ (x.HMatter.Tck > 20 ? 0.02 * Pow((20 / x.HMatter.Tck), 3) : 0.02);
 						break;
 					case MatterSaveType.Cx3:
-						primary = x.Q * 0.02 * Min(20 / x.Matter.Tck, 20);
+						primary = x.Q * 0.02 * Min(20 / x.HMatter.Tck, 20);
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
@@ -473,7 +477,7 @@ namespace Forcast
 			{
 				return (kp / Pow(_activeData.U, .7))
 					   * _storageData.Kf
-					   * _barrels.Sum(y => y.Q / (y.Matter.ToksiDose.PrimaryArray[i] * kad[i.X]));
+					   * _barrels.Sum(y => y.Q / (y.HMatter.ToksiDose.PrimaryArray[i] * kad[i.X]));
 			});
 		}
 
@@ -482,11 +486,11 @@ namespace Forcast
 			var u = _activeData.U;
 			Func<Barrel, double> er =
 				b =>
-					Pow(10, -6) * Sqrt(b.Matter.M) * Pow(10, 2.76 - 0.019 * b.Matter.Tck + 0.024 * _activeData.Tcw) * (5.4 + 2.7 * u);
+					Pow(10, -6) * Sqrt(b.HMatter.M) * Pow(10, 2.76 - 0.019 * b.HMatter.Tck + 0.024 * _activeData.Tcw) * (5.4 + 2.7 * u);
 			return new DoubleArray().Select((x, i) =>
 			{
 				return 2826 * 1000 * kp / Pow(u, 0.7) * _storageData.Kf * _barrels.Sum(b =>
-							  b.D * er(b) * 4 / (b.Matter.ToksiDose.SecondaryArray[i] * kad[i.X]));
+							  b.D * er(b) * 4 / (b.HMatter.ToksiDose.SecondaryArray[i] * kad[i.X]));
 			});
 		}
 

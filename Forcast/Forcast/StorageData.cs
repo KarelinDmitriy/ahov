@@ -112,5 +112,14 @@
 		/// Параметр функции скорости для использующих антидоты
 		/// </summary>
 		public double[] ba { get; set; }
+
+		/// <summary>
+		/// Длинна химобъекта
+		/// </summary>
+		public double Цx_p { get; set; }
+		/// <summary>
+		/// Ширина химобъека
+		/// </summary>
+		public double Цу_p { get; set; }
 	}
 }

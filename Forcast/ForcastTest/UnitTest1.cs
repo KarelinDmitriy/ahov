@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Forcast;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,6 +13,20 @@ namespace ForcastTest
 		{
 			var forecast = new Forcast.Forcast(TestData.GetBarrels(), TestData.GetStorageData(), TestData.GetActiveData());
 			var fullForecastResult = forecast.DoForcast();
+			PrintResult(fullForecastResult);
+			
+		}
+
+		[TestMethod]
+		public void Test2()
+		{
+			var forecast = new Forcast.Forcast(TestData.GetBarrels().Take(1), TestData.GetStorageData2(), TestData.GetActiveData2());
+			var fullForecastResult = forecast.DoForcast();
+			PrintResult(fullForecastResult);
+		}
+
+		private static void PrintResult(Forcast.ForecastResults.FullForecastResult fullForecastResult)
+		{
 			Print(fullForecastResult.Go1, "Глубина распространения первичного облака", "м");
 			Print(fullForecastResult.Go2, "Глубина распространения вторичного облака", "м");
 			Print(fullForecastResult.So1, "Площадь распространения первичного облака", "м2");
@@ -22,7 +37,7 @@ namespace ForcastTest
 			Print(fullForecastResult.Nf_san, "Кол-во пораженных с учетом возрастов (санитарные)", "Чел");
 			Print(fullForecastResult.Nos, "Пораженных среди персонала", "Чел");
 			Print(fullForecastResult.Nof, "Пораженных среди персонала с учтом нормально распределения", "Чел");
-			Print(new[] { fullForecastResult.Nof_San}, "Пораженных среди персонала санитарных", "Чел");
+			Print(new[] { fullForecastResult.Nof_San }, "Пораженных среди персонала санитарных", "Чел");
 		}
 
 		private static void Print(DoubleArray data, string caption, string v)

@@ -1,4 +1,6 @@
 ﻿using AhovRepository;
+using AhovRepository.Factory;
+using AhovRepository.Repository;
 using Ninject;
 
 namespace Web.Core
@@ -8,7 +10,10 @@ namespace Web.Core
 		public virtual IKernel CreateKernel()
 		{
 			IKernel kernel = new StandardKernel();
-			kernel.Bind<IAhovRepository>().To<MySqlAhovReporitory>();
+			kernel.Bind<IDatabaseProvider>().To<MySqlDatabaseProvider>();
+			kernel.Bind<IAccessProvider>().To<FakeAccessProvider>();
+			kernel.Bind<ICityProviderFactory>().To<CityProviderFactory>();
+			kernel.Bind<IOrgDataproviderFactory>().To<OrgDataproviderFactory>();
 			return kernel;
 		}
 	}
