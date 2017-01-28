@@ -14,6 +14,8 @@ namespace AhovRepository.Entity
 		public virtual string Email { get; set; }
 		[DisplayName("Роль")]
 		public virtual string Role { get; set; }
+		[DisplayName("Фамилия, имя, отчество")]
+		public virtual string Fio { get; set; }
 	}
 
 	public class UserMap : ClassMap<UserEntity>
@@ -25,6 +27,7 @@ namespace AhovRepository.Entity
 			Map(x => x.Email).Column("Email");
 			Map(x => x.PasswordHash).Column("PasswordHash");
 			Map(x => x.Role).Column("Role");
+			Map(x => x.Fio).Column("Fio");
 			Table("User");
 		}
 	}

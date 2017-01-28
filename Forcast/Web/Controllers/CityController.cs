@@ -24,15 +24,15 @@ namespace Web.Controllers
 
 		public ActionResult Create()
 		{
-			var city = new CityEntity();
+			var city = new CityModel();
 			return View(city);
 		}
 
 		[HttpPost]
-		public ActionResult Create(CityEntity model)
+		public ActionResult Create(CityModel model)
 		{
 			var provider = _providerFactory.CreateCityProvider(0);
-			provider.AddCity(model);
+			provider.AddCity(model.City);
 			return RedirectToAction("List");
 		}
 

@@ -28,10 +28,10 @@ namespace AhovRepository
 					.Database(MySQLConfiguration
 						.Standard
 						.ConnectionString(x => x
-							.Server("us-cdbr-azure-west-c.cloudapp.net")
-							.Database("ahov_database")
-							.Username("b337ffe844fbeb")
-							.Password("f2e08696")
+							.Server("eu-cdbr-azure-west-a.cloudapp.net")
+							.Database("ahovdatabase")
+							.Username("bf24df16a271f1")
+							.Password("936f712a")
 						)
 						.ShowSql())
 					.Mappings(m => m.FluentMappings.AddFromAssemblyOf<UserEntity>())

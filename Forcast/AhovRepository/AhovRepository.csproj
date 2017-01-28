@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\BarrelEntity.cs" />
     <Compile Include="Entity\CityEntity.cs" />
     <Compile Include="Entity\CityTypeEntity.cs" />
     <Compile Include="Entity\OrgEntity.cs" />

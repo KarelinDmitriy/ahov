@@ -1,31 +1,13 @@
 ﻿@model AhovRepository.Entity.OrgEntity
 
 <div class="col-md-4">
-	<div class="form-group">
-		@Html.LabelFor(x => x.Ba)
-		@Html.EditorFor(x => x.Ba, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
-	</div>
-	<div class="form-group">
-		@Html.LabelFor(x => x.Bu)
-		@Html.EditorFor(x => x.Bu, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
-	</div>
-	<div class="form-group">
-		@Html.LabelFor(x => x.Bw)
-		@Html.EditorFor(x => x.Bw, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
-	</div>
+		@Html.EditorFor(x => x.Ba, "NumberEditor")
+		@Html.EditorFor(x => x.Bu, "NumberEditor")
+		@Html.EditorFor(x => x.Bw, "NumberEditor")
 </div>
 
 <div class="col-md-4">
-	<div class="form-group">
-		@Html.LabelFor(x => x.Ba_ch)
-		@Html.EditorFor(x => x.Ba_ch, new { htmlAttributes = new { @class = "form-control", placeholder = "Название" } })
-	</div>
-	<div class="form-group">
-		@Html.LabelFor(x => x.Bu_ch)
-		@Html.EditorFor(x => x.Bu_ch, new { htmlAttributes = new { @class = "form-control", placeholder = "Название" } })
-	</div>
-	<div class="form-group">
-		@Html.LabelFor(x => x.Bw_ch)
-		@Html.EditorFor(x => x.Bw_ch, new { htmlAttributes = new { @class = "form-control", placeholder = "Название" } })
-	</div>
+		@Html.EditorFor(x => x.Ba_ch, "NumberEditor")
+		@Html.EditorFor(x => x.Bu_ch, "NumberEditor")
+		@Html.EditorFor(x => x.Bw_ch, "NumberEditor")
 </div>

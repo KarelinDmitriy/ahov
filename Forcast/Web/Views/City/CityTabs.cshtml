@@ -5,73 +5,34 @@
 	<div class="col-gl-9">
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#Main" aria-controls="Main" role="tab" data-toggle="tab">Основные параметры</a></li>
-			<li role="presentation"><a href="#Rate" aria-controls="Rate" role="tab" data-toggle="tab">Коэффиценты</a></li>
+			<li role="presentation"><a href="#Rate" aria-controls="Rate" role="tab" data-toggle="tab">Коэффициенты</a></li>
 			<li role="presentation"><a href="#CityType" aria-controls="CityType" role="tab" data-toggle="tab">Типы городских строений</a></li>
 		</ul>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="Main">
 				<div class="container">
 					<div class="col-md-4">
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City	.Name)
-							@Html.EditorFor(x => x.City.Name, new {htmlAttributes = new {@class = "form-control", placeholder = "Название города"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.Population)
-							@Html.EditorFor(x => x.City.Population, new {htmlAttributes = new {@class = "form-control", placeholder = "Численность населения"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.ChildPercent)
-							@Html.EditorFor(x => x.City.ChildPercent, new {htmlAttributes = new {@class = "form-control", placeholder = "Процент детей"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.Width)
-							@Html.EditorFor(x => x.City.Width, new {htmlAttributes = new {@class = "form-control", placeholder = "Ширина"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.Lenght)
-							@Html.EditorFor(x => x.City.Lenght, new {htmlAttributes = new {@class = "form-control", placeholder = "Длинна"}})
-						</div>
+						@Html.EditorFor(x => x.City.Name, "StringEditor")
+						@Html.EditorFor(x => x.City.Population, "IntTemplate")
+						@Html.EditorFor(x => x.City.ChildPercent, "IntTemplate")
+						@Html.EditorFor(x => x.City.Width, "NumberEditor")
+						@Html.EditorFor(x => x.City.Lenght, "NumberEditor")
 					</div>
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="Rate">
 				<div class="container">
 					<div class="col-md-4">
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.Aa)
-							@Html.EditorFor(x => x.City.Aa, new {htmlAttributes = new {@class = "form-control"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.Au)
-							@Html.EditorFor(x => x.City.Au, new {htmlAttributes = new {@class = "form-control"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.Apr)
-							@Html.EditorFor(x => x.City.Apr, new {htmlAttributes = new {@class = "form-control"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.Aw)
-							@Html.EditorFor(x => x.City.Aw, new {htmlAttributes = new {@class = "form-control"}})
-						</div>
+						@Html.EditorFor(x => x.City.Aa, "NumberEditor")
+						@Html.EditorFor(x => x.City.Au, "NumberEditor")
+						@Html.EditorFor(x => x.City.Apr, "NumberEditor")
+						@Html.EditorFor(x => x.City.Aw, "NumberEditor")
 					</div>
 					<div class="col-md-4">
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.AaChild)
-							@Html.EditorFor(x => x.City.AaChild, new {htmlAttributes = new {@class = "form-control"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.AuChild)
-							@Html.EditorFor(x => x.City.AuChild, new {htmlAttributes = new {@class = "form-control"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.AprChild)
-							@Html.EditorFor(x => x.City.AprChild, new {htmlAttributes = new {@class = "form-control"}})
-						</div>
-						<div class="form-group ">
-							@Html.LabelFor(x => x.City.AwChild)
-							@Html.EditorFor(x => x.City.AwChild, new {htmlAttributes = new {@class = "form-control"}})
-						</div>
+						@Html.EditorFor(x => x.City.AaChild, "NumberEditor")
+						@Html.EditorFor(x => x.City.AuChild, "NumberEditor")
+						@Html.EditorFor(x => x.City.AprChild, "NumberEditor")
+						@Html.EditorFor(x => x.City.AwChild, "NumberEditor")
 					</div>
 				</div>
 			</div>

@@ -2,35 +2,18 @@
 
 <div class="container">
 	<div class="col-md-4">
-		<div class="form-group">
-			@Html.LabelFor(x => x.Org.Name)
-			@Html.EditorFor(x => x.Org.Name, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
-		</div>
-		<div class="form-group">
-			@Html.LabelFor(x => x.Org.PersonalCount)
-			@Html.EditorFor(x => x.Org.PersonalCount, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
-		</div>
-		<div class="form-group">
-			@Html.LabelFor(x => x.Org.Ro)
-			@Html.EditorFor(x => x.Org.Ro, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
-		</div>
-		<div class="form-group">
-			@Html.LabelFor(x => x.Org.Rz)
-			@Html.EditorFor(x => x.Org.Rz, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
-		</div>
-		<div class="form-group">
-			@Html.LabelFor(x => x.Org.Kf)
-			@Html.EditorFor(x => x.Org.Kf, new {htmlAttributes = new {@class = "form-control", placeholder = "Название"}})
-		</div>
-		<div class="form-group">
-			@Html.LabelFor(x => x.Org.City.CityId)
-			@Html.DropDownListFor(x => x.Org.City.CityId, Model
+		@Html.EditorFor(x => x.Org.Name, "StringEditor")
+		@Html.EditorFor(x => x.Org.PersonalCount, "IntTemplate")
+		@Html.EditorFor(x => x.Org.Ro, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Rz, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Kf, "NumberEditor")
+		@Html.LabelFor(x => x.Org.City.CityId)
+		@Html.DropDownListFor(x => x.Org.City.CityId, Model
 				.AvaliableCities.Select(x => new SelectListItem
 				{
 					Selected = Model.Org.City.CityId == x.CityId,
 					Text = x.Name,
 					Value = x.CityId.ToString()
 				}))
-		</div>
 	</div>
 </div>

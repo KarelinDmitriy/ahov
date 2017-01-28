@@ -143,6 +143,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\City\CityTypesScripts.js" />
+    <Content Include="App_Data\Matters.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -166,6 +169,7 @@
     <Compile Include="Core\Container.cs" />
     <Compile Include="Core\CookiesConst.cs" />
     <Compile Include="Core\HttpApplicationHelper.cs" />
+    <Compile Include="Core\IMatterProvider.cs" />
     <Compile Include="Core\IUserCache.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -200,6 +204,9 @@
     <Content Include="Views\Org\RateOrgParams.cshtml" />
     <Content Include="Views\User\CreateUser.cshtml" />
     <Content Include="Views\User\LoginUser.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\StringEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\NumberEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\IntTemplate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -207,9 +214,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AhovRepository\AhovRepository.csproj">
       <Project>{e81d5eb7-238c-4044-a967-4972eebf426a}</Project>
