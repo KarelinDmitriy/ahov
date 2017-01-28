@@ -1,0 +1,32 @@
+﻿@model Web.Models.User.UserModel
+
+@{
+	ViewBag.Title = "Регистрация пользователя";
+}
+<div class="container">
+	<div class="col-gl-9">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#Log" aria-controls="Log" role="tab" data-toggle="tab">Войти</a></li>
+			<li role="presentation"><a href="#Reg" aria-controls="Reg" role="tab" data-toggle="tab">Регистрация</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="Log">
+				<div class="container">
+					@{
+						Html.RenderPartial("LoginUser", Model);
+					}
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="Reg">
+				<div class="container">
+					@{
+						Html.RenderPartial("CreateUser", Model);
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

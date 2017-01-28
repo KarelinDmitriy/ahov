@@ -9,6 +9,12 @@ namespace ForcastTest
 	public class UnitTest1
 	{
 		[TestMethod]
+		public void N()
+		{
+			LearnTask.LearnTaskSolver.Run(null);
+		}
+
+		[TestMethod]
 		public void TestMethod1()
 		{
 			var forecast = new Forcast.Forcast(TestData.GetBarrels(), TestData.GetStorageData(), TestData.GetActiveData());

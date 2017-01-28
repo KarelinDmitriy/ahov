@@ -1,4 +1,4 @@
-﻿@model AhovRepository.Entity.CityEntity
+﻿@model Web.Models.City.CityModel
 
 @{
 	ViewBag.Title = "Редактирование города";
@@ -8,14 +8,14 @@
 
 <div class="container">
 	<div class="col-lg-6">
-		<h3>Редактирование города @Model.CityId</h3>
+		<h3>Редактирование города @Model.City.CityId</h3>
 	</div>
 </div>
 
 @using (Html.BeginForm("Edit", "City", FormMethod.Post))
 {
 	Html.RenderPartial("CityTabs", Model, null);
-	@Html.HiddenFor(x => x.CityId)
+	@Html.HiddenFor(x => x.City.CityId)
 	<div class="container row">
 		<div class="navbar navbar-static navbar-fixed-bottom">
 			<div class="container-fluid	">

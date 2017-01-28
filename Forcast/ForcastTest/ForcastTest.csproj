@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
     <Compile Include="Matters.cs" />
     <Compile Include="Parse.cs" />
     <Compile Include="TestData.cs" />

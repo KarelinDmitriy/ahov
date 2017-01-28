@@ -11,6 +11,7 @@ namespace AhovRepository.Repository
 		void UpdateCity(CityEntity entity);
 		void UpdateCityType(CityTypeEntity entity);
 		void AddCityType(CityTypeEntity cityType);
+		List<CityTypeEntity> GetBuilding(int cityId);
 	}
 
 	public class CityProvider : ICityProvider
@@ -57,6 +58,11 @@ namespace AhovRepository.Repository
 		public void AddCityType(CityTypeEntity cityType)
 		{
 			_databaseProvider.Insert(cityType);
+		}
+
+		public List<CityTypeEntity> GetBuilding(int cityId)
+		{
+			return _databaseProvider.Where<CityTypeEntity>(x => x.City.CityId == cityId);
 		}
 	}
 }

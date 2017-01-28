@@ -27,7 +27,7 @@ namespace AhovRepository.Entity
 			Map(x => x.Ay).Column("Ay");
 			Map(x => x.Kp).Column("Kp");
 			References(x => x.City)
-				.Columns("CityId");
+				.Columns("City_CityId");
 			Table("CityBuilding");
 		}
 	}

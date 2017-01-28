@@ -14,6 +14,7 @@ namespace Web.Core
 			kernel.Bind<IAccessProvider>().To<FakeAccessProvider>();
 			kernel.Bind<ICityProviderFactory>().To<CityProviderFactory>();
 			kernel.Bind<IOrgDataproviderFactory>().To<OrgDataproviderFactory>();
+			kernel.Bind<IUserCache>().To<UserCache>();
 			return kernel;
 		}
 	}

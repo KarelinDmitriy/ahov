@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using AhovRepository.Entity;
 
 namespace Web.Models.User
@@ -17,6 +18,7 @@ namespace Web.Models.User
 		public UserEntity Info { get; set; }
 
 		[DisplayName("Пароль")]
+		[DataType(DataType.Password)]
 		public string Password { get; set; }
 	}
 }

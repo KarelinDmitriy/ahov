@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using AhovRepository.Entity;
 using AhovRepository.Factory;
+using Web.Models.City;
 
 namespace Web.Controllers
 {
@@ -39,7 +40,13 @@ namespace Web.Controllers
 		{
 			var provider = _providerFactory.CreateCityProvider(0);
 			var city = provider.GetCity(cityId);
-			return View(city);
+			var building = provider.GetBuilding(cityId);
+			var cityModel = new CityModel
+			{
+				City = city,
+				Buildings = building
+			};
+			return View(cityModel);
 		}
 
 		[HttpPost]

@@ -33,7 +33,6 @@ namespace AhovRepository.Entity
 		public virtual double Apr { get; set; }
 		[DisplayName("Доля применяющих СИЗ (дети)")]
 		public virtual double AprChild { get; set; }
-		public virtual ICollection<CityTypeEntity> CityBuildings { get; set; }
 	}
 
 	public class CityMap : ClassMap<CityEntity>
@@ -54,8 +53,6 @@ namespace AhovRepository.Entity
 			Map(x => x.AaChild).Column("Aa_ch");
 			Map(x => x.Apr).Column("Apr");
 			Map(x => x.AprChild).Column("Apr_ch");
-			HasMany(x => x.CityBuildings)
-				.KeyColumn("BuildingId");
 			Table("City");
 		}
 	}

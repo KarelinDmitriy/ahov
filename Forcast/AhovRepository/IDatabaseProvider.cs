@@ -11,6 +11,7 @@ namespace AhovRepository
 	public interface IDatabaseProvider
 	{
 		List<TEntity> GetAll<TEntity>() where TEntity : class;
+		List<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>> predidate) where TEntity : class;
 		void Insert<TEntity>(TEntity entity) where TEntity : class;
 		TEntity GetOne<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class;
 		void Update<TEntity>(TEntity entity) where TEntity : class;
@@ -52,6 +53,21 @@ namespace AhovRepository
 				{
 					var entities = session.QueryOver<TEntity>().List();
 					result.AddRange(entities);
+					transaction.Commit();
+				}
+			}
+			return result;
+		}
+
+		public List<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>> predidate) where TEntity : class
+		{
+			var result = new List<TEntity>();
+			using (var session = OpenSession())
+			{
+				using (var transaction = session.BeginTransaction())
+				{
+					var entities = session.QueryOver<TEntity>().Where(predidate);
+					result.AddRange(entities.List());
 					transaction.Commit();
 				}
 			}

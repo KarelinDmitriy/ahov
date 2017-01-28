@@ -1,4 +1,4 @@
-﻿@model AhovRepository.Entity.CityEntity
+﻿@model Web.Models.City.CityModel
 
 
 <div class="container">
@@ -13,24 +13,24 @@
 				<div class="container">
 					<div class="col-md-4">
 						<div class="form-group ">
-							@Html.LabelFor(x => x.Name)
-							@Html.EditorFor(x => x.Name, new {htmlAttributes = new {@class = "form-control", placeholder = "Название города"}})
+							@Html.LabelFor(x => x.City	.Name)
+							@Html.EditorFor(x => x.City.Name, new {htmlAttributes = new {@class = "form-control", placeholder = "Название города"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.Population)
-							@Html.EditorFor(x => x.Population, new {htmlAttributes = new {@class = "form-control", placeholder = "Численность населения"}})
+							@Html.LabelFor(x => x.City.Population)
+							@Html.EditorFor(x => x.City.Population, new {htmlAttributes = new {@class = "form-control", placeholder = "Численность населения"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.ChildPercent)
-							@Html.EditorFor(x => x.ChildPercent, new {htmlAttributes = new {@class = "form-control", placeholder = "Процент детей"}})
+							@Html.LabelFor(x => x.City.ChildPercent)
+							@Html.EditorFor(x => x.City.ChildPercent, new {htmlAttributes = new {@class = "form-control", placeholder = "Процент детей"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.Width)
-							@Html.EditorFor(x => x.Width, new {htmlAttributes = new {@class = "form-control", placeholder = "Ширина"}})
+							@Html.LabelFor(x => x.City.Width)
+							@Html.EditorFor(x => x.City.Width, new {htmlAttributes = new {@class = "form-control", placeholder = "Ширина"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.Lenght)
-							@Html.EditorFor(x => x.Lenght, new {htmlAttributes = new {@class = "form-control", placeholder = "Длинна"}})
+							@Html.LabelFor(x => x.City.Lenght)
+							@Html.EditorFor(x => x.City.Lenght, new {htmlAttributes = new {@class = "form-control", placeholder = "Длинна"}})
 						</div>
 					</div>
 				</div>
@@ -39,38 +39,38 @@
 				<div class="container">
 					<div class="col-md-4">
 						<div class="form-group ">
-							@Html.LabelFor(x => x.Aa)
-							@Html.EditorFor(x => x.Aa, new {htmlAttributes = new {@class = "form-control"}})
+							@Html.LabelFor(x => x.City.Aa)
+							@Html.EditorFor(x => x.City.Aa, new {htmlAttributes = new {@class = "form-control"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.Au)
-							@Html.EditorFor(x => x.Au, new {htmlAttributes = new {@class = "form-control"}})
+							@Html.LabelFor(x => x.City.Au)
+							@Html.EditorFor(x => x.City.Au, new {htmlAttributes = new {@class = "form-control"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.Apr)
-							@Html.EditorFor(x => x.Apr, new {htmlAttributes = new {@class = "form-control"}})
+							@Html.LabelFor(x => x.City.Apr)
+							@Html.EditorFor(x => x.City.Apr, new {htmlAttributes = new {@class = "form-control"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.Aw)
-							@Html.EditorFor(x => x.Aw, new {htmlAttributes = new {@class = "form-control"}})
+							@Html.LabelFor(x => x.City.Aw)
+							@Html.EditorFor(x => x.City.Aw, new {htmlAttributes = new {@class = "form-control"}})
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group ">
-							@Html.LabelFor(x => x.AaChild)
-							@Html.EditorFor(x => x.AaChild, new {htmlAttributes = new {@class = "form-control"}})
+							@Html.LabelFor(x => x.City.AaChild)
+							@Html.EditorFor(x => x.City.AaChild, new {htmlAttributes = new {@class = "form-control"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.AuChild)
-							@Html.EditorFor(x => x.AuChild, new {htmlAttributes = new {@class = "form-control"}})
+							@Html.LabelFor(x => x.City.AuChild)
+							@Html.EditorFor(x => x.City.AuChild, new {htmlAttributes = new {@class = "form-control"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.AprChild)
-							@Html.EditorFor(x => x.AprChild, new {htmlAttributes = new {@class = "form-control"}})
+							@Html.LabelFor(x => x.City.AprChild)
+							@Html.EditorFor(x => x.City.AprChild, new {htmlAttributes = new {@class = "form-control"}})
 						</div>
 						<div class="form-group ">
-							@Html.LabelFor(x => x.AwChild)
-							@Html.EditorFor(x => x.AwChild, new {htmlAttributes = new {@class = "form-control"}})
+							@Html.LabelFor(x => x.City.AwChild)
+							@Html.EditorFor(x => x.City.AwChild, new {htmlAttributes = new {@class = "form-control"}})
 						</div>
 					</div>
 				</div>
@@ -78,9 +78,9 @@
 			<div role="tabpanel" class="tab-pane" id="CityType">
 				<div class="container">
 					<div id="CityTabDiv">
-						@Html.EditorFor(x => x.CityBuildings)
+						@Html.EditorFor(x => x.Buildings)
 					</div>
-					<a id="AddNewCityType" class="btn btn-info glyphicon glyphicon-plus" onclick="RenderGet('@Url.Action("NewCityType", new {cityId = Model.CityId})', '#CityTabDiv')"> Добавить тип сооружения</a>
+					<a id="AddNewCityType" class="btn btn-info glyphicon glyphicon-plus" onclick="RenderGet('@Url.Action("NewCityType", new {cityId = Model.City.CityId})', '#CityTabDiv')"> Добавить тип сооружения</a>
 				</div>
 				
 			</div>
