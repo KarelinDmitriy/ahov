@@ -23,22 +23,16 @@
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="Main">
-					@{
-						Html.RenderPartial("MainOrgParams", Model, null);
-					}
+						@Html.Partial("MainOrgParams", Model);
 				</div>
 				<div role="tabpanel" class="tab-pane" id="Special">
 					<div class="container">
-						@{
-							Html.RenderPartial("SpecialOrgParams", Model.Org, null);
-						}
+						@Html.Partial("SpecialOrgParams", Model.Org);
 					</div>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="Rate">
 					<div class="container">
-						@{
-							Html.RenderPartial("RateOrgParams", Model.Org, null);
-						}
+						@Html.Partial("RateOrgParams", Model.Org);
 					</div>
 				</div>
 			</div>

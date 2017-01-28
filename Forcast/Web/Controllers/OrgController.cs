@@ -26,7 +26,8 @@ namespace Web.Controllers
 
 		public ActionResult Create()
 		{
-			var org = new OrgEntity();
+			var org = new OrgEntity()
+			{City = new CityEntity()};
 			var cities = _cityProviderFactory.CreateCityProvider(0).GetCities();
 			var model = new OrgModel
 			{
@@ -37,10 +38,10 @@ namespace Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Create(OrgEntity org)
+		public ActionResult Create(OrgModel model)
 		{
 			var orgProvider = _orgProviderFactory.CreateOrgProvider(0);
-			orgProvider.AddOrganization(org);
+			orgProvider.AddOrganization(model.Org);
 			return RedirectToAction("List");
 		}
 

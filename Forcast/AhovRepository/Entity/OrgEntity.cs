@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Web.Mvc;
 using FluentNHibernate.Mapping;
 
 namespace AhovRepository.Entity
@@ -19,6 +20,7 @@ namespace AhovRepository.Entity
 		public virtual double Kf { get; set; }
 
 		[DisplayName("Радиус объекта")]
+		[AdditionalMetadata("Dimension", "м")]
 		public virtual double Ro { get; set; }
 
 		[DisplayName("Радиус санитарной зоны")]

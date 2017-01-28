@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AhovRepository;
 using AhovRepository.Entity;
 
 namespace Web.Models.Org
