@@ -7,7 +7,7 @@ namespace AhovRepository.Entity
 	{
 		public virtual int UserId { get; set; }
 		[DisplayName("Логин")]
-		public virtual string Name { get; set; }
+		public virtual string Login { get; set; }
 		[DisplayName("Пароль")]
 		public virtual string PasswordHash { get; set; }
 		[DisplayName("Email")]
@@ -23,7 +23,7 @@ namespace AhovRepository.Entity
 		public UserMap()
 		{
 			Id(x => x.UserId).Column("UserId");
-			Map(x => x.Name).Column("UserName");
+			Map(x => x.Login).Column("UserName");
 			Map(x => x.Email).Column("Email");
 			Map(x => x.PasswordHash).Column("PasswordHash");
 			Map(x => x.Role).Column("Role");

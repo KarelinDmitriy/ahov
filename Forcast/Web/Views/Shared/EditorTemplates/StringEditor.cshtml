@@ -4,7 +4,7 @@
 	var placeHolder = ViewData.ModelMetadata.DisplayName;
 }
 
-<div class="form-group ">
+<div class="form-group">
 	@Html.LabelFor(x => x)
 	@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue,  new { @class = "form-control", placeholder = @placeHolder })
 </div>

@@ -1,0 +1,20 @@
+﻿@model Web.Models.Barrel.BarrelsModel
+
+@{
+	ViewBag.Title = "Данные о веществах";
+}
+
+<h2>Данные о веществах</h2>
+
+<div>
+	<div class="container">
+		<div id="Barrels">
+			@foreach (var m in Model.Barrels)
+			{
+				@Html.Partial("Barrel", m)
+			}
+		</div>
+		<a id="AddNew" class="btn btn-info glyphicon glyphicon-plus" onclick="RenderGet('@Url.Action("AddNew", new {orgId = Model.OrgId})', '#Barrels')"></a>
+	</div>
+</div>
+

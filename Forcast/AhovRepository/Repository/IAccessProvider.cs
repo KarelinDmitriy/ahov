@@ -1,33 +1,79 @@
-﻿namespace AhovRepository.Repository
+﻿using System;
+using AhovRepository.Entity;
+
+namespace AhovRepository.Repository
 {
 	public interface IAccessProvider
 	{
-		bool HasAccessToObject(int userId, string objectId);
-		void AddAccessToObject(int userId, string objectId, int ownerId);
-		void RemoveAccessToObject(int userId, string objectId, int ownerId);
+		AccessType GetAccessType(int userId, string objectId);
+		bool AddAccessToObject(int userId, string objectId, int ownerId, AccessType accessType);
+		bool RemoveAccessToObject(int userId, string objectId, int ownerId);
 	}
 
-	public class FakeAccessProvider : IAccessProvider
+	public class AccessProvider : IAccessProvider
 	{
-		public bool HasAccessToObject(int userId, string objectId)
+		private readonly IDatabaseProvider _databaseProvider;
+
+		public AccessProvider(IDatabaseProvider databaseProvider)
 		{
+			_databaseProvider = databaseProvider;
+		}
+
+		public AccessType GetAccessType(int userId, string objectId)
+		{
+			var accessEntity = _databaseProvider.GetOne<AccessEntity>(x => x.User.UserId == userId && x.ObjectId == objectId);
+			return accessEntity == null
+				? AccessType.None
+				: (AccessType) Enum.Parse(typeof(AccessType), accessEntity.AccessType, true);
+		}
+
+		public bool AddAccessToObject(int userId, string objectId, int ownerId, AccessType accessType)
+		{
+			var ownerType = GetAccessType(ownerId, objectId);
+			if (ownerType != AccessType.Owner || ownerType == AccessType.Admin)
+				return false;
+			var userType = GetAccessType(userId, objectId);
+			if (userType == AccessType.Owner)
+				return false;
+			var value = new AccessEntity
+			{
+				User = new UserEntity {UserId = userId},
+				ObjectId = objectId,
+				AccessType = accessType.ToString()
+			};
+			if (userType == AccessType.None)
+				_databaseProvider.Insert(value);
+			else
+				_databaseProvider.Update(value);
 			return true;
 		}
 
-		public void AddAccessToObject(int userId, string objectId, int ownerId)
+		public bool RemoveAccessToObject(int userId, string objectId, int ownerId)
 		{
-			
-		}
-
-		public void RemoveAccessToObject(int userId, string objectId, int ownerId)
-		{
-			
+			var ownerType = GetAccessType(ownerId, objectId);
+			if (ownerType != AccessType.Owner || ownerType == AccessType.Admin)
+				return false;
+			var userType = GetAccessType(userId, objectId);
+			if (userType == AccessType.None)
+				return true;
+			if (userType == AccessType.Owner)
+				return false;
+			var entity = new AccessEntity
+			{
+				User = new UserEntity() {UserId = userId},
+				ObjectId = objectId
+			};
+			_databaseProvider.Delete(entity);
+			return true;
 		}
 	}
 
+
 	public enum AccessType
 	{
+		None, //не имеет доступа
 		Owner, //может делать что хочет и добавлять других
+		Admin, //может назначать других в админы, может редактировать
 		Reader, //может просматривать
 		Editor //может редактировать данные
 	}

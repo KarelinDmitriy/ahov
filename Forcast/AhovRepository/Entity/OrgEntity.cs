@@ -61,6 +61,8 @@ namespace AhovRepository.Entity
 
 		[DisplayName("Время принятия антидотов (для детей)")]
 		public virtual double Ba_ch { get; set; }
+
+		public virtual string ObjectId { get; set; }
 	}
 
 	public class OrgMap : ClassMap<OrgEntity>
@@ -85,6 +87,7 @@ namespace AhovRepository.Entity
 			Map(x => x.Bu_ch).Column("Bu_ch");
 			Map(x => x.Ba).Column("Ba");
 			Map(x => x.Ba_ch).Column("Ba_ch");
+			Map(x => x.ObjectId).Column("ObjectId");
 			References(x => x.City)
 				.Column("City_CityId");
 			Table("Organization");

@@ -1,0 +1,36 @@
+﻿@model Web.Models.Barrel.BarrelModel
+
+
+<div class="row">
+	<div>
+		<div id="Dele" class="text-right">
+			<i class="glyphicon glyphicon-remove"></i>
+		</div>
+		@using (Html.BeginForm("Edit", "Barrel", FormMethod.Post, new {@class = "form-inline"}))
+		{
+			@Html.HiddenFor(x => x.Barrel.BarrelId)
+			<div class="row">
+				@Html.EditorFor(x => x.Barrel.Name, "StringEditor")
+				@Html.EditorFor(x => x.Barrel.H, "NumberEditor")
+				@Html.EditorFor(x => x.Barrel.Q, "NumberEditor")
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					@Html.LabelFor(x => x.Barrel.Code)
+					@Html.DropDownListFor(x => x.Barrel.Code, Model.AvailableMatter.Select(x =>
+						new SelectListItem
+						{
+							Value = x.Code,
+							Text = x.Name,
+							Selected = x.Code == Model.Barrel.Code,
+							Disabled = false,
+						}), new {@class = "form-control"})
+				</div>
+				@Html.EditorFor(x => x.Barrel.Draining, "DropDownEditor")
+				@Html.EditorFor(x => x.Barrel.SaveType, "DropDownEditor")
+			</div>
+			<input class="btn btn-info" type="submit" value="Сохранить"/>
+		}
+	</div>
+	<hr/>
+</div>

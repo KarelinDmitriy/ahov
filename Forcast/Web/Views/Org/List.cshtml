@@ -17,13 +17,15 @@
 			<table class="table table-hover">
 				<tr>
 					<th>Название</th>
+					<th></th>
 					<th>Численность персонала</th>
 					<th>Радиус объекта, м</th>
 				</tr>
 				@foreach (var org in Model)
 				{
 					<tr>
-						<td>@Html.ActionLink(org.Name, "Edit", new { orgId = org.Id })</td>
+						<td>@Html.ActionLink(org.Name, "Edit", new {orgId = org.Id})</td>
+						<td>@Html.ActionLink("Вещества", "List", "Barrel", new {orgId = org.Id}, null)</td>
 						<td>@org.PersonalCount</td>
 						<td>@org.Ro</td>
 					</tr>

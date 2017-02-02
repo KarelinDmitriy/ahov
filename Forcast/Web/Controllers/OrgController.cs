@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using AhovRepository.Entity;
 using AhovRepository.Factory;
+using AhovRepository.Repository;
+using Web.Core;
 using Web.Models.Org;
 
 namespace Web.Controllers
@@ -12,16 +14,20 @@ namespace Web.Controllers
 
 		public OrgController(IOrgDataproviderFactory orgProviderFactory, ICityProviderFactory cityProviderFactory)
 		{
-			this._orgProviderFactory = orgProviderFactory;
+			_orgProviderFactory = orgProviderFactory;
 			_cityProviderFactory = cityProviderFactory;
 		}
 
 		public ActionResult List()
 		{
-			var orgProvider = _orgProviderFactory.CreateOrgProvider(0);
+			IOrgProvider orgProvider = GetProvider();
 			var orgs = orgProvider.GetOrgs();
-
 			return View(orgs);
+		}
+
+		private IOrgProvider GetProvider()
+		{
+			return _orgProviderFactory.CreateOrgProvider(HttpContext.GetUserId());
 		}
 
 		public ActionResult Create()
@@ -40,14 +46,13 @@ namespace Web.Controllers
 		[HttpPost]
 		public ActionResult Create(OrgModel model)
 		{
-			var orgProvider = _orgProviderFactory.CreateOrgProvider(0);
-			orgProvider.AddOrganization(model.Org);
+			GetProvider().AddOrganization(model.Org);
 			return RedirectToAction("List");
 		}
 
 		public ActionResult Edit(int orgId)
 		{
-			var org = _orgProviderFactory.CreateOrgProvider(0).GetOrg(orgId);
+			var org = GetProvider().GetOrg(orgId);
 			var avaliableCities = _cityProviderFactory.CreateCityProvider(0).GetCities();
 			var model = new OrgModel
 			{
@@ -60,7 +65,10 @@ namespace Web.Controllers
 		[HttpPost]
 		public ActionResult Edit(OrgEntity org)
 		{
-			_orgProviderFactory.CreateOrgProvider(0).UpdateOrganization(org);
+			var orgProvider = GetProvider();
+			var orgEntity = orgProvider.GetOrg(org.Id);
+			org.ObjectId = orgEntity.ObjectId;
+			orgProvider.UpdateOrganization(org);
 			return RedirectToAction("List");
 		}
 	}

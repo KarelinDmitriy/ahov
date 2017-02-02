@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Web.Core
+@{
+	var userName = (Context.User.Identity as AppUser)?.UserName;
+}
+
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
@@ -11,6 +16,7 @@
 	<script type="text/javascript" src="~/Scripts/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 	<script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
+	<script type="text/javascript" src="~/Scripts/Common/Requests.js"></script>
 </head>
 
 <body>
@@ -31,7 +37,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					@if (Context.User.Identity.IsAuthenticated)
 					{
-						<li>@Html.ActionLink("Выйти", "LogOut", "User")</li>
+						<li>@Html.ActionLink(userName+" Выйти", "LogOut", "User")</li>
 					}
 					else
 					{

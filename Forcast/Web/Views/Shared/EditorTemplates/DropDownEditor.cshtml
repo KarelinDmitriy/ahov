@@ -1,0 +1,22 @@
+﻿@using System.Collections
+@model string
+
+@{
+	var list = Enumerable.Empty<SelectListItem>();
+	if (ViewData.ModelMetadata.AdditionalValues.ContainsKey("ListValues"))
+	{
+		list = (ViewData.ModelMetadata.AdditionalValues["ListValues"] as string)
+			.Split(',')
+			.Select(x => new SelectListItem
+			{
+				Value = x,
+				Selected = x == Model,
+				Disabled = false,
+				Text = x
+			}).ToList();
+	}
+}
+<div class="col-md-4">
+	@Html.LabelFor(x => x)
+	@Html.DropDownListFor(x => x, list, new { @class = "form-control" })
+</div>

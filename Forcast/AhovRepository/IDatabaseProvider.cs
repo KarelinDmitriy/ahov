@@ -12,9 +12,10 @@ namespace AhovRepository
 	{
 		List<TEntity> GetAll<TEntity>() where TEntity : class;
 		List<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>> predidate) where TEntity : class;
-		void Insert<TEntity>(TEntity entity) where TEntity : class;
+		TEntity Insert<TEntity>(TEntity entity) where TEntity : class;
 		TEntity GetOne<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class;
 		void Update<TEntity>(TEntity entity) where TEntity : class;
+		void Delete<TEntity>(TEntity entity) where TEntity : class;
 	}
 
 	public class MySqlDatabaseProvider : IDatabaseProvider
@@ -74,7 +75,7 @@ namespace AhovRepository
 			return result;
 		}
 
-		public void Insert<TEntity>(TEntity entity) where TEntity : class
+		public TEntity Insert<TEntity>(TEntity entity) where TEntity : class
 		{
 			using (var session = OpenSession())
 			{
@@ -84,6 +85,7 @@ namespace AhovRepository
 					transaction.Commit();
 				}
 			}
+			return entity;
 		}
 
 		public TEntity GetOne<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
@@ -107,6 +109,18 @@ namespace AhovRepository
 				using (var transaction = session.BeginTransaction())
 				{
 					session.Update(entity);
+					transaction.Commit();
+				}
+			}
+		}
+
+		public void Delete<TEntity>(TEntity entity) where TEntity : class
+		{
+			using (var session = OpenSession())
+			{
+				using (var transaction = session.BeginTransaction())
+				{
+					session.Delete(entity);
 					transaction.Commit();
 				}
 			}

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AhovRepository;
 using Forcast.Matters;
 using Newtonsoft.Json;
 
-namespace Web.Core
+namespace AhovRepository
 {
 	public interface IMatterProvider
 	{
@@ -14,23 +13,23 @@ namespace Web.Core
 
 	public class MatterProvider : IMatterProvider
 	{
-		private IDatabaseProvider databaseProvider;
-		private IDictionary<string, MatterData> localMatters;
+		private IDatabaseProvider _databaseProvider;
+		private IDictionary<string, MatterData> _localMatters;
 
 		public MatterProvider(IDatabaseProvider databaseProvider, string josn)
 		{
-			this.databaseProvider = databaseProvider;
-			localMatters = GetStorageDatas(josn);
+			_databaseProvider = databaseProvider;
+			_localMatters = GetStorageDatas(josn);
 		}
 
 		public List<MatterData> GetAllDatas()
 		{
-			throw new System.NotImplementedException();
+			return _localMatters.Values.ToList();
 		}
 
 		public MatterData GetDataByCode(string code)
 		{
-			throw new System.NotImplementedException();
+			return _localMatters[code];
 		}
 
 		private IDictionary<string, MatterData> GetStorageDatas(string json)
@@ -38,5 +37,10 @@ namespace Web.Core
 			var matters = JsonConvert.DeserializeObject<List<MatterData>>(json);
 			return matters.ToDictionary(x => x.Code, x => x);
 		}
+	}
+
+	public static class MatterExtensions
+	{
+		//public MatterData ToMatterData(this MatterEntity)
 	}
 }

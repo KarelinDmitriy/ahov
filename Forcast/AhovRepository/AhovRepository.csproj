@@ -42,6 +42,10 @@
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
@@ -63,16 +67,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\AccessEntity.cs" />
     <Compile Include="Entity\BarrelEntity.cs" />
     <Compile Include="Entity\CityEntity.cs" />
     <Compile Include="Entity\CityTypeEntity.cs" />
     <Compile Include="Entity\OrgEntity.cs" />
     <Compile Include="Entity\UserEntity.cs" />
+    <Compile Include="Factory\IBarrelProviderFactory.cs" />
     <Compile Include="Factory\ICityProviderFactory.cs" />
     <Compile Include="Factory\IOrgDataproviderFactory.cs" />
     <Compile Include="IDatabaseProvider.cs" />
+    <Compile Include="IMatterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IAccessProvider.cs" />
+    <Compile Include="Repository\IBarrelProvider.cs" />
     <Compile Include="Repository\ICityProvider.cs" />
     <Compile Include="Repository\IOrgProvider.cs" />
   </ItemGroup>
@@ -83,7 +91,12 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Forcast\Forcast.csproj">
+      <Project>{92175B59-6905-4827-96C2-5EFB5BD30C47}</Project>
+      <Name>Forcast</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

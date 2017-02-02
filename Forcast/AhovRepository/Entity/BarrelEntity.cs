@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Web.Mvc;
 using FluentNHibernate.Mapping;
-using FluentNHibernate.MappingModel;
 
 namespace AhovRepository.Entity
 {
@@ -11,9 +11,11 @@ namespace AhovRepository.Entity
 		public virtual string Name { get; set; }
 		[DisplayName("Вещество")]
 		public virtual string Code { get; set; }
-		[DisplayName("")]
+		[DisplayName("Тип вылева")]
+		[AdditionalMetadata("ListValues", "В поддон,На ровную поверхность")]
 		public virtual string Draining { get; set; }
 		[DisplayName("Тип хранения")]
+		[AdditionalMetadata("ListValues", "Изотермический,Под давлением,Обычный")]
 		public virtual string SaveType { get; set; }
 		[DisplayName("Кол-во вещества")]
 		public virtual double Q { get; set; }
@@ -35,7 +37,7 @@ namespace AhovRepository.Entity
 			Map(x => x.Code).Column("Code");
 			References(x => x.Org)
 				.Columns("OrgId");
-			Table("CityBuilding");
+			Table("Barrel");
 		}
 	}
 }

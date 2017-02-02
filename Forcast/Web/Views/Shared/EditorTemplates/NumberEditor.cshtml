@@ -13,13 +13,13 @@
 	@if (needAddon)
 	{
 		<div class="input-group">
-			@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control" })
+			@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right" })
 			<div class="input-group-addon">@dem</div>
 		</div>
 	}
 	else
 	{
-		@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control" })
+		@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right" })
 	}
 	
 </div>

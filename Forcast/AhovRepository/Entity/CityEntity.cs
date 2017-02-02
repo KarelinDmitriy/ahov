@@ -5,6 +5,7 @@ namespace AhovRepository.Entity
 {
 	public class CityEntity
 	{
+		[DisplayName("Город")]
 		public virtual int CityId { get; set; }
 
 		[DisplayName("Название города")]

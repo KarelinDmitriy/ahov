@@ -36,8 +36,8 @@ namespace Web.Controllers
 		[HttpPost]
 		public ActionResult Login(UserModel userModel)
 		{
-			var login = userModel.Info.Name;
-			var info = _repository.GetOne<UserEntity>(x => x.Name == login);
+			var login = userModel.Info.Login;
+			var info = _repository.GetOne<UserEntity>(x => x.Login == login);
 			if (info == null)
 			{
 				ViewData["error"] = $"Пользователь с именем {login} не найден";
@@ -48,7 +48,7 @@ namespace Web.Controllers
 				ViewData["error"] = $"Не верный пароль";
 				return RedirectToAction("Login");
 			}
-			AuthorizeUser(info.Name);
+			AuthorizeUser(info.Login);
 			return RedirectToAction("Index", "Home");
 		}
 
@@ -58,7 +58,7 @@ namespace Web.Controllers
 			model.Info.PasswordHash = model.Password;
 			model.Info.Role = AppRules.Clinet;
 			_repository.Insert(model.Info);
-			AuthorizeUser(model.Info.Name);
+			AuthorizeUser(model.Info.Login);
 			return RedirectToAction("Index", "Home");
 		}
 
@@ -71,7 +71,7 @@ namespace Web.Controllers
 		private void AuthorizeUser(string name)
 		{
 			var cookie = new HttpCookie(CookiesConst.UserInfo, name);
-			var cookieForTime = new HttpCookie(CookiesConst.Time, DateTime.UtcNow.AddMinutes(20).ToString());
+			var cookieForTime = new HttpCookie(CookiesConst.Time, DateTime.UtcNow.AddHours(3).ToString());
 			HttpContext.Response.SetCookie(cookie);
 			HttpContext.Response.SetCookie(cookieForTime);
 		}

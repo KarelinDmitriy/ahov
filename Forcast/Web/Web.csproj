@@ -52,8 +52,8 @@
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -142,7 +142,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\City\CityTypesScripts.js" />
+    <Content Include="Scripts\Common\Requests.js" />
     <Content Include="App_Data\Matters.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -169,11 +169,13 @@
     <Compile Include="Core\Container.cs" />
     <Compile Include="Core\CookiesConst.cs" />
     <Compile Include="Core\HttpApplicationHelper.cs" />
-    <Compile Include="Core\IMatterProvider.cs" />
     <Compile Include="Core\IUserCache.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Barrel\BarrelModel.cs" />
+    <Compile Include="Models\Barrel\BarrelsModel.cs" />
+    <Compile Include="Models\Barrel\SaveTypes.cs" />
     <Compile Include="Models\City\CityModel.cs" />
     <Compile Include="Models\Org\OrgModel.cs" />
     <Compile Include="Models\User\UserModel.cs" />
@@ -207,6 +209,9 @@
     <Content Include="Views\Shared\EditorTemplates\StringEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\NumberEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\IntTemplate.cshtml" />
+    <Content Include="Views\Barrel\List.cshtml" />
+    <Content Include="Views\Barrel\Barrel.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDownEditor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -214,7 +219,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\City\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AhovRepository\AhovRepository.csproj">
       <Project>{e81d5eb7-238c-4044-a967-4972eebf426a}</Project>

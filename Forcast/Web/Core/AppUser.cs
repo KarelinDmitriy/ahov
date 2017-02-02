@@ -19,11 +19,12 @@ namespace Web.Core
 
 	public class AppUser : IIdentity
 	{
-		public AppUser(string login, string name, bool isAuthenticated = true)
+		public AppUser(int userId, string login, string name, bool isAuthenticated = true)
 		{
 			Name = login;
 			UserName = name;
 			IsAuthenticated = isAuthenticated;
+			UserId = userId;
 		}
 
 		public string Name { get; }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AhovRepository.Entity;
 
 namespace AhovRepository.Repository
@@ -26,22 +28,35 @@ namespace AhovRepository.Repository
 
 		public List<OrgEntity> GetOrgs()
 		{
-			return _databaseProvider.GetAll<OrgEntity>();
+			var orgs = _databaseProvider.GetAll<OrgEntity>();
+			return orgs.Where(x => _accessProvider.GetAccessType(_userId, x.ObjectId) != AccessType.None).ToList();
 		}
 
 		public void AddOrganization(OrgEntity org)
 		{
+			org.ObjectId = Guid.NewGuid().ToString("D");
 			_databaseProvider.Insert(org);
+			var acc = new AccessEntity
+			{
+				User = new UserEntity {UserId = _userId},
+				ObjectId = org.ObjectId,
+				AccessType = AccessType.Owner.ToString()
+			};
+			_databaseProvider.Insert(acc);
 		}
 
 		public OrgEntity GetOrg(int orgId)
 		{
-			return _databaseProvider.GetOne<OrgEntity>(x => x.Id == orgId);
+			var org = _databaseProvider.GetOne<OrgEntity>(x => x.Id == orgId);
+			var access = _accessProvider.GetAccessType(_userId, org.ObjectId);
+			return access == AccessType.None ? null : org;
 		}
 
 		public void UpdateOrganization(OrgEntity org)
 		{
-			_databaseProvider.Update(org);
+			var access = _accessProvider.GetAccessType(_userId, org.ObjectId);
+			if (access != AccessType.Reader && access != AccessType.None)
+				_databaseProvider.Update(org);
 		}
 	}
 }

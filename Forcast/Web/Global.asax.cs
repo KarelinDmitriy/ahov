@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -15,7 +16,9 @@ namespace Web
 		{
 			AreaRegistration.RegisterAllAreas();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			var kernel = new Container().CreateKernel();
+			var json = Server.MapPath("~/App_Data/Matters.json");
+			var file = File.ReadAllText(json);
+			var kernel = new Container().CreateKernel(file);
 			DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
 		}
 
@@ -33,13 +36,13 @@ namespace Web
 			if (user == null)
 			{
 				var dbContext = DependencyResolver.Current.GetService<IDatabaseProvider>();
-				var userEntity = dbContext.GetOne<UserEntity>(x => x.Name == name);
+				var userEntity = dbContext.GetOne<UserEntity>(x => x.Login == name);
 				if (userEntity == null)
 				{
 					SetAnnonumusUser();
 					return;
 				}
-				user = new AppUser(userEntity.Name, userEntity.Name);
+				user = new AppUser(userEntity.UserId, userEntity.Login, userEntity.Fio);
 			}
 			SetUser(user);
 		}
@@ -51,7 +54,7 @@ namespace Web
 
 		private void SetAnnonumusUser()
 		{
-			var user = new AppPrincipal(new AppUser("", "Аноним", false));
+			var user = new AppPrincipal(new AppUser(0, "", "Аноним", false));
 			Context.User = user;
 		}
 

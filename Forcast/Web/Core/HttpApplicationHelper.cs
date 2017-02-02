@@ -18,5 +18,10 @@ namespace Web.Core
 			var httpCookie = app.Request.Cookies.Get(name);
 			return httpCookie?.Value;
 		}
+
+		public static int GetUserId(this HttpContextBase app)
+		{
+			return (app.User.Identity as AppUser)?.UserId ?? 0;
+		}
 	}
 }

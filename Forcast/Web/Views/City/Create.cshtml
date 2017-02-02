@@ -12,7 +12,7 @@
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {
-	Html.RenderPartial("CityTabs", Model, null);
+	@Html.Partial("CityTabs", Model);
 	<div class="navbar navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="navbar-header">
