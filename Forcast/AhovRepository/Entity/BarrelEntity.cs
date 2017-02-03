@@ -22,6 +22,7 @@ namespace AhovRepository.Entity
 		[DisplayName("Высота поддона")]
 		public virtual double H { get; set; }
 		public virtual OrgEntity Org { get; set; }
+		public virtual string ObjectId { get; set; }
 	}
 
 	public class BarrelMap : ClassMap<BarrelEntity>
@@ -37,6 +38,7 @@ namespace AhovRepository.Entity
 			Map(x => x.Code).Column("Code");
 			References(x => x.Org)
 				.Columns("OrgId");
+			Map(x => x.ObjectId).Column("ObjectId");
 			Table("Barrel");
 		}
 	}

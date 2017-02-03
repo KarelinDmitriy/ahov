@@ -158,13 +158,15 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\BarrelController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MatterController.cs" />
     <Compile Include="Controllers\OrgController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Core\AppRules.cs" />
+    <Compile Include="Core\AppAuthorizeAttribute.cs" />
+    <Compile Include="Core\AppRoles.cs" />
     <Compile Include="Core\AppUser.cs" />
     <Compile Include="Core\Container.cs" />
     <Compile Include="Core\CookiesConst.cs" />
@@ -212,6 +214,7 @@
     <Content Include="Views\Barrel\List.cshtml" />
     <Content Include="Views\Barrel\Barrel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDownEditor.cshtml" />
+    <Content Include="Views\Access\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

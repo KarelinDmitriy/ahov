@@ -12,10 +12,16 @@ namespace Web
 {
 	public class MvcApplication : HttpApplication
 	{
+		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+		{
+			filters.Add(new AppAuthorizeAttribute());
+		}
+
 		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
+		
 			var json = Server.MapPath("~/App_Data/Matters.json");
 			var file = File.ReadAllText(json);
 			var kernel = new Container().CreateKernel(file);
@@ -27,7 +33,7 @@ namespace Web
 			var userInfo = this.GetCookie(CookiesConst.UserInfo);
 			if (userInfo == null)
 			{
-				SetAnnonumusUser();
+				SetAnonymousUser();
 				return;
 			}
 			var name = DecodeCookie(userInfo);
@@ -39,10 +45,10 @@ namespace Web
 				var userEntity = dbContext.GetOne<UserEntity>(x => x.Login == name);
 				if (userEntity == null)
 				{
-					SetAnnonumusUser();
+					SetAnonymousUser();
 					return;
 				}
-				user = new AppUser(userEntity.UserId, userEntity.Login, userEntity.Fio);
+				user = new AppUser(userEntity.UserId, userEntity.Login, userEntity.Fio, userEntity.Role);
 			}
 			SetUser(user);
 		}
@@ -52,9 +58,9 @@ namespace Web
 			Context.User = new AppPrincipal(user);
 		}
 
-		private void SetAnnonumusUser()
+		private void SetAnonymousUser()
 		{
-			var user = new AppPrincipal(new AppUser(0, "", "Аноним", false));
+			var user = new AppPrincipal(new AppUser(0, "", "Аноним", "no one", false));
 			Context.User = user;
 		}
 

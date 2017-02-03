@@ -5,11 +5,11 @@ namespace Web.Controllers
 {
 	public class MatterController : Controller
 	{
-		private readonly IDatabaseProvider _repository;
+		private readonly IDatabaseProvider repository;
 
 		public MatterController(IDatabaseProvider repository)
 		{
-			_repository = repository;
+			this.repository = repository;
 		}
 	}
 }

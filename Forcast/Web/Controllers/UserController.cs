@@ -56,12 +56,13 @@ namespace Web.Controllers
 		public ActionResult Create(UserModel model)
 		{
 			model.Info.PasswordHash = model.Password;
-			model.Info.Role = AppRules.Clinet;
+			model.Info.Role = AppRoles.Client;
 			_repository.Insert(model.Info);
 			AuthorizeUser(model.Info.Login);
 			return RedirectToAction("Index", "Home");
 		}
 
+		[AppAuthorize(AppRoles.Admin)]
 		public ActionResult List()
 		{
 			var users = _repository.GetAll<UserEntity>().Select(x => new UserModel(x)).ToList();

@@ -11,7 +11,7 @@ namespace Web.Core
 
 		public bool IsInRole(string role)
 		{
-			return true;
+			return (Identity as AppUser)?.Role == role;
 		}
 
 		public IIdentity Identity { get; }
@@ -19,12 +19,13 @@ namespace Web.Core
 
 	public class AppUser : IIdentity
 	{
-		public AppUser(int userId, string login, string name, bool isAuthenticated = true)
+		public AppUser(int userId, string login, string name, string role, bool isAuthenticated = true)
 		{
 			Name = login;
 			UserName = name;
 			IsAuthenticated = isAuthenticated;
 			UserId = userId;
+			Role = role;
 		}
 
 		public string Name { get; }
@@ -32,5 +33,6 @@ namespace Web.Core
 		public bool IsAuthenticated { get; }
 		public string UserName { get; }
 		public int UserId { get; set; }
+		public string Role { get; set; }
 	}
 }

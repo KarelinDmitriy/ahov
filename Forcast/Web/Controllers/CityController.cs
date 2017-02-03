@@ -2,10 +2,12 @@
 using System.Web.Mvc;
 using AhovRepository.Entity;
 using AhovRepository.Factory;
+using Web.Core;
 using Web.Models.City;
 
 namespace Web.Controllers
 {
+	[AppAuthorize]
 	public class CityController : Controller
 	{
 		private readonly ICityProviderFactory _providerFactory;

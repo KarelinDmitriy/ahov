@@ -4,20 +4,26 @@ using System.Web.Mvc;
 using AhovRepository;
 using AhovRepository.Entity;
 using AhovRepository.Factory;
+using AhovRepository.Repository;
+using Web.Core;
 using Web.Models.Barrel;
 
 namespace Web.Controllers
 {
+	[AppAuthorize]
 	public class BarrelController : Controller
 	{
 		private readonly IBarrelProviderFactory _barrelProviderFactory;
 		private readonly IMatterProvider _matterProvider;
+		private readonly IOrgDataproviderFactory orgProviderFactory;
 
 		public BarrelController(IBarrelProviderFactory barrelProviderFactory,
-			IMatterProvider matterProvider)
+			IMatterProvider matterProvider,
+			IOrgDataproviderFactory orgProviderFactory)
 		{
 			_barrelProviderFactory = barrelProviderFactory;
 			_matterProvider = matterProvider;
+			this.orgProviderFactory = orgProviderFactory;
 		}
 
 		public ActionResult List(int orgId)
@@ -38,6 +44,7 @@ namespace Web.Controllers
 		public ActionResult AddNew(int orgId)
 		{
 			BarrelEntity bar;
+			var org = orgProviderFactory.CreateOrgProvider(HttpContext.GetUserId()).GetOrg(orgId); //TODO: Защита от хаков
 			try
 			{
 				var barrel = new BarrelEntity
@@ -49,7 +56,8 @@ namespace Web.Controllers
 					Draining = "О",
 					H = 0,
 					Q = 0,
-					SaveType = "Д"
+					SaveType = "Д",
+					ObjectId = org.ObjectId
 				};
 				bar = _barrelProviderFactory.CreateBarrelProvider(0).AddBarrel(barrel);
 			}

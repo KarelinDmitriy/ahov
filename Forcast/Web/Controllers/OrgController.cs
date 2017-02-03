@@ -7,6 +7,7 @@ using Web.Models.Org;
 
 namespace Web.Controllers
 {
+	[AppAuthorize]
 	public class OrgController : Controller
 	{
 		private readonly IOrgDataproviderFactory _orgProviderFactory;
