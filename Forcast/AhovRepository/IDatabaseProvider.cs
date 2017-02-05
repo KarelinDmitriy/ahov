@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using AhovRepository.Entity;
 using FluentNHibernate.Cfg;
@@ -11,7 +12,7 @@ namespace AhovRepository
 	public interface IDatabaseProvider
 	{
 		List<TEntity> GetAll<TEntity>() where TEntity : class;
-		List<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>> predidate) where TEntity : class;
+		List<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class;
 		TEntity Insert<TEntity>(TEntity entity) where TEntity : class;
 		TEntity GetOne<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class;
 		void Update<TEntity>(TEntity entity) where TEntity : class;
@@ -60,15 +61,16 @@ namespace AhovRepository
 			return result;
 		}
 
-		public List<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>> predidate) where TEntity : class
+		public List<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
 		{
 			var result = new List<TEntity>();
 			using (var session = OpenSession())
 			{
 				using (var transaction = session.BeginTransaction())
 				{
-					var entities = session.QueryOver<TEntity>().Where(predidate);
-					result.AddRange(entities.List());
+					var entities = session.QueryOver<TEntity>().Where(predicate);
+					NHibernateUtil.Initialize(entities);
+					result = entities.List().ToList();
 					transaction.Commit();
 				}
 			}

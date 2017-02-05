@@ -20,6 +20,7 @@
 					<th></th>
 					<th>Численность персонала</th>
 					<th>Радиус объекта, м</th>
+					<th>Управление</th>
 				</tr>
 				@foreach (var org in Model)
 				{
@@ -28,6 +29,7 @@
 						<td>@Html.ActionLink("Вещества", "List", "Barrel", new {orgId = org.Id}, null)</td>
 						<td>@org.PersonalCount</td>
 						<td>@org.Ro</td>
+						<th>@Html.ActionLink("Редактирование доступа", "AccessList", "Access", new {orgId = org.Id}, null)</th>
 					</tr>
 				}
 			</table>

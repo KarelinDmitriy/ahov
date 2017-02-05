@@ -1,10 +1,33 @@
-﻿@model Web.Controllers.AccessListModel
+﻿@using Web.Models
+@model Web.Controllers.AccessListModel
 
 @{
-	ViewBag.Title = "Список доступных организаций";
+	ViewBag.Title = "Информация о пользователях";
 }
 
-<h2>Список доступных организаций</h2>
+<h2>Информация о пользователях</h2>
+
+<div class="container">
+	<div class="col-lg-9">
+		<table class="table table-hover">
+			<tr>
+				<th>Имя пользователя</th>
+				<th>Тип доступа</th>
+			</tr>
+			@foreach (var access in Model.Access)
+			{
+				<tr>
+					<td>@access.User.Login</td>
+					<td>@access.AccessType</td>
+				</tr>
+			}
+		</table>
+		@Html.Partial("AddAccessForm", new AddAccessModel
+		{
+			ObjectId = Model.Org.ObjectId
+		})
+	</div>
+</div>
 
 
 

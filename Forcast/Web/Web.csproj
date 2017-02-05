@@ -159,6 +159,8 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Models\AccessResultModel.cs" />
+    <Compile Include="Models\AccessListModel.cs" />
     <Compile Include="Controllers\BarrelController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddAccessModel.cs" />
     <Compile Include="Models\Barrel\BarrelModel.cs" />
     <Compile Include="Models\Barrel\BarrelsModel.cs" />
     <Compile Include="Models\Barrel\SaveTypes.cs" />
@@ -215,6 +218,8 @@
     <Content Include="Views\Barrel\Barrel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDownEditor.cshtml" />
     <Content Include="Views\Access\List.cshtml" />
+    <Content Include="Views\Access\AddOrCreate.cshtml" />
+    <Content Include="Views\Access\AddAccessForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

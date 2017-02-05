@@ -1,0 +1,25 @@
+﻿@using AhovRepository.Repository
+@model Web.Models.AddAccessModel
+
+@using (Html.BeginForm("AddOrCreate", "Access", FormMethod.Post, new {id = "AddAccess"}))
+{
+	<div class="col-md-5">
+		<div class="panel panel-default ">
+			<div class="panel-body">
+				@Html.EditorFor(x => x.Login, "StringEditor")
+				@Html.DropDownListFor(x => x.AccessType, Enum.GetNames(typeof(AccessType)).Select(x => new SelectListItem
+				{
+					Text = x,
+					Value = x
+				}))
+				@Html.HiddenFor(x => x.ObjectId)
+				<input class="btn btn-info" type="button" value="Сохранить" 
+					   onclick="SubmitAndRender('#AddAccess', '@Url.Action("AddOrCreate", "Access")', '#Answer')" />
+				<div>
+					<div id="Answer"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
