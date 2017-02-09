@@ -159,6 +159,8 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Controllers\Admin\Admin.cs" />
+    <Compile Include="Controllers\AppBaseController.cs" />
     <Compile Include="Models\AccessResultModel.cs" />
     <Compile Include="Models\AccessListModel.cs" />
     <Compile Include="Controllers\BarrelController.cs" />
@@ -178,6 +180,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AddAccessModel.cs" />
+    <Compile Include="Models\Admin\AdminUserModel.cs" />
+    <Compile Include="Models\Admin\UserListModel.cs" />
     <Compile Include="Models\Barrel\BarrelModel.cs" />
     <Compile Include="Models\Barrel\BarrelsModel.cs" />
     <Compile Include="Models\Barrel\SaveTypes.cs" />
@@ -220,6 +224,12 @@
     <Content Include="Views\Access\List.cshtml" />
     <Content Include="Views\Access\AddOrCreate.cshtml" />
     <Content Include="Views\Access\AddAccessForm.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PasswordEditor.cshtml" />
+    <Content Include="Views\Admin\UserList.cshtml" />
+    <Content Include="Views\Admin\Menu.cshtml" />
+    <Content Include="Views\Admin\EditUser.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DisabledStringEditor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

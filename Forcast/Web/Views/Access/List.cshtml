@@ -9,6 +9,11 @@
 
 <div class="container">
 	<div class="col-lg-9">
+		@Html.Partial("AddAccessForm", new AddAccessModel
+		{
+			ObjectId = Model.Org.ObjectId
+		})
+		<h4>Пользователи, имеющие доступ к огранизации @Model.Org.Name</h4>
 		<table class="table table-hover">
 			<tr>
 				<th>Имя пользователя</th>
@@ -22,10 +27,6 @@
 				</tr>
 			}
 		</table>
-		@Html.Partial("AddAccessForm", new AddAccessModel
-		{
-			ObjectId = Model.Org.ObjectId
-		})
 	</div>
 </div>
 

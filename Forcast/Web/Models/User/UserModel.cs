@@ -20,5 +20,9 @@ namespace Web.Models.User
 		[DisplayName("Пароль")]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
+
+		[DisplayName("Новый пароль")]
+		[DataType(DataType.Password)]
+		public string NewPassowrd { get; set; }
 	}
 }

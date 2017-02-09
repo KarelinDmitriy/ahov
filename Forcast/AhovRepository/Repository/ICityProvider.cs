@@ -16,17 +16,14 @@ namespace AhovRepository.Repository
 
 	public class CityProvider : ICityProvider
 	{
-		private readonly IAccessProvider _access;
 		private readonly IDatabaseProvider _databaseProvider;
-		private readonly int _userId;
+		private readonly UserEntity _user;
 
-		public CityProvider(IAccessProvider access,
-			IDatabaseProvider databaseProvider,
-			int userId)
+		public CityProvider(IDatabaseProvider databaseProvider,
+			UserEntity user)
 		{
-			_access = access;
 			_databaseProvider = databaseProvider;
-			_userId = userId;
+			_user = user;
 		}
 
 

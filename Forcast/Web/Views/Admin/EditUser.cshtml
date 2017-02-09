@@ -1,0 +1,32 @@
+﻿@using Web.Core
+@model Web.Models.Admin.AdminUserModel
+
+@{
+	ViewBag.Title = "Редактирование данных пользователя";
+}
+
+<h2>Редактирование данных пользователя</h2>
+
+
+@using (Html.BeginForm("EditUser", "Admin", FormMethod.Post))
+{
+	<div class="container">
+		<div class="col-md-4">
+			@Html.HiddenFor(x => x.User.UserId)
+			@Html.EditorFor(x => x.User.Login, "DisabledStringEditor")
+			@Html.EditorFor(x => x.User.Email, "StringEditor")
+			@Html.EditorFor(x => x.User.Fio, "StringEditor")
+			<div>
+				@Html.LabelFor(x => x.User.Role)
+				@Html.DropDownListFor(x => x.User.Role, AppRoles.AllowRoles.Select(x =>
+			    new SelectListItem
+			    {
+				    Selected = x == Model.User.Role,
+				    Text = x,
+				    Value = x
+			    }), new {@class="form-control"})
+			</div>
+			<input type="submit" class="btn btn-default" value="Изменить" />
+		</div>
+	</div>
+}

@@ -1,22 +1,27 @@
 ﻿@using AhovRepository.Repository
 @model Web.Models.AddAccessModel
 
-@using (Html.BeginForm("AddOrCreate", "Access", FormMethod.Post, new {id = "AddAccess"}))
+@using (Html.BeginForm("AddOrCreate", "Access", FormMethod.Post, new { id = "AddAccess" }))
 {
-	<div class="col-md-5">
-		<div class="panel panel-default ">
-			<div class="panel-body">
-				@Html.EditorFor(x => x.Login, "StringEditor")
-				@Html.DropDownListFor(x => x.AccessType, Enum.GetNames(typeof(AccessType)).Select(x => new SelectListItem
-				{
-					Text = x,
-					Value = x
-				}))
-				@Html.HiddenFor(x => x.ObjectId)
-				<input class="btn btn-info" type="button" value="Сохранить" 
-					   onclick="SubmitAndRender('#AddAccess', '@Url.Action("AddOrCreate", "Access")', '#Answer')" />
-				<div>
-					<div id="Answer"></div>
+
+	<div class="row">
+		<div class="col-md-9">
+			<div class="panel panel-default ">
+				<div class="panel-body form-inline">
+					<h5>Редактивание прав</h5>
+					@Html.EditorFor(x => x.Login, "StringEditor")
+					@Html.LabelFor(x => x.AccessType)
+					@Html.DropDownListFor(x => x.AccessType, Enum.GetNames(typeof(AccessType)).Select(x => new SelectListItem
+					{
+						Text = x,
+						Value = x
+					}), new {@class="form-control"})
+					@Html.HiddenFor(x => x.ObjectId)
+					<input class="btn btn-info form-group" type="button" value="Дать доступ"
+					       onclick="SubmitAndRender('#AddAccess', '@Url.Action("AddOrCreate", "Access")', '#Answer')"/>
+					<div>
+						<div id="Answer"></div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -26,6 +26,9 @@ namespace Web.Controllers
 
 		public ActionResult Create()
 		{
+			var user = HttpContext.GetUser();
+			if (user.Role == AppRoles.Client)
+				throw new NotSupportedException();
 			var city = new CityModel();
 			return View(city);
 		}
@@ -33,6 +36,9 @@ namespace Web.Controllers
 		[HttpPost]
 		public ActionResult Create(CityModel model)
 		{
+			var user = HttpContext.GetUser();
+			if (user.Role == AppRoles.Client)
+				throw new NotSupportedException();
 			var provider = _providerFactory.CreateCityProvider(0);
 			provider.AddCity(model.City);
 			return RedirectToAction("List");
@@ -54,6 +60,9 @@ namespace Web.Controllers
 		[HttpPost]
 		public ActionResult Edit(CityEntity model)
 		{
+			var user = HttpContext.GetUser();
+			if (user.Role == AppRoles.Client)
+				throw new NotSupportedException();
 			var provider = _providerFactory.CreateCityProvider(0);
 			provider.UpdateCity(model);
 			return RedirectToAction("List");
@@ -61,12 +70,18 @@ namespace Web.Controllers
 
 		public ActionResult NewCityType(int cityId)
 		{
+			var user = HttpContext.GetUser();
+			if (user.Role == AppRoles.Client)
+				throw new NotSupportedException();
 			return PartialView("CityTypesTab", new CityTypeEntity {City = new CityEntity {CityId = cityId}});
 		}
 
 		[HttpPost]
 		public PartialViewResult EditCityType(CityTypeEntity cityType)
 		{
+			var user = HttpContext.GetUser();
+			if (user.Role == AppRoles.Client)
+				throw new NotSupportedException();
 			var success = true;
 			var provider = _providerFactory.CreateCityProvider(0);
 			try
@@ -83,6 +98,9 @@ namespace Web.Controllers
 		[HttpPost]
 		public JsonResult AddNewCityType(CityTypeEntity cityType)
 		{
+			var user = HttpContext.GetUser();
+			if (user.Role == AppRoles.Client)
+				throw new NotSupportedException();
 			var provider = _providerFactory.CreateCityProvider(0);
 			provider.AddCityType(cityType);
 			return new JsonResult {Data = new {success = true}};

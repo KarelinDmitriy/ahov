@@ -23,5 +23,10 @@ namespace Web.Core
 		{
 			return (app.User.Identity as AppUser)?.UserId ?? 0;
 		}
+
+		public static AppUser GetUser(this HttpContextBase app)
+		{
+			return app.User.Identity as AppUser;
+		}
 	}
 }

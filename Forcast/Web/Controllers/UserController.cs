@@ -9,13 +9,42 @@ using Web.Models.User;
 
 namespace Web.Controllers
 {
-	public class UserController : Controller
+	public class UserController : AppBaseController
 	{
 		private readonly IDatabaseProvider _repository;
 
 		public UserController(IDatabaseProvider repository)
 		{
 			_repository = repository;
+		}
+
+		public ActionResult Edit(int userId)
+		{
+			var httpUser = GetUser();
+			if (userId != httpUser.UserId)
+				throw new NotSupportedException();
+			var user = _repository.GetOne<UserEntity>(x => x.UserId == userId);
+			user.PasswordHash = string.Empty;
+			var model = new UserModel()
+			{
+				Info = user
+			};
+			return View(model);
+		}
+
+		[HttpPost]
+		public ActionResult Edit(UserModel model)
+		{
+			var httpUser = GetUser();
+			if (model.Info.UserId != httpUser.UserId)
+				throw new NotSupportedException();
+			var user = _repository.GetOne<UserEntity>(x => x.UserId == model.Info.UserId);
+			if (user.PasswordHash != model.Password)
+				throw new NotSupportedException();
+			user.Email = model.Info.Email;
+			user.Fio = model.Info.Fio;
+			_repository.Update(user);
+			return RedirectToAction("Edit", "User", new {userId = model.Info.UserId});
 		}
 
 		public ActionResult Login()

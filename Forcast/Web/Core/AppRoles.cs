@@ -6,7 +6,8 @@ namespace Web.Core
 	{
 		public const string Admin = nameof(Admin);
 		public const string Client = nameof(Client);
+		public const string CityAdmin = nameof(CityAdmin);
 
-		public static List<string> AllowRoles = new List<string>() {Admin, Client};
+		public static List<string> AllowRoles = new List<string>() {Admin, CityAdmin, Client};
 	}
 }

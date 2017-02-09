@@ -21,7 +21,7 @@ namespace Web.Controllers
 
 		public ActionResult List()
 		{
-			IOrgProvider orgProvider = GetProvider();
+			var orgProvider = GetProvider();
 			var orgs = orgProvider.GetOrgs();
 			return View(orgs);
 		}

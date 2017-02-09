@@ -1,6 +1,8 @@
 ﻿@using Web.Core
 @{
 	var userName = (Context.User.Identity as AppUser)?.UserName;
+	var userId = (Context.User.Identity as AppUser)?.UserId ?? 0;
+	var isAdmin = (Context.User.Identity as AppUser)?.Role == "Admin";
 }
 
 <!DOCTYPE html>
@@ -30,14 +32,19 @@
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li>@Html.ActionLink("Главная", "Index", "Home")</li>
-					<li>@Html.ActionLink("Пользователи", "List", "User")</li>
+					@if (isAdmin)
+					{
+						<li>@Html.ActionLink("Панель администратора", "Menu", "Admin")</li>
+					}
 					<li>@Html.ActionLink("Организации", "List", "Org")</li>
 					<li>@Html.ActionLink("Города", "List", "City")</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					@if (Context.User.Identity.IsAuthenticated)
 					{
-						<li>@Html.ActionLink(userName+" Выйти", "LogOut", "User")</li>
+						<li><a>Добро пожаловать, @userName</a></li>
+						<li>@Html.ActionLink("Редактировать данные", "Edit", "User", new {userId = @userId}, null)</li>
+						<li>@Html.ActionLink("Выйти", "LogOut", "User")</li>
 					}
 					else
 					{

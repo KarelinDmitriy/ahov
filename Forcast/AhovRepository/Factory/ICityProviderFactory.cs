@@ -1,4 +1,5 @@
-﻿using AhovRepository.Repository;
+﻿using AhovRepository.Entity;
+using AhovRepository.Repository;
 
 namespace AhovRepository.Factory
 {
@@ -9,19 +10,17 @@ namespace AhovRepository.Factory
 
 	public class CityProviderFactory : ICityProviderFactory
 	{
-		private readonly IAccessProvider _accessProvider;
 		private readonly IDatabaseProvider _databaseProvider;
 
-		public CityProviderFactory(IAccessProvider accessProvider,
-			IDatabaseProvider databaseProvider)
+		public CityProviderFactory(IDatabaseProvider databaseProvider)
 		{
-			_accessProvider = accessProvider;
 			_databaseProvider = databaseProvider;
 		}
 
 		public ICityProvider CreateCityProvider(int userId)
 		{
-			return new CityProvider(_accessProvider, _databaseProvider, userId);
+			var user = _databaseProvider.GetOne<UserEntity>(x => x.UserId == userId);
+			return new CityProvider(_databaseProvider, user);
 		}
 	}
 }
