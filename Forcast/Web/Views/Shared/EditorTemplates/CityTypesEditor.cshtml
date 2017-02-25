@@ -1,0 +1,6 @@
+﻿@model List<AhovRepository.Entity.CityTypeEntity>
+
+@foreach (var cityType in Model)
+{
+	@Html.Partial("~/Views/City/CityTypesTab.cshtml", cityType);
+}

@@ -1,0 +1,68 @@
+﻿@model Web.Models.Org.OrgModel
+
+@{
+	ViewBag.Title = "Редактирование организации";
+}
+<div class="container">
+	<div class="col-lg-6">
+		<h3>Редактирование организации @Model.Org.Name</h3>
+	</div>
+</div>
+
+<div class="container">
+	<div class="col-gl-9">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#Main" aria-controls="Main" role="tab" data-toggle="tab">Основные параметры</a></li>
+			<li role="presentation"><a href="#Special" aria-controls="Special" role="tab" data-toggle="tab">Доп.параметры</a></li>
+			<li role="presentation"><a href="#Rate" aria-controls="Rate" role="tab" data-toggle="tab">Параметры скоростей</a></li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="Main">
+				<div class="container">
+					<div class="col-md-4">
+						@Html.DisplayFor(x => x.Org.Name, "StringDisplay")
+						@Html.DisplayFor(x => x.Org.PersonalCount, "NumberDisplay")
+						@Html.DisplayFor(x => x.Org.Ro, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Rz, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Kf, "DoubleDisplay")
+						@Html.LabelFor(x => x.Org.City.CityId)
+						@Html.DropDownListFor(x => x.Org.City.CityId, Model
+				.AvaliableCities.Select(x => new SelectListItem
+				{
+					Selected = Model.Org.City.CityId == x.CityId,
+					Text = x.Name,
+					Value = x.CityId.ToString()
+				}), null, new { @class = "form-control", disabled = true })
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="Special">
+				<div class="container">
+					<div class="col-md-4">
+						@Html.DisplayFor(x => x.Org.Gdl, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Gl, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Tow, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Top, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Aao, "DoubleDisplay")
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="Rate">
+				<div class="container">
+					<div class="col-md-4">
+						@Html.DisplayFor(x => x.Org.Ba, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Bu, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Bw, "DoubleDisplay")
+					</div>
+
+					<div class="col-md-4">
+						@Html.DisplayFor(x => x.Org.Ba_ch, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Bu_ch, "DoubleDisplay")
+						@Html.DisplayFor(x => x.Org.Bw_ch, "DoubleDisplay")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

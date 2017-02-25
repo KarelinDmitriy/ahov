@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using AhovRepository.Entity;
-using AhovRepository.Factory;
+using AhovRepository.Repository;
 using Web.Core;
 using Web.Models.City;
 
@@ -10,25 +10,29 @@ namespace Web.Controllers
 	[AppAuthorize]
 	public class CityController : Controller
 	{
-		private readonly ICityProviderFactory _providerFactory;
+		private readonly ICityProvider cityProvider;
 
-		public CityController(ICityProviderFactory providerFactory)
+		public CityController(ICityProvider cityProvider)
 		{
-			_providerFactory = providerFactory;
+			this.cityProvider = cityProvider;
 		}
 
 		public ActionResult List()
 		{
-			var provider = _providerFactory.CreateCityProvider(0);
-			var city = provider.GetCities();
-			return View(city);
+			var city = cityProvider.GetCities();
+			var model = new ListCitiesModel
+			{
+				Cities = city,
+				CanCreateCity = HttpContext.GetUser().Role != AppRoles.Client
+			};
+			return View(model);
 		}
 
 		public ActionResult Create()
 		{
 			var user = HttpContext.GetUser();
 			if (user.Role == AppRoles.Client)
-				throw new NotSupportedException();
+				throw new AccessDeniedExpection("Страница недоступна для вас");
 			var city = new CityModel();
 			return View(city);
 		}
@@ -38,33 +42,31 @@ namespace Web.Controllers
 		{
 			var user = HttpContext.GetUser();
 			if (user.Role == AppRoles.Client)
-				throw new NotSupportedException();
-			var provider = _providerFactory.CreateCityProvider(0);
-			provider.AddCity(model.City);
+				throw new AccessDeniedExpection("Недостаточно прав для регистрации города");
+			cityProvider.AddCity(model.City);
 			return RedirectToAction("List");
 		}
 
-		public ActionResult Edit(int cityId)
+		public ActionResult Show(int cityId)
 		{
-			var provider = _providerFactory.CreateCityProvider(0);
-			var city = provider.GetCity(cityId);
-			var building = provider.GetBuilding(cityId);
+			var user = HttpContext.GetUser();
+			var city = cityProvider.GetCity(cityId);
+			var building = cityProvider.GetBuilding(cityId);
 			var cityModel = new CityModel
 			{
 				City = city,
 				Buildings = building
 			};
-			return View(cityModel);
+			return user.Role == AppRoles.Client ? View("Show", cityModel) : View("Edit", cityModel);
 		}
 
 		[HttpPost]
-		public ActionResult Edit(CityEntity model)
+		public ActionResult Edit(CityModel model)
 		{
 			var user = HttpContext.GetUser();
 			if (user.Role == AppRoles.Client)
-				throw new NotSupportedException();
-			var provider = _providerFactory.CreateCityProvider(0);
-			provider.UpdateCity(model);
+				throw new AccessDeniedExpection("Недостаточно прав для редактирования данные о городе");
+			cityProvider.UpdateCity(model.City);
 			return RedirectToAction("List");
 		}
 
@@ -72,8 +74,19 @@ namespace Web.Controllers
 		{
 			var user = HttpContext.GetUser();
 			if (user.Role == AppRoles.Client)
-				throw new NotSupportedException();
-			return PartialView("CityTypesTab", new CityTypeEntity {City = new CityEntity {CityId = cityId}});
+				throw new AccessDeniedExpection("Недостаточно прав для доступа к странице");
+			var cityType = new CityTypeEntity
+			{
+				Ay = 0,
+				Kp = 0,
+				Name = "нет имени",
+				City = new CityEntity
+				{
+					CityId = cityId
+				}
+			};
+			var entity = cityProvider.AddCityType(cityType);
+			return PartialView("CityTypesTab", entity);
 		}
 
 		[HttpPost]
@@ -81,12 +94,11 @@ namespace Web.Controllers
 		{
 			var user = HttpContext.GetUser();
 			if (user.Role == AppRoles.Client)
-				throw new NotSupportedException();
+				throw new AccessDeniedExpection("Недостаточно прав для редактирования информации о строениях");
 			var success = true;
-			var provider = _providerFactory.CreateCityProvider(0);
 			try
 			{
-				provider.UpdateCityType(cityType);
+				cityProvider.UpdateCityType(cityType);
 			}
 			catch (Exception ex)
 			{
@@ -95,15 +107,20 @@ namespace Web.Controllers
 			return PartialView("CityTypeSaveResult", success);
 		}
 
-		[HttpPost]
-		public JsonResult AddNewCityType(CityTypeEntity cityType)
+		public JsonResult RemoveCityType(int cityTypeId)
 		{
 			var user = HttpContext.GetUser();
 			if (user.Role == AppRoles.Client)
-				throw new NotSupportedException();
-			var provider = _providerFactory.CreateCityProvider(0);
-			provider.AddCityType(cityType);
-			return new JsonResult {Data = new {success = true}};
+				throw new AccessDeniedExpection("Недостаточно прав для улаления данных о строениях");
+			try
+			{
+				cityProvider.DeleteCityType(cityTypeId);
+			}
+			catch(Exception ex)
+			{
+				return new JsonResult {Data = new {success = false}, JsonRequestBehavior = JsonRequestBehavior.AllowGet};
+			}
+			return new JsonResult {Data = new {success = true}, JsonRequestBehavior = JsonRequestBehavior.AllowGet};
 		}
 	}
 }

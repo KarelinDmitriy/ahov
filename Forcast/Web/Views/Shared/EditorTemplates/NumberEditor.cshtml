@@ -7,19 +7,33 @@
 	{
 		dem = ViewData.ModelMetadata.AdditionalValues["Dimension"] as string;
 	}
+	var formName = ViewData.ContainsKey("form") ? (string)ViewData["form"] : null;
 }
 <div class="form-group">
 	@Html.LabelFor(x => x)
 	@if (needAddon)
 	{
 		<div class="input-group">
-			@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right" })
+			@if (!string.IsNullOrEmpty(formName))
+			{
+				@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new {@class = "form-control text-right", form = formName})
+			}
+			else
+			{
+				@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right"})
+			}
 			<div class="input-group-addon">@dem</div>
 		</div>
 	}
 	else
 	{
-		@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right" })
+		if (!string.IsNullOrEmpty(formName))
+		{
+			@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right", form = formName })
+		}
+		else
+		{
+			@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right" })
+		}
 	}
-	
 </div>

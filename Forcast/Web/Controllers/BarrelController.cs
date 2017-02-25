@@ -13,25 +13,34 @@ namespace Web.Controllers
 	[AppAuthorize]
 	public class BarrelController : Controller
 	{
-		private readonly IBarrelProviderFactory _barrelProviderFactory;
-		private readonly IMatterProvider _matterProvider;
+		private readonly IBarrelProviderFactory barrelProviderFactory;
+		private readonly IMatterProvider matterProvider;
 		private readonly IOrgDataproviderFactory orgProviderFactory;
+		private readonly IAccessProvider accessProvider;
 
 		public BarrelController(IBarrelProviderFactory barrelProviderFactory,
 			IMatterProvider matterProvider,
-			IOrgDataproviderFactory orgProviderFactory)
+			IOrgDataproviderFactory orgProviderFactory,
+			IAccessProvider accessProvider)
 		{
-			_barrelProviderFactory = barrelProviderFactory;
-			_matterProvider = matterProvider;
+			this.barrelProviderFactory = barrelProviderFactory;
+			this.matterProvider = matterProvider;
 			this.orgProviderFactory = orgProviderFactory;
+			this.accessProvider = accessProvider;
 		}
 
 		public ActionResult List(int orgId)
 		{
-			var barrels = _barrelProviderFactory
+			var cityObjectId = orgProviderFactory
+				.CreateOrgProvider(HttpContext.GetUserId())
+				.GetOrg(orgId)?.ObjectId;
+			var accessType = accessProvider.GetAccessType(HttpContext.GetUserId(), cityObjectId);
+			if (accessType == AccessType.None)
+				throw new AccessDeniedExpection("Организация не существует или недостаточно прав");
+			var barrels = barrelProviderFactory
 				.CreateBarrelProvider(0)
 				.GetBarrels(orgId);
-			var availableMatter = _matterProvider.GetAllDatas();
+			var availableMatter = matterProvider.GetAllDatas();
 
 			var model = new BarrelsModel
 			{
@@ -59,7 +68,7 @@ namespace Web.Controllers
 					SaveType = "Д",
 					ObjectId = org.ObjectId
 				};
-				bar = _barrelProviderFactory.CreateBarrelProvider(0).AddBarrel(barrel);
+				bar = barrelProviderFactory.CreateBarrelProvider(0).AddBarrel(barrel);
 			}
 			catch (Exception ec)
 			{
@@ -70,7 +79,7 @@ namespace Web.Controllers
 			var model = new BarrelModel
 			{
 				Barrel = bar,
-				AvailableMatter = _matterProvider.GetAllDatas()
+				AvailableMatter = matterProvider.GetAllDatas()
 			};
 			return PartialView("Barrel", model);
 		}

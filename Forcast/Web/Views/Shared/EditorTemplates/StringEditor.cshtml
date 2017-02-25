@@ -2,9 +2,19 @@
 	
 @{
 	var placeHolder = ViewData.ModelMetadata.DisplayName;
+	var formName = ViewData.ContainsKey("form") ? (string)ViewData["form"] : null;
 }
 
 <div class="form-group">
 	@Html.LabelFor(x => x)
-	@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue,  new { @class = "form-control", placeholder = @placeHolder })
+	@if (!string.IsNullOrEmpty(formName))
+	{
+		@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue,
+			new {@class = "form-control", placeholder = @placeHolder, form = formName})
+	}
+	else
+	{
+		@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue,
+			new { @class = "form-control", placeholder = @placeHolder })
+	}
 </div>

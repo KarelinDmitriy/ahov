@@ -29,8 +29,10 @@ namespace Web.Controllers
 		public ActionResult AccessList(int orgId)
 		{
 			var org = orgProdiver.CreateOrgProvider(HttpContext.GetUserId()).GetOrg(orgId);
+			if (org == null && HttpContext.UserIsAdmin())
+				org = orgProdiver.CreateOrgProvider(0).GetOrgByAdmin(orgId);
 			if (org == null)
-				throw new NotImplementedException();
+				throw new AccessDeniedExpection("Организация не существует или у вас недостаточно прав");
 
 			var access = databaseProvider.Where<AccessEntity>(x => x.ObjectId == org.ObjectId)
 				.Select(x => new AccessEntity
@@ -53,7 +55,7 @@ namespace Web.Controllers
 		public ActionResult AddOrCreate(AddAccessModel model)
 		{
 			var userAccType = accessProvider.GetAccessType((User.Identity as AppUser).UserId, model.ObjectId);
-			if (!(userAccType == AccessType.Owner || userAccType == AccessType.Admin))
+			if (!(userAccType == AccessType.Owner || userAccType == AccessType.Admin || HttpContext.UserIsAdmin()))
 				return PartialView(new AccessResultModel
 				{
 					Reason = "Недостаточно прав",
@@ -75,11 +77,11 @@ namespace Web.Controllers
 					Reason = "Недостаточно прав",
 					Success = false
 				});
-			accessProvider.AddAccessToObject(user.UserId, model.ObjectId, (User.Identity as AppUser).UserId, (AccessType) Enum.Parse(typeof(AccessType), model.AccessType, true));
+			var success = accessProvider.AddAccessToObject(user.UserId, model.ObjectId, (User.Identity as AppUser).UserId, (AccessType) Enum.Parse(typeof(AccessType), model.AccessType, true), HttpContext.UserIsAdmin());
 			return PartialView(new AccessResultModel
 			{
-				Reason = "",
-				Success = true
+				Reason = "Во время выполенения действия произошла ошибка",
+				Success = success
 			});
 		}
 

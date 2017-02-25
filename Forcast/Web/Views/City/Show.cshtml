@@ -1,0 +1,58 @@
+﻿@model Web.Models.City.CityModel
+
+@{
+	ViewBag.Title = "Информация о городе";
+}
+
+
+<div class="container">
+	<div class="col-lg-6">
+		<h3>Информация о городе @Model.City.Name</h3>
+	</div>
+</div>
+
+<div class="container">
+	<div class="col-gl-9">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#Main" aria-controls="Main" role="tab" data-toggle="tab">Основные параметры</a></li>
+			<li role="presentation"><a href="#Rate" aria-controls="Rate" role="tab" data-toggle="tab">Коэффициенты</a></li>
+			<li role="presentation"><a href="#CityType" aria-controls="CityType" role="tab" data-toggle="tab">Типы городских строений</a></li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="Main">
+				<div class="container">
+					<div class="col-md-4">
+						@Html.DisplayFor(x => x.City.Name, "StringDisplay")
+						@Html.DisplayFor(x => x.City.Population, "NumberDisplay")
+						@Html.DisplayFor(x => x.City.ChildPercent, "NumberDisplay")
+						@Html.DisplayFor(x => x.City.Width, "DoubleDisplay")
+						@Html.DisplayFor(x => x.City.Lenght, "DoubleDisplay")
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="Rate">
+				<div class="container">
+					<div class="col-md-4">
+						@Html.DisplayFor(x => x.City.Aa, "DoubleDisplay")
+						@Html.DisplayFor(x => x.City.Au, "DoubleDisplay")
+						@Html.DisplayFor(x => x.City.Apr, "DoubleDisplay")
+						@Html.DisplayFor(x => x.City.Aw, "DoubleDisplay")
+					</div>
+					<div class="col-md-4">
+						@Html.DisplayFor(x => x.City.AaChild, "DoubleDisplay")
+						@Html.DisplayFor(x => x.City.AuChild, "DoubleDisplay")
+						@Html.DisplayFor(x => x.City.AprChild, "DoubleDisplay")
+						@Html.DisplayFor(x => x.City.AwChild, "DoubleDisplay")
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="CityType">
+				<div class="container">
+					<div id="CityTabDiv">
+						@Html.EditorFor(x => x.Buildings)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

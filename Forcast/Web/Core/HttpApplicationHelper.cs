@@ -28,5 +28,10 @@ namespace Web.Core
 		{
 			return app.User.Identity as AppUser;
 		}
+
+		public static bool UserIsAdmin(this HttpContextBase app)
+		{
+			return (app.User.Identity as AppUser)?.Role == AppRoles.Admin;
+		}
 	}
 }

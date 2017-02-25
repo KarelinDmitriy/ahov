@@ -1,10 +1,11 @@
-﻿@model List<AhovRepository.Entity.OrgEntity>
+﻿@using AhovRepository.Repository
+@model Web.Models.Org.ListOrgModel
 
 @{
 	ViewBag.Title = "Доступные орагниации";
 }
 
-@if (Model.Any())
+@if (Model.Items.Any())
 {
 	<div class="container">
 		<div class="col-lg-6">
@@ -20,16 +21,25 @@
 					<th></th>
 					<th>Численность персонала</th>
 					<th>Радиус объекта, м</th>
-					<th>Управление</th>
+					<th>Управление доступом</th>
 				</tr>
-				@foreach (var org in Model)
+				@foreach (var item in Model.Items)
 				{
 					<tr>
-						<td>@Html.ActionLink(org.Name, "Edit", new {orgId = org.Id})</td>
-						<td>@Html.ActionLink("Вещества", "List", "Barrel", new {orgId = org.Id}, null)</td>
-						<td>@org.PersonalCount</td>
-						<td>@org.Ro</td>
-						<th>@Html.ActionLink("Редактирование доступа", "AccessList", "Access", new {orgId = org.Id}, null)</th>
+						<td>@Html.ActionLink(item.Org.Name, "Edit", new {orgId = item.Org.Id})</td>
+						<td>@Html.ActionLink("Вещества", "List", "Barrel", new {orgId = item.Org.Id}, null)</td>
+						<td>@item.Org.PersonalCount</td>
+						<td>@item.Org.Ro</td>
+						<th>
+							@if (item.CanChangeAccess)
+							{
+								@Html.ActionLink("Редактирование доступа", "AccessList", "Access", new {orgId = item.Org.Id}, null)
+							}
+							else
+							{
+								<span>Недостаточно прав</span>
+							}
+						</th>
 					</tr>
 				}
 			</table>

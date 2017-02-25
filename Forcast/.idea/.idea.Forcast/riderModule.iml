@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RIDER_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../AhovRepository" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Forcast" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../ForcastTest" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/csc.exe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/Microsoft.Build.Tasks.CodeAnalysis.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/Microsoft.CodeAnalysis.CSharp.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/Microsoft.CodeAnalysis.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/Microsoft.CodeAnalysis.VisualBasic.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/Microsoft.CSharp.Core.targets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/Microsoft.VisualBasic.Core.targets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/System.Collections.Immutable.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/System.Reflection.Metadata.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/vbc.exe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/VBCSCompiler.exe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/Microsoft.Net.Compilers.1.0.0/tools/VBCSCompiler.exe.config" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../PublishScripts/Scripts/Deploy-AzureResourceGroup.ps1" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../PublishScripts/Templates/Web.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../PublishScripts/Templates/Web.param.dev.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Web" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../AhovRepository/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../AhovRepository/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Forcast/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Forcast/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../ForcastTest/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../ForcastTest/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Web/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Web/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../packages" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

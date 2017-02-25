@@ -1,10 +1,10 @@
-﻿@model List<AhovRepository.Entity.CityEntity>
+﻿@model Web.Models.City.ListCitiesModel
 
 @{
 	ViewBag.Title = "Доступные для редактирования города";
 }
 
-@if (Model.Any())
+@if (Model.Cities.Any())
 {
 	<div class="container">
 		<div class="col-lg-6">
@@ -20,10 +20,10 @@
 					<th>Население, человек</th>
 					<th>Детей, %</th>
 				</tr>
-				@foreach (var city in Model)
+				@foreach (var city in Model.Cities)
 				{
 					<tr>
-						<td>@Html.ActionLink(city.Name, "Edit", new {cityId = city.CityId})</td>
+						<td>@Html.ActionLink(city.Name, "Show", new {cityId = city.CityId})</td>
 						<td>@city.Population</td>
 						<td>@city.ChildPercent</td>
 					</tr>
@@ -41,8 +41,11 @@ else
 	</div>
 }
 
-<div class="container">
-	<div class="col-gl-9">
-		@Html.ActionLink("Добавить новый город", "Create", null, new {@class= "btn btn-default btn-xs" })
+@if (Model.CanCreateCity)
+{
+	<div class="container">
+		<div class="col-gl-9">
+			@Html.ActionLink("Добавить новый город", "Create", null, new {@class = "btn btn-default btn-xs"})
+		</div>
 	</div>
-</div>
+}

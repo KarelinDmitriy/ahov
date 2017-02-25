@@ -161,6 +161,7 @@
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\Admin\Admin.cs" />
     <Compile Include="Controllers\AppBaseController.cs" />
+    <Compile Include="Core\AccessDeniedExpection.cs" />
     <Compile Include="Models\AccessResultModel.cs" />
     <Compile Include="Models\AccessListModel.cs" />
     <Compile Include="Controllers\BarrelController.cs" />
@@ -186,6 +187,8 @@
     <Compile Include="Models\Barrel\BarrelsModel.cs" />
     <Compile Include="Models\Barrel\SaveTypes.cs" />
     <Compile Include="Models\City\CityModel.cs" />
+    <Compile Include="Models\City\ListCitiesModel.cs" />
+    <Compile Include="Models\Org\ListOrgModel.cs" />
     <Compile Include="Models\Org\OrgModel.cs" />
     <Compile Include="Models\User\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -230,6 +233,12 @@
     <Content Include="Views\Admin\Menu.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DisabledStringEditor.cshtml" />
+    <Content Include="Views\City\Show.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\StringDisplay.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\NumberDisplay.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DoubleDisplay.cshtml" />
+    <Content Include="Views\Org\Show.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CityTypesEditor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

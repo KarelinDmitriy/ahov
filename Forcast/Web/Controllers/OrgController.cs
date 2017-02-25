@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using AhovRepository.Entity;
 using AhovRepository.Factory;
 using AhovRepository.Repository;
@@ -10,32 +11,45 @@ namespace Web.Controllers
 	[AppAuthorize]
 	public class OrgController : Controller
 	{
-		private readonly IOrgDataproviderFactory _orgProviderFactory;
-		private readonly ICityProviderFactory _cityProviderFactory;
+		private readonly IOrgDataproviderFactory orgProviderFactory;
+		private readonly ICityProvider cityProvider;
+		private readonly IAccessProvider accessProvider;
 
-		public OrgController(IOrgDataproviderFactory orgProviderFactory, ICityProviderFactory cityProviderFactory)
+		public OrgController(IOrgDataproviderFactory orgProviderFactory,
+			ICityProvider cityProvider,
+			IAccessProvider accessProvider)
 		{
-			_orgProviderFactory = orgProviderFactory;
-			_cityProviderFactory = cityProviderFactory;
+			this.orgProviderFactory = orgProviderFactory;
+			this.cityProvider = cityProvider;
+			this.accessProvider = accessProvider;
 		}
 
 		public ActionResult List()
 		{
 			var orgProvider = GetProvider();
 			var orgs = orgProvider.GetOrgs();
-			return View(orgs);
+			var userId = HttpContext.GetUserId();
+			var model = new ListOrgModel
+			{
+				Items = orgs.Select(x => new OrgItem
+				{
+					Org = x,
+					CanChangeAccess = CanChangeAccess(accessProvider.GetAccessType(userId, x.ObjectId))
+				}).ToList()
+			};
+			return View(model);
 		}
 
 		private IOrgProvider GetProvider()
 		{
-			return _orgProviderFactory.CreateOrgProvider(HttpContext.GetUserId());
+			return orgProviderFactory.CreateOrgProvider(HttpContext.GetUserId());
 		}
 
 		public ActionResult Create()
 		{
 			var org = new OrgEntity()
 			{City = new CityEntity()};
-			var cities = _cityProviderFactory.CreateCityProvider(0).GetCities();
+			var cities = cityProvider.GetCities();
 			var model = new OrgModel
 			{
 				Org = org,
@@ -54,13 +68,16 @@ namespace Web.Controllers
 		public ActionResult Edit(int orgId)
 		{
 			var org = GetProvider().GetOrg(orgId);
-			var avaliableCities = _cityProviderFactory.CreateCityProvider(0).GetCities();
+			if (org == null)
+				throw new AccessDeniedExpection("Организация не существует или нет доступа к огранизации");
+			var avaliableCities = cityProvider.GetCities();
 			var model = new OrgModel
 			{
 				Org = org,
 				AvaliableCities = avaliableCities
 			};
-			return View(model);
+			var accessType = accessProvider.GetAccessType(HttpContext.GetUserId(), org.ObjectId);
+			return accessType == AccessType.Reader ? View("Show", model) : View("Edit", model);
 		}
 
 		[HttpPost]
@@ -69,8 +86,17 @@ namespace Web.Controllers
 			var orgProvider = GetProvider();
 			var orgEntity = orgProvider.GetOrg(org.Id);
 			org.ObjectId = orgEntity.ObjectId;
+			var access = accessProvider.GetAccessType(HttpContext.GetUserId(), org.ObjectId);
+			if ((access == AccessType.None || access == AccessType.Reader) && !HttpContext.UserIsAdmin())
+				throw new AccessDeniedExpection("Недостаточно прав для редактирования организации");
 			orgProvider.UpdateOrganization(org);
 			return RedirectToAction("List");
+		}
+
+		public bool CanChangeAccess(AccessType accessType)
+		{
+			return HttpContext.GetUser().Role == AppRoles.Admin || accessType == AccessType.Admin ||
+			       accessType == AccessType.Owner;
 		}
 	}
 }

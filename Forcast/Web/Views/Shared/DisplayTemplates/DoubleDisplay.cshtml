@@ -1,0 +1,25 @@
+﻿@model double
+
+@{
+	var needAddon = ViewData.ModelMetadata.AdditionalValues.ContainsKey("Dimension");
+	string dem = String.Empty;
+	if (needAddon)
+	{
+		dem = ViewData.ModelMetadata.AdditionalValues["Dimension"] as string;
+	}
+}
+<div class="form-group">
+	@Html.LabelFor(x => x)
+	@if (needAddon)
+	{
+		<div class="input-group">
+			@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right", disabled = true })
+			<div class="input-group-addon">@dem</div>
+		</div>
+	}
+	else
+	{
+		@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control text-right", disabled = true })
+	}
+
+</div>

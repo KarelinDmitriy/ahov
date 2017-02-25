@@ -10,20 +10,18 @@ namespace AhovRepository.Repository
 		CityEntity GetCity(int cityId);
 		void UpdateCity(CityEntity entity);
 		void UpdateCityType(CityTypeEntity entity);
-		void AddCityType(CityTypeEntity cityType);
+		CityTypeEntity AddCityType(CityTypeEntity cityType);
 		List<CityTypeEntity> GetBuilding(int cityId);
+		void DeleteCityType(int cityTypeId);
 	}
 
 	public class CityProvider : ICityProvider
 	{
 		private readonly IDatabaseProvider _databaseProvider;
-		private readonly UserEntity _user;
 
-		public CityProvider(IDatabaseProvider databaseProvider,
-			UserEntity user)
+		public CityProvider(IDatabaseProvider databaseProvider)
 		{
 			_databaseProvider = databaseProvider;
-			_user = user;
 		}
 
 
@@ -52,14 +50,20 @@ namespace AhovRepository.Repository
 			_databaseProvider.Update(entity);
 		}
 
-		public void AddCityType(CityTypeEntity cityType)
+		public CityTypeEntity AddCityType(CityTypeEntity cityType)
 		{
-			_databaseProvider.Insert(cityType);
+			return _databaseProvider.Insert(cityType);
 		}
 
 		public List<CityTypeEntity> GetBuilding(int cityId)
 		{
 			return _databaseProvider.Where<CityTypeEntity>(x => x.City.CityId == cityId);
+		}
+
+		public void DeleteCityType(int cityTypeId)
+		{
+			var entity = new CityTypeEntity {Id = cityTypeId};
+			_databaseProvider.Delete(entity);
 		}
 	}
 }

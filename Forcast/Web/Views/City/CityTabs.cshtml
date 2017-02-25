@@ -12,34 +12,37 @@
 			<div role="tabpanel" class="tab-pane active" id="Main">
 				<div class="container">
 					<div class="col-md-4">
-						@Html.EditorFor(x => x.City.Name, "StringEditor")
-						@Html.EditorFor(x => x.City.Population, "IntTemplate")
-						@Html.EditorFor(x => x.City.ChildPercent, "IntTemplate")
-						@Html.EditorFor(x => x.City.Width, "NumberEditor")
-						@Html.EditorFor(x => x.City.Lenght, "NumberEditor")
+						@Html.EditorFor(x => x.City.Name, "StringEditor", new {form = "mainForm"})
+						@Html.EditorFor(x => x.City.Population, "IntTemplate", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.ChildPercent, "IntTemplate", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.Width, "NumberEditor", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.Lenght, "NumberEditor", new { form = "mainForm" })
 					</div>
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="Rate">
 				<div class="container">
 					<div class="col-md-4">
-						@Html.EditorFor(x => x.City.Aa, "NumberEditor")
-						@Html.EditorFor(x => x.City.Au, "NumberEditor")
-						@Html.EditorFor(x => x.City.Apr, "NumberEditor")
-						@Html.EditorFor(x => x.City.Aw, "NumberEditor")
+						@Html.EditorFor(x => x.City.Aa, "NumberEditor", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.Au, "NumberEditor", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.Apr, "NumberEditor", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.Aw, "NumberEditor", new { form = "mainForm" })
 					</div>
 					<div class="col-md-4">
-						@Html.EditorFor(x => x.City.AaChild, "NumberEditor")
-						@Html.EditorFor(x => x.City.AuChild, "NumberEditor")
-						@Html.EditorFor(x => x.City.AprChild, "NumberEditor")
-						@Html.EditorFor(x => x.City.AwChild, "NumberEditor")
+						@Html.EditorFor(x => x.City.AaChild, "NumberEditor", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.AuChild, "NumberEditor", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.AprChild, "NumberEditor", new { form = "mainForm" })
+						@Html.EditorFor(x => x.City.AwChild, "NumberEditor", new { form = "mainForm" })
 					</div>
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="CityType">
 				<div class="container">
 					<div id="CityTabDiv">
-						@Html.EditorFor(x => x.Buildings)
+						@foreach (var cityType in Model.Buildings)
+						{
+							@Html.Partial("~/Views/City/CityTypesTab.cshtml", cityType);
+						}
 					</div>
 					<a id="AddNewCityType" class="btn btn-info glyphicon glyphicon-plus" onclick="RenderGet('@Url.Action("NewCityType", new {cityId = Model.City.CityId})', '#CityTabDiv')"> Добавить тип сооружения</a>
 				</div>
@@ -47,16 +50,3 @@
 		</div>
 	</div>
 </div>
-
-
-@*<script>
-	$(function() {
-		$('#AddNewCityType').on('click', function (evt) {
-			var code = $.get("@Url.Action("NewCityType", new {cityId = Model.Id})",
-				{},
-				function(data) {
-					$("#CityTabDiv").before(data);
-				});
-		});
-	});
-</script>*@

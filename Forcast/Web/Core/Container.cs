@@ -13,8 +13,8 @@ namespace Web.Core
 			IKernel kernel = new StandardKernel();
 			kernel.Bind<IDatabaseProvider>().To<MySqlDatabaseProvider>();
 			kernel.Bind<IAccessProvider>().To<AccessProvider>();
-			kernel.Bind<ICityProviderFactory>().To<CityProviderFactory>();
 			kernel.Bind<IOrgDataproviderFactory>().To<OrgDataproviderFactory>();
+			kernel.Bind<ICityProvider>().To<CityProvider>();
 			kernel.Bind<IBarrelProviderFactory>().To<BarrelProviderFactory>();
 			kernel.Bind<IUserCache>().To<UserCache>();
 			kernel.Bind<IMatterProvider>()

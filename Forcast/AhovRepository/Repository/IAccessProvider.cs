@@ -6,7 +6,7 @@ namespace AhovRepository.Repository
 	public interface IAccessProvider
 	{
 		AccessType GetAccessType(int userId, string objectId);
-		bool AddAccessToObject(int userId, string objectId, int ownerId, AccessType accessType);
+		bool AddAccessToObject(int userId, string objectId, int ownerId, AccessType accessType, bool force = false);
 		bool RemoveAccessToObject(int userId, string objectId, int ownerId);
 	}
 
@@ -21,16 +21,18 @@ namespace AhovRepository.Repository
 
 		public AccessType GetAccessType(int userId, string objectId)
 		{
+			if (objectId == null)
+				return AccessType.None;
 			var accessEntity = _databaseProvider.GetOne<AccessEntity>(x => x.User.UserId == userId && x.ObjectId == objectId);
 			return accessEntity == null
 				? AccessType.None
 				: (AccessType) Enum.Parse(typeof(AccessType), accessEntity.AccessType, true);
 		}
 
-		public bool AddAccessToObject(int userId, string objectId, int ownerId, AccessType accessType)
+		public bool AddAccessToObject(int userId, string objectId, int ownerId, AccessType accessType, bool force = false)
 		{
 			var ownerType = GetAccessType(ownerId, objectId);
-			if (ownerType != AccessType.Owner || ownerType == AccessType.Admin)
+			if (ownerType != AccessType.Owner && ownerType != AccessType.Admin && !force)
 				return false;
 			var userType = GetAccessType(userId, objectId);
 			if (userType == AccessType.Owner)
@@ -41,7 +43,8 @@ namespace AhovRepository.Repository
 				ObjectId = objectId,
 				AccessType = accessType.ToString()
 			};
-			if (userType == AccessType.None)
+			var entity = _databaseProvider.GetOne<AccessEntity>(x => x.User.UserId == userId && x.ObjectId == objectId);
+			if (entity == null)
 				_databaseProvider.Insert(value);
 			else
 				_databaseProvider.Update(value);

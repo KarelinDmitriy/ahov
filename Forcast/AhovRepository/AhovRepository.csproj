@@ -74,7 +74,6 @@
     <Compile Include="Entity\OrgEntity.cs" />
     <Compile Include="Entity\UserEntity.cs" />
     <Compile Include="Factory\IBarrelProviderFactory.cs" />
-    <Compile Include="Factory\ICityProviderFactory.cs" />
     <Compile Include="Factory\IOrgDataproviderFactory.cs" />
     <Compile Include="IDatabaseProvider.cs" />
     <Compile Include="IMatterProvider.cs" />

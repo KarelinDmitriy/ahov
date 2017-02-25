@@ -3,36 +3,39 @@
 @{
 	var formId = "CityTypeForm_" + Model.Id;
 	var targetId = "ServerAnswerFor_" + Model.Id;
+	var panelId = "PanelFor_" + Model.Id;
 }
 
-
-@using (Html.BeginForm("EditCityType", "City", FormMethod.Post, new {id = formId}))
-{
-	<div class="col-md-5">
-		<div class="panel panel-default ">
-			<div class="panel-body">
-				<div id="DeleteCityType_@Model.City.CityId" class="text-right">
-					<i class="glyphicon glyphicon-remove"></i>
+<div id="@panelId" class="col-md-5 ">
+	<div class="panel panel-default ">
+		<div class="panel-body">
+			
+			@using (Html.BeginForm("EditCityType", "City", FormMethod.Post, new { id = formId }))
+			{
+				<div  id="DeleteCityType_@Model.City.CityId" class="text-right"
+				     onclick="SendAndRemove('@Url.Action("RemoveCityType", "City", new {cityTypeId = Model.Id})', '#@panelId')">
+					<a role="button"><i class="glyphicon glyphicon-remove"></i></a>
 				</div>
-				@Html.HiddenFor(x => x.Id)
-				@Html.HiddenFor(x => x.City.CityId)
+				@Html.HiddenFor(x => x.Id )
+				@Html.HiddenFor(x => x.City.CityId )
 				<div class="form-group">
 					@Html.LabelFor(x => x.Name)
-					@Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Тип здания" } })
+					@Html.EditorFor(x => x.Name, new {htmlAttributes = new {@class = "form-control", placeholder = "Тип здания"}})
 				</div>
 				<div class="form-group">
 					@Html.LabelFor(x => x.Kp)
-					@Html.EditorFor(x => x.Kp, new { htmlAttributes = new { @class = "form-control", placeholder = "Коэффициент проникнования" } })
+					@Html.EditorFor(x => x.Kp, new {htmlAttributes = new {@class = "form-control", placeholder = "Коэффициент проникнования"}})
 				</div>
 				<div class="form-group">
 					@Html.LabelFor(x => x.Ay)
-					@Html.EditorFor(x => x.Ay, new { htmlAttributes = new { @class = "form-control", placeholder = "Доля населения" } })
+					@Html.EditorFor(x => x.Ay, new {htmlAttributes = new {@class = "form-control", placeholder = "Доля населения"} })
 				</div>
-				<input class="btn btn-info" type="button" value="Сохранить" id="CityType_@Model.Id" 
-					   onclick="SubmitAndRender('#@formId', '@Url.Action("EditCityType", "City")', '#@targetId')" />
+				<input class="btn btn-info" type="button" value="Сохранить" id="CityType_@Model.Id"
+				       onclick="SubmitAndRender('#@formId', '@Url.Action("EditCityType", "City")', '#@targetId')"/>
 				<div>
-				<div id="@targetId"></div></div>
-			</div>
+					<div id="@targetId"></div>
+				</div>
+			}
 		</div>
 	</div>
-}
+</div>
