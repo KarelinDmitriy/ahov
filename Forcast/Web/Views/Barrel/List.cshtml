@@ -14,7 +14,8 @@
 				@Html.Partial("Barrel", m)
 			}
 		</div>
-		<a id="AddNew" class="btn btn-info glyphicon glyphicon-plus" onclick="RenderGet('@Url.Action("AddNew", new {orgId = Model.OrgId})', '#Barrels')"></a>
+		<a id="AddNew" class="btn btn-info glyphicon glyphicon-plus" onclick="RenderGet('@Url.Action("AddNew", new {orgId = Model.OrgId})', '#Barrels', '#waitImg')"></a>
+		<img class="hidden" id="waitImg" src="~/Content/Images/loadAnimation.GIF" alt="" />
 	</div>
 </div>
 

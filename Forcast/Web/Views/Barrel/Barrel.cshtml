@@ -1,14 +1,26 @@
 ﻿@model Web.Models.Barrel.BarrelModel
 
+@{
+	var formId = "Form_" + Model.Barrel.BarrelId;
+	var targetId = "Answer_" + Model.Barrel.BarrelId;
+	var panelId = "Panel_" + Model.Barrel.BarrelId;
+	var waitId = "Wait_" + Model.Barrel.BarrelId;
+	var waitFClose = "WaitC_" + Model.Barrel.BarrelId;
+}
 
-<div class="row">
+
+<div id="@panelId" class="row">
 	<div>
-		<div id="Dele" class="text-right">
-			<i class="glyphicon glyphicon-remove"></i>
-		</div>
-		@using (Html.BeginForm("Edit", "Barrel", FormMethod.Post, new {@class = "form-inline"}))
+		@using (Html.BeginForm("Edit", "Barrel", FormMethod.Post, new { @class = "form-inline", id = @formId }))
 		{
+			<div class="text-right"
+			     onclick="SendAndRemove('@Url.Action("Delete", "Barrel", new {barrelId = Model.Barrel.BarrelId})', '#@panelId', '#@waitFClose')">
+				<img class="hidden" id="@waitFClose" src="~/Content/Images/loadAnimation.GIF" alt="" />
+				<a role="button"><i class="glyphicon glyphicon-remove"></i></a>
+			</div>
 			@Html.HiddenFor(x => x.Barrel.BarrelId)
+			@Html.HiddenFor(x => x.Barrel.ObjectId)
+			@Html.HiddenFor(x => x.Barrel.Org.Id)
 			<div class="row">
 				@Html.EditorFor(x => x.Barrel.Name, "StringEditor")
 				@Html.EditorFor(x => x.Barrel.H, "NumberEditor")
@@ -29,7 +41,12 @@
 				@Html.EditorFor(x => x.Barrel.Draining, "DropDownEditor")
 				@Html.EditorFor(x => x.Barrel.SaveType, "DropDownEditor")
 			</div>
-			<input class="btn btn-info" type="submit" value="Сохранить"/>
+			<input class="btn btn-info" type="button" value="Сохранить" id="Barrel_@Model.Barrel.ObjectId"
+			       onclick="SubmitAndRender('#@formId', '@Url.Action("Edit", "Barrel")', '#@targetId', '#@waitId')"/>
+			<img class="hidden" id="@waitId" src="~/Content/Images/loadAnimation.GIF" alt="" />
+			<div>
+				<div id="@targetId"></div>
+			</div>
 		}
 	</div>
 	<hr/>

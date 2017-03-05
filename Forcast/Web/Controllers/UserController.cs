@@ -6,16 +6,17 @@ using AhovRepository;
 using AhovRepository.Entity;
 using Web.Core;
 using Web.Models.User;
+using static Web.Core.Helpers.PasswordHelper;
 
 namespace Web.Controllers
 {
 	public class UserController : AppBaseController
 	{
-		private readonly IDatabaseProvider _repository;
+		private readonly IDatabaseProvider repository;
 
 		public UserController(IDatabaseProvider repository)
 		{
-			_repository = repository;
+			this.repository = repository;
 		}
 
 		public ActionResult Edit(int userId)
@@ -23,7 +24,7 @@ namespace Web.Controllers
 			var httpUser = GetUser();
 			if (userId != httpUser.UserId)
 				throw new NotSupportedException();
-			var user = _repository.GetOne<UserEntity>(x => x.UserId == userId);
+			var user = repository.GetOne<UserEntity>(x => x.UserId == userId);
 			user.PasswordHash = string.Empty;
 			var model = new UserModel()
 			{
@@ -32,18 +33,31 @@ namespace Web.Controllers
 			return View(model);
 		}
 
+		
 		[HttpPost]
 		public ActionResult Edit(UserModel model)
 		{
 			var httpUser = GetUser();
 			if (model.Info.UserId != httpUser.UserId)
 				throw new NotSupportedException();
-			var user = _repository.GetOne<UserEntity>(x => x.UserId == model.Info.UserId);
-			if (user.PasswordHash != model.Password)
-				throw new NotSupportedException();
+			var user = repository.GetOne<UserEntity>(x => x.UserId == model.Info.UserId);
 			user.Email = model.Info.Email;
 			user.Fio = model.Info.Fio;
-			_repository.Update(user);
+			repository.Update(user);
+			return RedirectToAction("Edit", "User", new {userId = model.Info.UserId});
+		}
+
+		[HttpPost]
+		public ActionResult ChangePass(UserModel model)
+		{
+			var httpUser = GetUser();
+			if (model.Info.UserId != httpUser.UserId)
+				throw new NotSupportedException();
+			var user = repository.GetOne<UserEntity>(x => x.UserId == model.Info.UserId);
+			if (user.PasswordHash != HashPassowrd(model.Password))
+				throw new NotSupportedException();
+			user.PasswordHash = HashPassowrd(model.NewPassowrd);
+			repository.Update(user);
 			return RedirectToAction("Edit", "User", new {userId = model.Info.UserId});
 		}
 
@@ -66,13 +80,13 @@ namespace Web.Controllers
 		public ActionResult Login(UserModel userModel)
 		{
 			var login = userModel.Info.Login;
-			var info = _repository.GetOne<UserEntity>(x => x.Login == login);
+			var info = repository.GetOne<UserEntity>(x => x.Login == login);
 			if (info == null)
 			{
 				ViewData["error"] = $"Пользователь с именем {login} не найден";
 				return RedirectToAction("Login");
 			}
-			if (info.PasswordHash != userModel.Password)
+			if (info.PasswordHash != HashPassowrd(userModel.Password))
 			{
 				ViewData["error"] = $"Не верный пароль";
 				return RedirectToAction("Login");
@@ -86,7 +100,8 @@ namespace Web.Controllers
 		{
 			model.Info.PasswordHash = model.Password;
 			model.Info.Role = AppRoles.Client;
-			_repository.Insert(model.Info);
+			model.Info.PasswordHash = HashPassowrd(model.Password);
+			repository.Insert(model.Info);
 			AuthorizeUser(model.Info.Login);
 			return RedirectToAction("Index", "Home");
 		}
@@ -94,7 +109,7 @@ namespace Web.Controllers
 		[AppAuthorize(AppRoles.Admin)]
 		public ActionResult List()
 		{
-			var users = _repository.GetAll<UserEntity>().Select(x => new UserModel(x)).ToList();
+			var users = repository.GetAll<UserEntity>().Select(x => new UserModel(x)).ToList();
 			return View(users);
 		}
 

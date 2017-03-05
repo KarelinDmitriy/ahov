@@ -44,7 +44,8 @@
 							@Html.Partial("~/Views/City/CityTypesTab.cshtml", cityType);
 						}
 					</div>
-					<a id="AddNewCityType" class="btn btn-info glyphicon glyphicon-plus" onclick="RenderGet('@Url.Action("NewCityType", new {cityId = Model.City.CityId})', '#CityTabDiv')"> Добавить тип сооружения</a>
+					<a id="AddNewCityType" class="btn btn-info glyphicon glyphicon-plus" onclick="RenderGet('@Url.Action("NewCityType", new {cityId = Model.City.CityId})', '#CityTabDiv', '#WaitTab')"> Добавить тип сооружения</a>
+					<img class="hidden" id="WaitTab" src="~/Content/Images/loadAnimation.GIF" alt="" />
 				</div>
 			</div>
 		</div>

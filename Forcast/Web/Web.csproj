@@ -129,6 +129,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\istu140_2.png" />
     <Content Include="Content\Images\istu_logo.png" />
+    <Content Include="Content\Images\loadAnimation.GIF" />
     <Content Include="Content\MyCss.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -162,6 +163,7 @@
     <Compile Include="Controllers\Admin\Admin.cs" />
     <Compile Include="Controllers\AppBaseController.cs" />
     <Compile Include="Core\AccessDeniedExpection.cs" />
+    <Compile Include="Core\Helpers\PasswordHelper.cs" />
     <Compile Include="Models\AccessResultModel.cs" />
     <Compile Include="Models\AccessListModel.cs" />
     <Compile Include="Controllers\BarrelController.cs" />
@@ -239,6 +241,7 @@
     <Content Include="Views\Shared\DisplayTemplates\DoubleDisplay.cshtml" />
     <Content Include="Views\Org\Show.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CityTypesEditor.cshtml" />
+    <Content Include="Views\Shared\OperationResult.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

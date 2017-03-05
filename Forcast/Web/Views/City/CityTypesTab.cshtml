@@ -4,6 +4,8 @@
 	var formId = "CityTypeForm_" + Model.Id;
 	var targetId = "ServerAnswerFor_" + Model.Id;
 	var panelId = "PanelFor_" + Model.Id;
+	var waitId = "Wait_" + Model.Id;
+	var waitFClose = "WaitC_" + Model.Id;
 }
 
 <div id="@panelId" class="col-md-5 ">
@@ -12,8 +14,9 @@
 			
 			@using (Html.BeginForm("EditCityType", "City", FormMethod.Post, new { id = formId }))
 			{
-				<div  id="DeleteCityType_@Model.City.CityId" class="text-right"
-				     onclick="SendAndRemove('@Url.Action("RemoveCityType", "City", new {cityTypeId = Model.Id})', '#@panelId')">
+				<div id="DeleteCityType_@Model.City.CityId" class="text-right"
+				     onclick="SendAndRemove('@Url.Action("RemoveCityType", "City", new {cityTypeId = Model.Id})', '#@panelId', '#@waitFClose')">
+					<img class="hidden" id="@waitFClose" src="~/Content/Images/loadAnimation.GIF" alt="" />
 					<a role="button"><i class="glyphicon glyphicon-remove"></i></a>
 				</div>
 				@Html.HiddenFor(x => x.Id )
@@ -31,7 +34,8 @@
 					@Html.EditorFor(x => x.Ay, new {htmlAttributes = new {@class = "form-control", placeholder = "Доля населения"} })
 				</div>
 				<input class="btn btn-info" type="button" value="Сохранить" id="CityType_@Model.Id"
-				       onclick="SubmitAndRender('#@formId', '@Url.Action("EditCityType", "City")', '#@targetId')"/>
+				       onclick="SubmitAndRender('#@formId', '@Url.Action("EditCityType", "City")', '#@targetId', '#@waitId')"/>
+				<img class="hidden" id="@waitId" src="~/Content/Images/loadAnimation.GIF" alt="" />
 				<div>
 					<div id="@targetId"></div>
 				</div>

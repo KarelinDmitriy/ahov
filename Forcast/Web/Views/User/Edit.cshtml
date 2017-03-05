@@ -14,9 +14,19 @@
 			@Html.EditorFor(x => x.Info.Login, "DisabledStringEditor")
 			@Html.EditorFor(x => x.Info.Email, "StringEditor")
 			@Html.EditorFor(x => x.Info.Fio, "StringEditor")
+			<input type="submit" class="btn btn-default" value="Изменить данные" />
+		</div>
+	</div>
+}
+
+@using (Html.BeginForm("ChangePass", "User", FormMethod.Post))
+{
+	<div class="container">
+		<div class="col-md-4">
+			@Html.HiddenFor(x => x.Info.UserId)
 			@Html.EditorFor(x => x.Password, "PasswordEditor")
 			@Html.EditorFor(x => x.NewPassowrd, "PasswordEditor")
-			<input type="submit" class="btn btn-default" value="Изменить" />
+			<input type="submit" class="btn btn-default" value="Изменить пароль"/>
 		</div>
 	</div>
 }

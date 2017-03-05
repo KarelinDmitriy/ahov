@@ -12,14 +12,54 @@
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {
-	@Html.Partial("CityTabs", Model);
+	<div class="container">
+		<div class="col-gl-9">
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#Main" aria-controls="Main" role="tab" data-toggle="tab">Основные параметры</a></li>
+				<li role="presentation"><a href="#Rate" aria-controls="Rate" role="tab" data-toggle="tab">Коэффициенты</a></li>
+				<li role="presentation"><a href="#CityType" aria-controls="CityType" role="tab" data-toggle="tab">Типы городских строений</a></li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="Main">
+					<div class="container">
+						<div class="col-md-4">
+							@Html.EditorFor(x => x.City.Name, "StringEditor")
+							@Html.EditorFor(x => x.City.Population, "IntTemplate")
+							@Html.EditorFor(x => x.City.ChildPercent, "IntTemplate")
+							@Html.EditorFor(x => x.City.Width, "NumberEditor")
+							@Html.EditorFor(x => x.City.Lenght, "NumberEditor")
+						</div>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="Rate">
+					<div class="container">
+						<div class="col-md-4">
+							@Html.EditorFor(x => x.City.Aa, "NumberEditor")
+							@Html.EditorFor(x => x.City.Au, "NumberEditor")
+							@Html.EditorFor(x => x.City.Apr, "NumberEditor")
+							@Html.EditorFor(x => x.City.Aw, "NumberEditor")
+						</div>
+						<div class="col-md-4">
+							@Html.EditorFor(x => x.City.AaChild, "NumberEditor")
+							@Html.EditorFor(x => x.City.AuChild, "NumberEditor")
+							@Html.EditorFor(x => x.City.AprChild, "NumberEditor")
+							@Html.EditorFor(x => x.City.AwChild, "NumberEditor")
+						</div>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="CityType">
+					Редактирование будет доступно только после нажатия кнопки "Сохранить"
+				</div>
+			</div>
+		</div>
 	<div class="navbar navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<ul class="nav navbar-nav navbar-left">
-					<li><input type="submit" class="btn btn-primary" value="Сохранить" /></li>
+					<li><input type="submit" class="btn btn-primary" value="Сохранить"/></li>
 				</ul>
 			</div>
 		</div>
 	</div>
-}
+</div>
+		}

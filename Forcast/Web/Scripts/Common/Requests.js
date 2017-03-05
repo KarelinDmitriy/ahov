@@ -1,17 +1,26 @@
 ﻿
-function RenderGet (url, target) {
+function RenderGet(url, target, waitId) {
+	var w = $(waitId);
+	w.removeClass("hidden");
 	$.ajax(
 	{
 		url,
 		cache: false,
 		success:
-			function(data) {
+			function (data) {
 				$(target).after(data);
+				w.addClass("hidden");
+			},
+		error:
+			function (r, text) {
+				w.addClass("hidden");
 			}
 	});
 }
 
-function RenderPost(url, data, target) {
+function RenderPost(url, data, target, waitId) {
+	var w = $(waitId);
+	w.removeClass("hidden");
 	$.ajax(
 	{
 		url: url,
@@ -21,34 +30,45 @@ function RenderPost(url, data, target) {
 		success:
 			function (dataFrom) {
 				$(target).after(dataFrom);
+				w.addClass("hidden");
+			},
+		error:
+			function(r, text) {
+				w.addClass("hidden");
 			}
 	});
 }
 
-function SendAndRemove(url, target, targetOnFail) {
+function SendAndRemove(url, target, waitId) {
+	var w = $(waitId);
+	w.removeClass("hidden");
 	$.ajax(
 		{
 			url,
 			cache: false,
 			dataType: "json",
 			success:
-				function(data) {
+				function (data) {
 					alert(data.success);
 					if (data.success) {
 						$(target).remove();
 					} else {
 						alert("Все плохо");
 					}
+					w.addClass("hidden");
 				},
-			error: 
-				function(r, text) {
+			error:
+				function (r, text) {
+					w.addClass("hidden");
 					alert(text);
 				}
 		}
 	);
 }
 
-function SubmitAndRender(form, url, target) {
+function SubmitAndRender(form, url, target, waitId) {
+	var w = $(waitId);
+	w.removeClass("hidden");
 	$.ajax(
 	{
 		url: url,
@@ -57,6 +77,11 @@ function SubmitAndRender(form, url, target) {
 		success:
 			function (dataFrom) {
 				$(target).after(dataFrom);
+				w.addClass("hidden");
+			},
+		error:
+			function (r, text) {
+				w.addClass("hidden");
 			}
 	});
 	//$(form).submit(function() { // catch the form's submit event

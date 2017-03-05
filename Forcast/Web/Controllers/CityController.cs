@@ -104,7 +104,7 @@ namespace Web.Controllers
 			{
 				success = false;
 			}
-			return PartialView("CityTypeSaveResult", success);
+			return PartialView("OperationResult", success);
 		}
 
 		public JsonResult RemoveCityType(int cityTypeId)

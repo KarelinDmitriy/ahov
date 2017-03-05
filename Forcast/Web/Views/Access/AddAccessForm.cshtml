@@ -18,7 +18,8 @@
 					}), new {@class="form-control"})
 					@Html.HiddenFor(x => x.ObjectId)
 					<input class="btn btn-info form-group" type="button" value="Дать доступ"
-					       onclick="SubmitAndRender('#AddAccess', '@Url.Action("AddOrCreate", "Access")', '#Answer')"/>
+					       onclick="SubmitAndRender('#AddAccess', '@Url.Action("AddOrCreate", "Access")', '#Answer', '#WaitAdd')"/>
+					<img class="hidden" id="WaitAdd" src="~/Content/Images/loadAnimation.GIF" alt="" />
 					<div>
 						<div id="Answer"></div>
 					</div>

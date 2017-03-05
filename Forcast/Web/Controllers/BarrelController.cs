@@ -17,16 +17,19 @@ namespace Web.Controllers
 		private readonly IMatterProvider matterProvider;
 		private readonly IOrgDataproviderFactory orgProviderFactory;
 		private readonly IAccessProvider accessProvider;
+		private readonly IDatabaseProvider databaseProvider;
 
 		public BarrelController(IBarrelProviderFactory barrelProviderFactory,
 			IMatterProvider matterProvider,
 			IOrgDataproviderFactory orgProviderFactory,
-			IAccessProvider accessProvider)
+			IAccessProvider accessProvider,
+			IDatabaseProvider databaseProvider)
 		{
 			this.barrelProviderFactory = barrelProviderFactory;
 			this.matterProvider = matterProvider;
 			this.orgProviderFactory = orgProviderFactory;
 			this.accessProvider = accessProvider;
+			this.databaseProvider = databaseProvider;
 		}
 
 		public ActionResult List(int orgId)
@@ -87,7 +90,29 @@ namespace Web.Controllers
 		[HttpPost]
 		public ActionResult Edit(BarrelModel model)
 		{
-			return null;
+			var success = true;
+			try
+			{
+				barrelProviderFactory.CreateBarrelProvider(HttpContext.GetUserId()).UpdateBarrel(model.Barrel);
+			}
+			catch (Exception)
+			{
+				success = false;
+			}
+			return PartialView("OperationResult", success);
+		}
+
+		public ActionResult Delete(int barrelId)
+		{
+			try
+			{
+				databaseProvider.Delete(new BarrelEntity { BarrelId = barrelId });
+			}
+			catch (Exception)
+			{
+				return new JsonResult {Data = new { success = false }, JsonRequestBehavior = JsonRequestBehavior.AllowGet};
+			}
+			return new JsonResult {Data = new { success = true }, JsonRequestBehavior = JsonRequestBehavior.AllowGet};
 		}
 	}
 }
