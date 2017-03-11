@@ -58,6 +58,11 @@
     <Compile Include="Table_3_3.cs" />
     <Compile Include="ToksiDose.cs" />
     <Compile Include="V2\Forcaster.cs" />
+    <Compile Include="V2\IntermediateValues.cs" />
+    <Compile Include="V2\SawSapCalculator.cs" />
+    <Compile Include="Мeasure\KnowsMeasures.cs" />
+    <Compile Include="Мeasure\MeasureType.cs" />
+    <Compile Include="Мeasure\MeasureValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -42,7 +42,7 @@ namespace Forcast.Matters
 			result[1, 0] = 0.624 * result[0, 0] + 0.414 * result[4, 0];
 			result[2, 0] = 0.392 * result[0, 0] + 0.632 * result[4, 0];
 			result[3, 0] = 0.162 * result[0, 0] + 0.850 * result[4, 0];
-			for (var i = 0; i < 6; i++)
+			for (var i = 0; i < 5; i++)
 				result[i, 1] = 0.2*result[i, 0];
 			return result;
 		}
@@ -57,7 +57,7 @@ namespace Forcast.Matters
 			result[1, 0] = 0.624 * result[0, 0] + 0.414 * result[4, 0];
 			result[2, 0] = 0.392 * result[0, 0] + 0.632 * result[4, 0];
 			result[3, 0] = 0.162 * result[0, 0] + 0.850 * result[4, 0];
-			for (var i = 0; i < 6; i++)
+			for (var i = 0; i < 5; i++)
 				result[i, 1] = 0.2 * result[i, 0];
 			return result;
 		}

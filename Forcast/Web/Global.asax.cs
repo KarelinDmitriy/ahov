@@ -12,6 +12,8 @@ namespace Web
 {
 	public class MvcApplication : HttpApplication
 	{
+		private IUserCache userCache = new UserCache();
+
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
 			filters.Add(new AppAuthorizeAttribute());
@@ -37,7 +39,6 @@ namespace Web
 				return;
 			}
 			var name = DecodeCookie(userInfo);
-			var userCache = DependencyResolver.Current.GetService<IUserCache>();
 			var user = userCache.FindUser(name);
 			if (user == null)
 			{
@@ -49,6 +50,7 @@ namespace Web
 					return;
 				}
 				user = new AppUser(userEntity.UserId, userEntity.Login, userEntity.Fio, userEntity.Role);
+				userCache.AddUser(user);
 			}
 			SetUser(user);
 		}
