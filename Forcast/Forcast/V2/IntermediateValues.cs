@@ -83,6 +83,7 @@
 		public DoubleArray Sap { get; set; }
 		public DoubleArray Saw { get; set; }
 		public DoubleArray App { get; set; }
+		public DoubleArray Cyp { get; set; }
 
 		/// <summary>
 		/// Время незащещенности персонала 
@@ -90,5 +91,8 @@
 		public double Ton { get; set; }
 
 		public double[] Soap { get; set; }
+
+		public DoubleArray Nopa { get; set; }
+		public DoubleArray Npa { get; set; }
 	}
 }

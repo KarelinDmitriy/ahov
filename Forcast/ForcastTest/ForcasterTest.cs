@@ -15,11 +15,10 @@ namespace ForcastTest
 		[TestMethod]
 		public void FirstTest()
 		{
-			var cloudCalculator = new CloudCalculator(DataForFirstTest.GetBarrelsV2(), 
+			var cloudCalculator = new CloudCalculatorWithoutAntidots(DataForFirstTest.GetBarrelsV2(), 
 				DataForFirstTest.GetStorageData(), 
 				DataForFirstTest.GetActiveData());
-			var forcaster = new Forcaster(cloudCalculator);
-			forcaster.Run();
+			cloudCalculator.DoAction();
 			Console.WriteLine($"Вещество: {DataForFirstTest.GetBarrelsV2().First().Matter.Data.Name}");
 			Print(cloudCalculator.iv.Qpa1, "Поражающий параметер первичного облака", "ед");
 			Print(cloudCalculator.iv.Ga1, "Глубина распростронения (город) первичного облака", "м");
@@ -46,6 +45,21 @@ namespace ForcastTest
 			Print(cloudCalculator.iv.Sap, "Непонятно что 1", "c?");
 			Print(cloudCalculator.iv.Saw, "Непонятно что 2", "c?");
 			Print(cloudCalculator.iv.App, "Непонятно что 3", "c?");
+			Print(cloudCalculator.iv.Soap, "Площадь поражения на химическом объекте");
+
+			Print(cloudCalculator.iv.Npa, "Пораженные среди населения", "чел");
+			Print(cloudCalculator.iv.Nopa, "Пораженные среди персонала", "чел");
+		}
+
+		[TestMethod]
+		public void SecondTest()
+		{
+			var forcaster = new Forcaster(DataForFirstTest.GetBarrelsV2(),
+				DataForFirstTest.GetStorageData(),
+				DataForFirstTest.GetActiveData());
+			forcaster.Run();
+			Print(forcaster.Result.Nf_all, "Потери среди населения");
+			Print(forcaster.Result.Nfs_all, "Потери среди персонала");
 		}
 
 		private static void Print(DoubleArray data, string caption, string v)
@@ -65,7 +79,7 @@ namespace ForcastTest
 			Console.WriteLine(caption);
 			for (int i = 0; i < data.Length; i++)
 			{
-				Console.Write($"{data[i]:F5}".PadLeft(10));
+				Console.WriteLine($"{data[i]:F5}".PadLeft(10));
 			}
 			Console.WriteLine();
 		}
@@ -95,8 +109,11 @@ namespace ForcastTest
 		{
 			return new StorageData
 			{
+				Tow = 300,
+				Top = 60,
 				Kf = 1,
 				Rz = 200,
+				Ro = 300,
 				Цх = 7000,
 				Gdl = 0,
 				Gl = 0,
@@ -110,7 +127,12 @@ namespace ForcastTest
 				ba = new[] { 0.5d, 0.5d },
 				bu = new[] { 0.5d, 0.5d },
 				bw = new[] { 0.5d, 0.5d },
-				
+				a = new[] {0.8d, 0.2d},
+				No = 200,
+				N = 300000,
+				aao = 0.9,
+				Цу_p = 100,
+				Цx_p = 200,
 			};
 		}
 

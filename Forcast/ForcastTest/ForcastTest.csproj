@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="ExampleTest.cs" />
     <Compile Include="ForcasterTest.cs" />
     <Compile Include="Matters.cs" />
     <Compile Include="MeasureTest.cs" />

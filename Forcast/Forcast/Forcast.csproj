@@ -57,6 +57,10 @@
     <Compile Include="StorageData.cs" />
     <Compile Include="Table_3_3.cs" />
     <Compile Include="ToksiDose.cs" />
+    <Compile Include="V2\BarrelV2.cs" />
+    <Compile Include="V2\CloudCalculator.cs" />
+    <Compile Include="V2\CloudCalculatorForAntidots.cs" />
+    <Compile Include="V2\CloudCalculatorWithoutAntidots.cs" />
     <Compile Include="V2\Forcaster.cs" />
     <Compile Include="V2\IntermediateValues.cs" />
     <Compile Include="V2\SawSapCalculator.cs" />
