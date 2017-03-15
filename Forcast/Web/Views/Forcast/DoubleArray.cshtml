@@ -1,0 +1,15 @@
+﻿@model Forcast.DoubleArray
+
+<table class="table">
+	<tr>
+		<th>Взрослые</th>
+		<th>Дети</th>
+	</tr>
+	@for (var i = 0; i < 5; i++)
+	{
+		<tr>
+			<td>@($"{Model[i, 0]:f6}")</td>
+			<td>@($"{Model[i, 1]:f6}")</td>
+		</tr>
+	}
+</table>

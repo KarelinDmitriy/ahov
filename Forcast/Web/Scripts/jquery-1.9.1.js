@@ -2432,8 +2432,8 @@ jQuery.extend({
 		maxlength: "maxLength",
 		cellspacing: "cellSpacing",
 		cellpadding: "cellPadding",
-		rowspan: "rowSpan",
-		colspan: "colSpan",
+		rowdiv: "rowdiv",
+		coldiv: "coldiv",
 		usemap: "useMap",
 		frameborder: "frameBorder",
 		contenteditable: "contentEditable"

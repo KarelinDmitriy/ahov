@@ -1,13 +1,13 @@
-﻿@model AhovRepository.Entity.OrgEntity
+﻿@model Web.Models.Org.OrgModel
 
 <div class="col-md-4">
-		@Html.EditorFor(x => x.Ba, "NumberEditor")
-		@Html.EditorFor(x => x.Bu, "NumberEditor")
-		@Html.EditorFor(x => x.Bw, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Ba, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Bu, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Bw, "NumberEditor")
 </div>
 
 <div class="col-md-4">
-		@Html.EditorFor(x => x.Ba_ch, "NumberEditor")
-		@Html.EditorFor(x => x.Bu_ch, "NumberEditor")
-		@Html.EditorFor(x => x.Bw_ch, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Ba_ch, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Bu_ch, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Bw_ch, "NumberEditor")
 </div>

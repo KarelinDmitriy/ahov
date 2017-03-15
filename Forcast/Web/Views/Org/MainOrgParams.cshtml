@@ -4,6 +4,8 @@
 	<div class="col-md-4">
 		@Html.EditorFor(x => x.Org.Name, "StringEditor")
 		@Html.EditorFor(x => x.Org.PersonalCount, "IntTemplate")
+		@Html.EditorFor(x => x.Org.Length, "NumberEditor")
+		@Html.EditorFor(x => x.Org.Width, "NumberEditor")
 		@Html.EditorFor(x => x.Org.Ro, "NumberEditor")
 		@Html.EditorFor(x => x.Org.Rz, "NumberEditor")
 		@Html.EditorFor(x => x.Org.Kf, "NumberEditor")

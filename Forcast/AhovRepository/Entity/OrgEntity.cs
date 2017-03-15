@@ -23,6 +23,14 @@ namespace AhovRepository.Entity
 		[AdditionalMetadata("Dimension", "м")]
 		public virtual double Ro { get; set; }
 
+		[DisplayName("Длинна объекта")]
+		[AdditionalMetadata("Dimension", "м")]
+		public virtual double Length { get; set; }
+
+		[DisplayName("Ширина объекта")]
+		[AdditionalMetadata("Dimension", "м")]
+		public virtual double Width { get; set; }
+
 		[DisplayName("Радиус санитарной зоны")]
 		public virtual double Rz { get; set; }
 
@@ -72,6 +80,8 @@ namespace AhovRepository.Entity
 			Id(x => x.Id).Column("OrgId");
 			Map(x => x.Name).Column("OgranizationName");
 			Map(x => x.PersonalCount).Column("PersonalCount");
+			Map(x => x.Length).Column("Length");
+			Map(x => x.Width).Column("Width");
 			Map(x => x.Kf).Column("Kf");
 			Map(x => x.Ro).Column("Ro");
 			Map(x => x.Rz).Column("Rz");

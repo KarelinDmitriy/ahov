@@ -1,0 +1,36 @@
+﻿@model Web.Models.Forcast.ActiveModel
+
+@{
+	ViewBag.Title = "Введите данные";
+}
+
+<div class="container">
+	<h2>Введите данные</h2>
+	@using (Html.BeginForm("Result", "Forcast", FormMethod.Post))
+	{
+		@Html.HiddenFor(x => x.OrgId)
+		<div class="row">
+			<div class="col-md-4">
+				@Html.EditorFor(x => x.WildSpeed, "NumberEditor")
+				@Html.EditorFor(x => x.T, "NumberEditor")
+				@Html.EditorFor(x => x.Tn, "NumberEditor")
+			</div>
+			<div class="col-md-4">
+				@Html.EditorFor(x => x.Temperature, "NumberEditor")
+				@Html.EditorFor(x => x.Q, "NumberEditor")
+				@Html.EditorFor(x => x.To, "NumberEditor")
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				@Html.LabelFor(x => x.StateType)
+				@Html.EnumDropDownListFor(x => x.StateType, new { @class = "form-control" })
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<input type="submit" class="btn btn-default" value="Прогноз" />
+			</div>
+		</div>
+	}
+</div>

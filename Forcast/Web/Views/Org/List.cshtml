@@ -22,6 +22,7 @@
 					<th>Численность персонала</th>
 					<th>Радиус объекта, м</th>
 					<th>Управление доступом</th>
+					<th></th>
 				</tr>
 				@foreach (var item in Model.Items)
 				{
@@ -40,6 +41,7 @@
 								<span>Недостаточно прав</span>
 							}
 						</th>
+						<th>@Html.ActionLink("Выполнить прогноз", "Edit", "Forcast", new { orgId = item.Org.Id }, null)</th>
 					</tr>
 				}
 			</table>

@@ -162,6 +162,7 @@
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\Admin\Admin.cs" />
     <Compile Include="Controllers\AppBaseController.cs" />
+    <Compile Include="Controllers\ForcastController.cs" />
     <Compile Include="Core\AccessDeniedExpection.cs" />
     <Compile Include="Core\Helpers\PasswordHelper.cs" />
     <Compile Include="Models\AccessResultModel.cs" />
@@ -190,6 +191,8 @@
     <Compile Include="Models\Barrel\SaveTypes.cs" />
     <Compile Include="Models\City\CityModel.cs" />
     <Compile Include="Models\City\ListCitiesModel.cs" />
+    <Compile Include="Models\Forcast\ActiveModel.cs" />
+    <Compile Include="Models\Forcast\ResultModel.cs" />
     <Compile Include="Models\Org\ListOrgModel.cs" />
     <Compile Include="Models\Org\OrgModel.cs" />
     <Compile Include="Models\User\UserModel.cs" />
@@ -242,6 +245,9 @@
     <Content Include="Views\Org\Show.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CityTypesEditor.cshtml" />
     <Content Include="Views\Shared\OperationResult.cshtml" />
+    <Content Include="Views\Forcast\Edit.cshtml" />
+    <Content Include="Views\Forcast\Result.cshtml" />
+    <Content Include="Views\Forcast\DoubleArray.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
