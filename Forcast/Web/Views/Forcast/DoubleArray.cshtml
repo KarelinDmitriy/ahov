@@ -1,15 +1,23 @@
 ﻿@model Forcast.DoubleArray
 
+@{
+	Func<double, string> convertFunc =
+		x => x > 1 ? $"{x:F0}" : $"{x:f6}";
+	var data = new[] {"См.", "Тяж.", "Ср.", "Лег.", "Пор."};
+}
+
 <table class="table">
 	<tr>
+		<th></th>
 		<th>Взрослые</th>
 		<th>Дети</th>
 	</tr>
 	@for (var i = 0; i < 5; i++)
 	{
 		<tr>
-			<td>@($"{Model[i, 0]:f6}")</td>
-			<td>@($"{Model[i, 1]:f6}")</td>
+			<td>@data[i]</td>
+			<td>@(convertFunc(Model[i, 0]))</td>
+			<td>@(convertFunc(Model[i, 1]))</td>
 		</tr>
 	}
 </table>

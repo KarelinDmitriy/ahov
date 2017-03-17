@@ -46,26 +46,27 @@ namespace Forcast.V2
 		{
 			var soap = new double[5];
 			var r = Math.PI*StorageData.Ro*StorageData.Ro/2;
+			var d = Math.PI * (Barrels.Max(x => x.D) + Barrels.Min(x => x.D))/2;
 			for (var i = 0; i < 5; i++)
 			{
 				var sdivg = Math.Pow(iv.Sas[i, 0]/iv.Gas[i, 0], 0.8);
 				if (iv.Ton*ActiveData.U* sdivg <= r && r <= iv.Gau[i, 0]*StorageData.Ro)
 				{
 					soap[i] = ActiveData.T <= iv.Ton
-						? ActiveData.T*ActiveData.U*sdivg + r
-						: iv.Ton*sdivg + r;
+						? ActiveData.T*ActiveData.U*sdivg + d
+						: iv.Ton*sdivg + d;
 				}
 				else if (iv.Gas[i, 0] < iv.Ton*StorageData.Ro)
 				{
 					soap[i] = ActiveData.T*ActiveData.U <= iv.Gas[i, 0]
-						? ActiveData.T*ActiveData.U*sdivg + r
-						: sdivg + r;
+						? ActiveData.T*ActiveData.U*sdivg + d
+						: sdivg + d;
 				}
 				else
 				{
 					soap[i] = ActiveData.T*ActiveData.U <= StorageData.Ro
-						? ActiveData.T*ActiveData.U*sdivg + r
-						: StorageData.Ro*sdivg + r;
+						? ActiveData.T*ActiveData.U*sdivg + d
+						: StorageData.Ro*sdivg + d;
 				}
 			}
 			iv.Soap = soap;

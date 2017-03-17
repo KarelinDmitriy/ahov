@@ -39,7 +39,7 @@ namespace Forcast.V2
 			var koef = kp / Math.Pow(ActiveData.U, 0.7) * StorageData.Kf;
 			foreach (var i in Index.GenerateIndices(5, 2))
 			{
-				var s = Barrels.Sum(x => x.Q1 / (x.Matter.ToksiDosesDeaf()[i] * Constants.KadForWithoutDef[i.X]));
+				var s = Barrels.Sum(x => x.Q1*1e6 / (x.Matter.ToksiDosesDeaf()[i] * Constants.KadForWithoutDef[i.X]));
 				result[i] = koef * s;
 			}
 			iv.Qpa1 = result;

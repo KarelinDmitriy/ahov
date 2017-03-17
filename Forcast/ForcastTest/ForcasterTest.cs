@@ -62,6 +62,21 @@ namespace ForcastTest
 			Print(forcaster.Result.Nfs_all, "Потери среди персонала");
 		}
 
+		[TestMethod]
+		public void ThridTest()
+		{
+			var cloudCalculator = new CloudCalculatorWithoutAntidots(
+				DataForFirstTest.GetBarrelsV2(),
+				DataForFirstTest.GetStorageData(),
+				DataForFirstTest.GetActiveData());
+			cloudCalculator.DoAction();
+			var matter = DataForFirstTest.GetBarrelsV2().First().Matter.Data;
+			Print(cloudCalculator.iv.Gam1, "Глубина рапространения вторичного облака", "m");
+			Print(new[] { matter.First.Sm * 1000, matter.First.Mid * 1000, matter.First.Pr*1000 }, "Данные по веществу");
+			Print(cloudCalculator.iv.Sam1, "Глубина рапространения вторичного облака", "m2");
+			Print(new[] { matter.First.Square_Sm *1e6 , matter.First.Square_Mid * 1e6, matter.First.Square_Pr * 1e6 }, "Данные по веществу");
+		}
+
 		private static void Print(DoubleArray data, string caption, string v)
 		{
 			Console.WriteLine(caption);
@@ -91,11 +106,11 @@ namespace ForcastTest
 		{
 			var text = File.ReadAllText(@"D:\Маг 785\Дисертация Телегина\Matters.json");
 			var info = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MatterData>>(text);
-			var matterData = info.Skip(3).First();
+			var matterData = info.Skip(12).First();
 			yield return new BarrelV2
 			{
-				Draining = Draining.Vp1,
-				H = 2,
+				Draining = Draining.Vp2,
+				H = 0,
 				Q = 50,
 				SaveType = MatterSaveType.Cx1,
 				Matter = new Matter()
@@ -142,7 +157,7 @@ namespace ForcastTest
 			{
 				Ku2 = 1,
 				Ku9 = 1,
-				AirVerticalStable = new Table_3_3(StateType.F),
+				AirVerticalStable = new Table_3_3(StateType.E),
 				U = 1,
 				Tcw = 20,
 				T = 300,

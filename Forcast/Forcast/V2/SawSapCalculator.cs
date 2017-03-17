@@ -72,7 +72,7 @@ namespace Forcast.V2
 				var y = Cyp <= sau[i] / gau[i]
 					? Cyp
 					: sau[i] / gau[i];
-				if (tn[i.Y] * U <= Rz && Rz <= T * U && T * U <= gau[i] * Cy + Rz)
+				if (tn[i.Y] * U <= Rz && Rz <= T * U && T * U <= gau[i] && T*U <= Cy + Rz) //1 
 				{
 					sap[i] = 0;
 					saw[i] = y * (T * U - Rz);
@@ -91,7 +91,7 @@ namespace Forcast.V2
 					app[i] = (1 - fa) * (1 - faw) * (1 - fau) * (1 - faa);
 
 				}
-				else if (tn[i.Y] * U <= Rz && Rz <= gau[i] && gau[i] <= T * U && gau[i] <= Cx + Rz)
+				else if (tn[i.Y] * U <= Rz && Rz <= gau[i] && gau[i] <= T * U && gau[i] <= Cx + Rz) //2
 				{
 					sap[i] = 0;
 					saw[i] = y * (gau[i] - Rz);
@@ -109,7 +109,7 @@ namespace Forcast.V2
 					var faa = faaIsZero ? 0 : Avg(faan, faak);
 					app[i] = (1 - fa) * (1 - faw) * (1 - fau) * (1 - faa);
 				}
-				else if (tn[i.Y] * U <= Rz && Cx + Rz <= T * U && Cx + Rz <= gau[i])
+				else if (tn[i.Y] * U <= Rz && Cx + Rz <= T * U && Cx + Rz <= gau[i]) //3
 				{
 					sap[i] = 0;
 					saw[i] = y * Cx;
@@ -127,17 +127,17 @@ namespace Forcast.V2
 					var faa = faaIsZero ? 0 : Avg(faan, faak);
 					app[i] = (1 - fa) * (1 - faw) * (1 - fau) * (1 - faa);
 				}
-				else if (Rz <= tn[i.Y] * U && tn[i.Y] * U <= T * U && T * U <= gau[i] && T * U <= Cx + Rz)
+				else if (Rz <= tn[i.Y] * U && tn[i.Y] * U <= T * U && T * U <= gau[i] && T * U <= Cx + Rz) //4
 				{
 					sap[i] = y * (tn[j] * U - Rz);
-					saw[i] = y * (gau[i] - tn[j] * U);
+					saw[i] = y * (T * U - tn[j] * U);
 					var fak = FaFunc(apr[j], b[j], T - tn[j]);
 					var fawk = FaFunc(aw[j], bw[j], T - tn[j]);
 					var fauk = FaFunc(au[j], bu[j], T - tn[j]);
 					var faak = faaIsZero ? 0 : FaFunc(aa[j], ba[j], T - tn[j]);
 					app[i] = (1 - fak / 2) * (1 - fawk / 2) * (1 - fauk / 2) * (1 - faak / 2);
 				}
-				else if (Rz <= tn[i.Y] * U && gau[i].MyEquals(tn[i.Y] * U) && gau[i] <= T * U && gau[i] <= Cx + Rz)
+				else if (Rz <= tn[i.Y] * U && gau[i].MyEquals(tn[i.Y] * U) && gau[i] <= T * U && gau[i] <= Cx + Rz) //5
 				{
 					sap[i] = y * (tn[j] * U - Rz);
 					saw[i] = y * (gau[i] - tn[j] * U);
@@ -148,7 +148,7 @@ namespace Forcast.V2
 					app[i] = (1 - fak / 2) * (1 - fawk / 2) * (1 - fauk / 2) * (1 - faak / 2);
 
 				}
-				else if (Rz < tn[i.Y] * U * (Cx + Rz) && tn[i.Y] * U * (Cx + Rz) <= T * U && tn[i.Y] * U * (Cx + Rz) <= gau[i])
+				else if (Rz < tn[i.Y] * U && tn[i.Y] * U <= Cx + Rz && Cx+Rz <=gau[i]) //6
 				{
 					sap[i] = y * (tn[j] * U - Rz);
 					saw[i] = y * (Cx + Rz - tn[j] * U);
@@ -158,13 +158,13 @@ namespace Forcast.V2
 					var faak = faaIsZero ? 0 : FaFunc(aa[j], ba[j], (Cx + Rz) / U - tn[j]);
 					app[i] = (1 - fak / 2) * (1 - fawk / 2) * (1 - fauk / 2) * (1 - faak / 2);
 				}
-				else if (Rz < T * U && T * U <= tn[i.Y] * U && T * U <= gau[i] && T * U <= Cx + Rz)
+				else if (Rz < T * U && T * U <= tn[i.Y] * U && T * U <= gau[i] && T * U <= Cx + Rz) //7
 				{
 					sap[i] = y*(T*U - Rz);
 					saw[i] = 0;
 					app[i] = 1;
 				}
-				else if (Rz < gau[i] && gau[i] <= tn[i.Y] * U && gau[i] <= T * U && gau[i] <= Cx + Rz)
+				else if (Rz < gau[i] && gau[i] <= tn[i.Y] * U && gau[i] <= T * U && gau[i] <= Cx + Rz) //8
 				{
 					sap[i] = y*(gau[i] - Rz);
 					saw[i] = 0;
@@ -172,7 +172,7 @@ namespace Forcast.V2
 				}
 				else
 				{
-					sap[i] = y;
+					sap[i] = 0;
 					saw[i] = y*Cx;
 					app[i] = 1;
 				}
