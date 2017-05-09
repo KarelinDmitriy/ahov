@@ -21,6 +21,13 @@ namespace ForcastTest
 			var text = File.ReadAllText(output);
 			var info = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MatterData>>(text);
 			Console.WriteLine(info.First().Name);
+			var inTable = info.Select(x => string.Join(";", new[]
+			{
+				x.Name, x.MoleculerMass.ToString(), x.Density.ToString(),
+				x.Temperature.ToString(), x.BoilingHeat.ToString(),
+				x.SpecificHeat.ToString(), x.VaporSpeed.ToString()
+			})).ToArray();
+			File.WriteAllLines(@"D:\Маг 785\Дисертация Телегина\Пояснительная записка\f.csv", inTable);
 		}
 
 		[TestMethod]

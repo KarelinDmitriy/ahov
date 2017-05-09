@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Web.Mvc;
 using FluentNHibernate.Mapping;
 
 namespace AhovRepository.Entity
@@ -12,9 +13,11 @@ namespace AhovRepository.Entity
 		public virtual string Name { get; set; }
 
 		[DisplayName("Коэффициент проникнования")]
+		[AdditionalMetadata("Dimension", "ед.")]
 		public virtual double Kp { get; set; }
 
 		[DisplayName("Доля населения")]
+		[AdditionalMetadata("Dimension", "ед.")]
 		public virtual double Ay { get; set; }
 	}
 

@@ -62,6 +62,6 @@ namespace Forcast.V2
 
 		public double[] Nf_all => Nf.Zip((x, y) => x + y);
 
-		public double[] Nfs_all => Nfs.Zip((x, y) => x + y);
+		public double[] Nfs_all => Nfs.ToDoubleArray();
 	}
 }

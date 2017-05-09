@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using static System.Math;
 
 namespace Forcast.V2
@@ -53,6 +54,7 @@ namespace Forcast.V2
 
 		public void Calculate()
 		{
+			var log = new StreamWriter($@"D:\Маг 785\Дисертация Телегина\Пояснительная записка\Logs\log_{faaIsZero}.txt");
 			var sap = new DoubleArray();
 			var saw = new DoubleArray();
 			var app = new DoubleArray();
@@ -62,6 +64,7 @@ namespace Forcast.V2
 				var j = i.Y;
 				if (T * U <= Rz && gau[i] <= Rz)
 				{
+					log.WriteLine("T * U <= Rz && gau[i] <= Rz");
 					sap[i] = saw[i] = app[i] = 0;
 					continue;
 				}
@@ -74,6 +77,7 @@ namespace Forcast.V2
 					: sau[i] / gau[i];
 				if (tn[i.Y] * U <= Rz && Rz <= T * U && T * U <= gau[i] && T*U <= Cy + Rz) //1 
 				{
+					log.WriteLine(@"tn[i.Y] * U <= Rz && Rz <= T * U && T * U <= gau[i] && T*U <= Cy + Rz");
 					sap[i] = 0;
 					saw[i] = y * (T * U - Rz);
 					var fan = FaFunc(apr[j], b[j], Rz / U - tn[j]);
@@ -93,6 +97,7 @@ namespace Forcast.V2
 				}
 				else if (tn[i.Y] * U <= Rz && Rz <= gau[i] && gau[i] <= T * U && gau[i] <= Cx + Rz) //2
 				{
+					log.WriteLine(@"tn[i.Y] * U <= Rz && Rz <= gau[i] && gau[i] <= T * U && gau[i] <= Cx + Rz");
 					sap[i] = 0;
 					saw[i] = y * (gau[i] - Rz);
 					var fan = FaFunc(apr[j], b[j], Rz / U - tn[j]);
@@ -111,6 +116,7 @@ namespace Forcast.V2
 				}
 				else if (tn[i.Y] * U <= Rz && Cx + Rz <= T * U && Cx + Rz <= gau[i]) //3
 				{
+					log.WriteLine(@"tn[i.Y] * U <= Rz && Cx + Rz <= T * U && Cx + Rz <= gau[i]");
 					sap[i] = 0;
 					saw[i] = y * Cx;
 					var fan = FaFunc(apr[j], b[j], Rz / U - tn[j]);
@@ -129,6 +135,7 @@ namespace Forcast.V2
 				}
 				else if (Rz <= tn[i.Y] * U && tn[i.Y] * U <= T * U && T * U <= gau[i] && T * U <= Cx + Rz) //4
 				{
+					log.WriteLine(@"Rz <= tn[i.Y] * U && tn[i.Y] * U <= T * U && T * U <= gau[i] && T * U <= Cx + Rz");
 					sap[i] = y * (tn[j] * U - Rz);
 					saw[i] = y * (T * U - tn[j] * U);
 					var fak = FaFunc(apr[j], b[j], T - tn[j]);
@@ -139,6 +146,7 @@ namespace Forcast.V2
 				}
 				else if (Rz <= tn[i.Y] * U && gau[i].MyEquals(tn[i.Y] * U) && gau[i] <= T * U && gau[i] <= Cx + Rz) //5
 				{
+					log.WriteLine(@"Rz <= tn[i.Y] * U && gau[i].MyEquals(tn[i.Y] * U) && gau[i] <= T * U && gau[i] <= Cx + Rz");
 					sap[i] = y * (tn[j] * U - Rz);
 					saw[i] = y * (gau[i] - tn[j] * U);
 					var fak = FaFunc(apr[j], b[j], T - tn[j]);
@@ -150,6 +158,7 @@ namespace Forcast.V2
 				}
 				else if (Rz < tn[i.Y] * U && tn[i.Y] * U <= Cx + Rz && Cx+Rz <=gau[i]) //6
 				{
+					log.WriteLine(@"Rz < tn[i.Y] * U && tn[i.Y] * U <= Cx + Rz && Cx+Rz <=gau[i]");
 					sap[i] = y * (tn[j] * U - Rz);
 					saw[i] = y * (Cx + Rz - tn[j] * U);
 					var fak = FaFunc(apr[j], b[j], (Cx + Rz) / U - tn[j]);
@@ -160,18 +169,21 @@ namespace Forcast.V2
 				}
 				else if (Rz < T * U && T * U <= tn[i.Y] * U && T * U <= gau[i] && T * U <= Cx + Rz) //7
 				{
+					log.WriteLine(@"Rz < T * U && T * U <= tn[i.Y] * U && T * U <= gau[i] && T * U <= Cx + Rz");
 					sap[i] = y*(T*U - Rz);
 					saw[i] = 0;
 					app[i] = 1;
 				}
 				else if (Rz < gau[i] && gau[i] <= tn[i.Y] * U && gau[i] <= T * U && gau[i] <= Cx + Rz) //8
 				{
+					log.WriteLine(@"Rz < gau[i] && gau[i] <= tn[i.Y] * U && gau[i] <= T * U && gau[i] <= Cx + Rz");
 					sap[i] = y*(gau[i] - Rz);
 					saw[i] = 0;
 					app[i] = 1;
 				}
 				else
 				{
+					log.WriteLine(@"else");
 					sap[i] = 0;
 					saw[i] = y*Cx;
 					app[i] = 1;
@@ -182,6 +194,8 @@ namespace Forcast.V2
 			iv.Saw = saw;
 			iv.App = app;
 			iv.Cyp = cyp;
+			log.Close();
+			log.Dispose();
 		}
 
 		private double FaFunc(double arg1, double arg2, double arg3) => arg1 * (1 - Exp(-arg2 * arg3));

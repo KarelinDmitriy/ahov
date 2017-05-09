@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Forcast.V2
@@ -41,15 +42,19 @@ namespace Forcast.V2
 		}
 
 		protected abstract void NpaNopa();
+		protected abstract void Qpa2(double kp);
+		protected abstract void Qpa1(double kp);
 
 		private void Soap()
 		{
+			var logger = new StreamWriter($@"D:\Маг 785\Дисертация Телегина\Пояснительная записка\Logs\{GetType()}");
 			var soap = new double[5];
 			var r = Math.PI*StorageData.Ro*StorageData.Ro/2;
 			var d = Math.PI * (Barrels.Max(x => x.D) + Barrels.Min(x => x.D))/2;
 			for (var i = 0; i < 5; i++)
 			{
 				var sdivg = Math.Pow(iv.Sas[i, 0]/iv.Gas[i, 0], 0.8);
+				logger.WriteLine($"Interation: {i}. Sdivg = {sdivg}. Sas/gas = {iv.Sas[i, 0] / iv.Gas[i, 0]}");
 				if (iv.Ton*ActiveData.U* sdivg <= r && r <= iv.Gau[i, 0]*StorageData.Ro)
 				{
 					soap[i] = ActiveData.T <= iv.Ton
@@ -70,6 +75,7 @@ namespace Forcast.V2
 				}
 			}
 			iv.Soap = soap;
+			logger.Dispose();
 		}
 
 		private void Ton()
@@ -148,10 +154,10 @@ namespace Forcast.V2
 					else
 					{
 						var kak = 1/ka;
-						gao1[i] = StorageData.Цх >= iv.Gam1[i] - rz
+						gao1[i] = StorageData.Цх >= iv.Ga1[i] - rz
 							? (iv.Ga1[i] + rz)/kak - rz
 							: (iv.Ga1[i] - StorageData.Цх)/kak + StorageData.Цх;
-						sao1[i] = iv.Sam1[i]*gao1[i]/iv.Gam1[i];
+						sao1[i] = iv.Sa1[i]*gao1[i]/iv.Ga1[i];
 					}
 				}
 				//Копипаст убрать
@@ -173,10 +179,10 @@ namespace Forcast.V2
 					else
 					{
 						var kak = 1 / ka;
-						gao2[i] = StorageData.Цх >= iv.Gam2[i] - rz
+						gao2[i] = StorageData.Цх >= iv.Ga2[i] - rz
 							? (iv.Ga2[i] + rz) / kak - rz
 							: (iv.Ga2[i] - StorageData.Цх) / kak + StorageData.Цх;
-						sao2[i] = iv.Sam2[i] * gao2[i] / iv.Gam2[i];
+						sao2[i] = iv.Sa2[i] * gao2[i] / iv.Ga2[i];
 					}
 				}
 			}
@@ -184,15 +190,6 @@ namespace Forcast.V2
 			iv.Gao2 = gao2;
 			iv.Sao1 = sao1;
 			iv.Sao2 = sao2;
-		}
-
-		private void SaSam2(double kp)
-		{
-			var ku2 = ActiveData.Ku2;
-			var qpa = iv.Qpa1;
-			var kf = ActiveData.AirVerticalStable;
-			iv.Sa2 = qpa.Select(x => ku2 * ku2 * kf.Ks * Math.Pow(x, kf.Ka));
-			iv.Sam2 = qpa.Select(x => ku2 * ku2 * kf.Ksm * Math.Pow(x / kp, kf.Kam));
 		}
 
 		private void GaGam2(double kp)
@@ -204,7 +201,15 @@ namespace Forcast.V2
 			iv.Gam2 = qpa.Select(x => kf.Kgm * ActiveData.Ku2 * Math.Pow(x / kp, kf.Kvm));
 		}
 
-		protected abstract void Qpa1(double kp);
+		private void SaSam2(double kp)
+		{
+			var ku2 = ActiveData.Ku2;
+			var qpa = iv.Qpa2;
+			var kf = ActiveData.AirVerticalStable;
+			iv.Sa2 = qpa.Select(x => ku2 * ku2 * kf.Ks * Math.Pow(x, kf.Ka));
+			iv.Sam2 = qpa.Select(x => ku2 * ku2 * kf.Ksm * Math.Pow(x / kp, kf.Kam));
+		}
+
 
 
 		private void GaGam1(double kp)
@@ -224,6 +229,5 @@ namespace Forcast.V2
 			iv.Sam1 = qpa.Select(x => ku9*ku9*kf.Ksm*Math.Pow(x/kp, kf.Kam));
 		}
 
-		protected abstract void Qpa2(double kp);
 	}
 }

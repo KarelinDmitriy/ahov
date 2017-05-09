@@ -32,24 +32,31 @@ namespace AhovRepository.Entity
 		public virtual double Width { get; set; }
 
 		[DisplayName("Радиус санитарной зоны")]
+		[AdditionalMetadata("Dimension", "м")]
 		public virtual double Rz { get; set; }
 
 		[DisplayName("Время одевания СИЗ")]
+		[AdditionalMetadata("Dimension", "с")]
 		public virtual double Top { get; set; }
 
 		[DisplayName("Время выхода")]
+		[AdditionalMetadata("Dimension", "с")]
 		public virtual double Tow { get; set; }
 
 		[DisplayName("Растояние до леса")]
+		[AdditionalMetadata("Dimension", "м")]
 		public virtual double Gdl { get; set; }
 
 		[DisplayName("Глубина леса")]
+		[AdditionalMetadata("Dimension", "м")]
 		public virtual double Gl { get; set; }
 
 		[DisplayName("Высота возвышенностей")]
+		[AdditionalMetadata("Dimension", "м")]
 		public virtual double W { get; set; }
 
 		[DisplayName("Доля применяющих антидоты")]
+		[AdditionalMetadata("Dimension", "ед.")]
 		public virtual double Aao { get; set; }
 
 		[DisplayName("Скорость выхода с зараженной зоны")]

@@ -6,12 +6,7 @@
 
 <div class="form-group">
 	@Html.LabelFor(x => x)
-	@if (!string.IsNullOrEmpty(formName))
-	{
-		@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new {type = "number", @class = "form-control text-right", form = formName})
-	}
-	else
-	{
-		@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new { type = "number", @class = "form-control text-right"})
-	}
+	@(!string.IsNullOrEmpty(formName) ? 
+		Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new {type = "number", @class = "form-control text-right", form = formName}) : 
+		Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, new {type = "number", @class = "form-control text-right"}))
 </div>

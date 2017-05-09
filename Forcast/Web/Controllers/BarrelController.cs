@@ -95,7 +95,7 @@ namespace Web.Controllers
 			{
 				barrelProviderFactory.CreateBarrelProvider(HttpContext.GetUserId()).UpdateBarrel(model.Barrel);
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
 				success = false;
 			}

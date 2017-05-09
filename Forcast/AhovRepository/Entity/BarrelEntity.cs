@@ -18,7 +18,9 @@ namespace AhovRepository.Entity
 		[AdditionalMetadata("ListValues", "Изотермический,Под давлением,Обычный")]
 		public virtual string SaveType { get; set; }
 		[DisplayName("Кол-во вещества")]
+		[AdditionalMetadata("Dimension", "т")]
 		public virtual double Q { get; set; }
+		[AdditionalMetadata("Dimension", "м")]
 		[DisplayName("Высота поддона")]
 		public virtual double H { get; set; }
 		public virtual OrgEntity Org { get; set; }

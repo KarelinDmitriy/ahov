@@ -7,10 +7,13 @@ using Forcast;
 using Web.Core;
 using Web.Models.Forcast;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AhovRepository.Entity;
 using Forcast.Matters;
+using Forcast.Report;
 using Forcast.V2;
+using Newtonsoft.Json;
 
 namespace Web.Controllers
 {
@@ -47,9 +50,16 @@ namespace Web.Controllers
 		[HttpPost]
 		public ActionResult Result(ActiveModel model)
 		{
+			var logger = new StreamWriter(@"D:\Маг 785\Дисертация Телегина\Пояснительная записка\Logs\ModelLog.txt");
 			var activeData = FillActiveData(model);
 			var storageData = FillStorageData(model.OrgId);
 			var barrels = GetBarrels(model.OrgId);
+			logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(activeData, Formatting.Indented));
+			logger.WriteLine();
+			logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(storageData, Formatting.Indented));
+			logger.WriteLine();
+			logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(barrels, Formatting.Indented));
+			logger.Dispose();
 			var forcaster = new Forcaster(barrels, storageData, activeData);
 			forcaster.Run();
 			var fModel = new ResultModel
@@ -61,6 +71,25 @@ namespace Web.Controllers
 			return View(fModel);
 		}
 
+		//[HttpPost]
+		//public FileResult Result(ActiveModel model)
+		//{
+		//	var activeData = FillActiveData(model);
+		//	var storageData = FillStorageData(model.OrgId);
+		//	var barrels = GetBarrels(model.OrgId);
+		//	var forcaster = new Forcaster(barrels, storageData, activeData);
+		//	forcaster.Run();
+		//	var reportModel = new ReportModel
+		//	{
+		//		Gau = forcaster.CalculatorWithoutDef.iv.Gau,
+		//		Sau = forcaster.CalculatorWithoutDef.iv.Sau,
+		//		Nfs = forcaster.Result.Nfs,
+		//		NfAll = new DoubleArray(forcaster.Result.Nfs_all)
+		//	};
+		//	var report = new ReportGenerator().GenerateReport(reportModel);
+		//	return File(report, "application/pdf", "report.pdf");
+		//}
+
 		private static ActiveData FillActiveData(ActiveModel activeModel)
 		{
 			var activeData = new ActiveData
@@ -70,7 +99,7 @@ namespace Web.Controllers
 				To = activeModel.To,
 				AirVerticalStable = new Table_3_3(activeModel.StateType),
 				Tcw = activeModel.Temperature,
-				Tn = new[] {activeModel.Tn, activeModel.Tn},
+				Tn = new[] { activeModel.Tn, activeModel.Tn },
 				q = activeModel.Q,
 				Ku2 = 1,
 				Ku9 = 1
@@ -82,7 +111,7 @@ namespace Web.Controllers
 		{
 			var org = orgFactory.CreateOrgProvider(HttpContext.GetUserId()).GetOrg(orgId);
 			var city = cityProvider.GetCity(org.City.CityId);
-			return  new StorageData
+			return new StorageData
 			{
 				Цх = city.Lenght,
 				Цу = city.Width,
@@ -98,17 +127,17 @@ namespace Web.Controllers
 				Top = org.Top,
 				Tow = org.Tow,
 				W = org.W,
-				b = new[] {0, 0d},
-				a = new[] {(1 - (double)city.ChildPercent / 100), (double)city.ChildPercent/100},
+				b = new[] { 0.2, 0.015 },
+				a = new[] { (1 - (double)city.ChildPercent / 100), (double)city.ChildPercent / 100 },
 				aao = org.Aao,
-				aa = new[] { city.Aa, city.AaChild},
-				apr = new[] {city.Apr, city.AprChild},
-				au = new[] {city.Au, city.AuChild},
-				aw = new[] {city.Aw, city.AwChild},
-				ba = new[] {org.Ba, org.Ba_ch},
-				bu = new[] {org.Bu, org.Bu_ch},
-				bw = new[] {org.Bw, org.Bw_ch},
-				QInside = new[] {new QInside { Ay = 1, Kp = 1} }
+				aa = new[] { city.Aa, city.AaChild },
+				apr = new[] { city.Apr, city.AprChild },
+				au = new[] { city.Au, city.AuChild },
+				aw = new[] { city.Aw, city.AwChild },
+				ba = new[] { org.Ba, org.Ba_ch },
+				bu = new[] { org.Bu, org.Bu_ch },
+				bw = new[] { org.Bw, org.Bw_ch },
+				QInside = new[] { new QInside { Ay = 1, Kp = 1 } }
 			};
 		}
 

@@ -60,6 +60,7 @@
     <Compile Include="Matters.cs" />
     <Compile Include="MeasureTest.cs" />
     <Compile Include="Parse.cs" />
+    <Compile Include="ReportTest.cs" />
     <Compile Include="TestData.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

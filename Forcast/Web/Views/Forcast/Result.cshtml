@@ -3,6 +3,17 @@
 
 @{
 	ViewBag.Title = "Результаты прогноза";
+	Func<double, bool, string> convertFunc =
+		(x, isSquare) =>
+		{
+			if (isSquare)
+				x = x/(1000*1000);
+			else
+				x = x/1000;
+			return x > 1 ? $"{x:F0}" : $"{x:f6}";
+		};
+	Func<double, string> convertForMans = x => ((int) x).ToString();
+	var data = new[] { "См.", "Тяж.", "Ср.", "Лег.", "Пор." };
 }
 
 <h2>Результаты прогноза</h2>
@@ -11,246 +22,308 @@
 		<div class="col-md-5">С применением антидотов</div>
 		<div class="col-md-5">Без применения антидотов</div>
 	</div>
-<div class="row">
-	<div>Паражающий параметр первичного облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Qpa1, null)
+	<div class="row">
+		<div>Паражающий параметр первичного облака (qpa1)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Qpa1, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Qpa1, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Qpa1, null)
+	<div class="row">
+		<div>Глубина распротранения первичного облака (ga1)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Ga1, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Ga1, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Глубина распротранения первичного облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Ga1, null)
+	<div class="row">
+		<div>Глубина поражения первичного облака на открытой местности (gam1)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Gam1, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Gam1, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Ga1, null)
+	<div class="row">
+		<div>Площадь распространения первичного облака (Sa1)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sa1, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sa1, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Глубина поражения первичного облака на открытой местности</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Gam1, null)
+	<div class="row">
+		<div>Площадь распространения первичного облака (на открытой местности) (sa2)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sam1, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sam1, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Gam1, null)
+	<div class="row">
+		<div>Паражающий параметр вторичного облака (qpa2)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Qpa2, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Qpa2, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Площадь распространения первичного облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Sa1, null)
+	<div class="row">
+		<div>Глубина распространения вторичного облака (ga2)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Ga2, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Ga2, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Sa1, null)
+	<div class="row">
+		<div>Глубина распространения вторичного облака на открытой месности (gam2)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Gam2, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Gam2, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Площадь распространения первичного облака (на открытой местности)</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Sam1, null)
+	<div class="row">
+		<div>Площадь распространения вторичного облака (sa2)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sa2, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sa2, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Sam1, null)
+	<div class="row">
+		<div>Площадь распространения вторичного облака на открытой местности (sam2)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sam2, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sam2, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Паражающий параметр вторичного облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Qpa2, null)
+	<div class="row">
+		<div>Общая глубина распространения первичного облака (gao1)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Gao1, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Gao1, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Qpa2, null)
+	<div class="row">
+		<div>Общая глубина распространения вторичного облака (Gao2)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Gao2, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Gao2, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Глубина распространения вторичного облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Ga2, null)
+	<div class="row">
+		<div>Общая площадь распространения первичного облака (Sao1)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sao1, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sao1, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Ga2, null)
+	<div class="row">
+		<div>Общая площадь распространения вторичного облака (Sao2)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sao2, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sao2, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Глубина распространения вторичного облака на открытой месности</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Gam2, null)
+	<div class="row">
+		<div>Общая глубина распространения облака (gas)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Gas, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Gas, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Gam2, null)
+	<div class="row">
+		<div>Общая площадь распространения облака (sas)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sas, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sas, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Площадь распространения вторичного облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Sa2, null)
+	<div class="row">
+		<div>Приведенная глубина распространения облака (gau)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Gau, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Gau, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Sa2, null)
+	<div class="row">
+		<div>Приведенная площадь распространения облака (sau)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sau, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sau, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Площадь распространения вторичного облака на открытой местности</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Sam2, null)
+	<div class="row">
+		<div>Sap</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Sap, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Sap, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Sam2, null)
+	<div class="row">
+		<div>Saw</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Saw, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Saw, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Общая глубина распространения первичного облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Gao1, null)
+	<div class="row">
+		<div>App</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.App, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.App, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Gao1, null)
+	<div class="row">
+		<div>Soap</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", new DoubleArray(Model.ForDef.Soap, 2), null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", new DoubleArray(Model.WithoutDef.Soap, 2), null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Общая глубина распространения вторичного облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Gam2, null)
+	<div class="row">
+		<div>Пораженные среди населения (npa)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Npa, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Npa, null)
+		</div>
+		<hr />
 	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Gam2, null)
+	<div class="row">
+		<div>Пораженные среди персонала (nopa)</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.ForDef.Nopa, null)
+		</div>
+		<div class="col-md-5">
+			@Html.Partial("DoubleArray", Model.WithoutDef.Nopa, null)
+		</div>
+		<hr />
 	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Общая глубина распространения облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Gas, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Gas, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Общая площадь распространения облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Sas, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Sas, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Приведенная глубина распространения облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Gau, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Gau, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Приведенная площадь распространения облака</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Sau, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Sau, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Sap</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Sap, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Sap, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Saw</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Saw, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Saw, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>App</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.App, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.App, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Soap</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", new DoubleArray(Model.ForDef.Soap, 2), null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", new DoubleArray(Model.WithoutDef.Soap, 2), null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Пораженные среди населения</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Npa, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Npa, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div>Пораженные среди персонала</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.ForDef.Nopa, null)
-	</div>
-	<div class="col-md-5">
-		@Html.Partial("DoubleArray", Model.WithoutDef.Nopa, null)
-	</div>
-	<hr/>
-</div>
-<div class="row">
-	<div class="col-md-5">
-		<div>Потери среди населения</div>
-		@Html.Partial("DoubleArray", Model.Result.Nps, null)
-	</div>
-	<div class="col-md-5">
-		<div>Потери среди персонала</div>
-		@Html.Partial("DoubleArray", Model.Result.Nos, null)
-	</div>
-	<hr/>
-</div>
 	<div class="row">
 		<div class="col-md-5">
-			<div>Потери среди населения (с учетом распреденения)</div>
+			<div>Потери среди населения (nps)</div>
+			@Html.Partial("DoubleArray", Model.Result.Nps, null)
+		</div>
+		<div class="col-md-5">
+			<div>Потери среди персонала (nos)</div>
+			@Html.Partial("DoubleArray", Model.Result.Nos, null)
+		</div>
+		<hr />
+	</div>
+	<div class="row">
+		<div class="col-md-5">
+			<div>Потери среди населения (с учетом распреденения) (nf)</div>
 			@Html.Partial("DoubleArray", Model.Result.Nf, null)
 		</div>
 		<div class="col-md-5">
-			<div>Потери среди пресонала (с учетом распреденения)</div>
+			<div>Потери среди пресонала (с учетом распреденения) (nfs)</div>
 			@Html.Partial("DoubleArray", Model.Result.Nfs, null)
 		</div>
 		<hr />
+	</div>
+</div>
+
+<div class="row">
+	<div class="container">
+		<div>Результаты для вывода</div>
+		<table class="table table-bordered">
+			<tr>
+				<td rowspan="3"></td>
+				<td colspan="4">Зона поражения</td>
+				<td colspan="4">Количество пораженных</td>
+			</tr>
+			<tr>
+				<td colspan="2">Глубина</td>
+				<td colspan="2">Площадь</td>
+				<td colspan="4">Взрослые</td>
+			</tr>
+			<tr>
+				<td>Взрослые</td>
+				<td>Дети</td>
+				<td>Взрослые</td>
+				<td>Дети</td>
+				<td>Персонал</td>
+				<td>Взрослые</td>
+				<td>Дети</td>
+				<td>Общее</td>
+			</tr>
+			@for (int i = 0; i < 5; i++)
+			{
+				<tr>
+					<td>@data[i]</td>
+					<td>@convertFunc(Model.WithoutDef.Gau[i, 0], false)</td>
+					<td>@convertFunc(Model.WithoutDef.Gau[i, 1], false)</td>
+					<td>@convertFunc(Model.WithoutDef.Sau[i, 0], true)</td>
+					<td>@convertFunc(Model.WithoutDef.Sau[i, 1], true)</td>
+					<td>@convertForMans(Model.Result.Nfs[i, 0])</td>
+					<td>@convertForMans(Model.Result.Nf[i, 0])</td>
+					<td>@convertForMans(Model.Result.Nf[i, 1])</td>
+					<td>@convertForMans(Model.Result.Nf_all[i] + Model.Result.Nfs_all[i])</td>
+				</tr>
+			}
+		</table>
 	</div>
 </div>
