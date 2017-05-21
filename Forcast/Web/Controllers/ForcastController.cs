@@ -47,48 +47,54 @@ namespace Web.Controllers
 			return View(model);
 		}
 
-		[HttpPost]
-		public ActionResult Result(ActiveModel model)
-		{
-			var logger = new StreamWriter(@"D:\Маг 785\Дисертация Телегина\Пояснительная записка\Logs\ModelLog.txt");
-			var activeData = FillActiveData(model);
-			var storageData = FillStorageData(model.OrgId);
-			var barrels = GetBarrels(model.OrgId);
-			logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(activeData, Formatting.Indented));
-			logger.WriteLine();
-			logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(storageData, Formatting.Indented));
-			logger.WriteLine();
-			logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(barrels, Formatting.Indented));
-			logger.Dispose();
-			var forcaster = new Forcaster(barrels, storageData, activeData);
-			forcaster.Run();
-			var fModel = new ResultModel
-			{
-				Result = forcaster.Result,
-				ForDef = forcaster.CalculatorWithDef.iv,
-				WithoutDef = forcaster.CalculatorWithoutDef.iv
-			};
-			return View(fModel);
-		}
-
 		//[HttpPost]
-		//public FileResult Result(ActiveModel model)
+		//public ActionResult Result(ActiveModel model)
 		//{
+		//	var logger = new StreamWriter(@"D:\Маг 785\Дисертация Телегина\Пояснительная записка\Logs\ModelLog.txt");
 		//	var activeData = FillActiveData(model);
 		//	var storageData = FillStorageData(model.OrgId);
 		//	var barrels = GetBarrels(model.OrgId);
+		//	logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(activeData, Formatting.Indented));
+		//	logger.WriteLine();
+		//	logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(storageData, Formatting.Indented));
+		//	logger.WriteLine();
+		//	logger.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(barrels, Formatting.Indented));
+		//	logger.Dispose();
 		//	var forcaster = new Forcaster(barrels, storageData, activeData);
 		//	forcaster.Run();
-		//	var reportModel = new ReportModel
+		//	var fModel = new ResultModel
 		//	{
-		//		Gau = forcaster.CalculatorWithoutDef.iv.Gau,
-		//		Sau = forcaster.CalculatorWithoutDef.iv.Sau,
-		//		Nfs = forcaster.Result.Nfs,
-		//		NfAll = new DoubleArray(forcaster.Result.Nfs_all)
+		//		Result = forcaster.Result,
+		//		ForDef = forcaster.CalculatorWithDef.iv,
+		//		WithoutDef = forcaster.CalculatorWithoutDef.iv
 		//	};
-		//	var report = new ReportGenerator().GenerateReport(reportModel);
-		//	return File(report, "application/pdf", "report.pdf");
+		//	return View(fModel);
 		//}
+
+		[HttpPost]
+		public FileResult Result(ActiveModel model)
+		{
+			var activeData = FillActiveData(model);
+			var storageData = FillStorageData(model.OrgId);
+			var barrels = GetBarrels(model.OrgId);
+			var forcaster = new Forcaster(barrels, storageData, activeData);
+			forcaster.Run();
+			var reportModel = new ReportModel
+			{
+				Gau = forcaster.CalculatorWithoutDef.iv.Gau,
+				Sau = forcaster.CalculatorWithoutDef.iv.Sau,
+				Nfs = forcaster.Result.Nfs,
+				NfAll = new DoubleArray(forcaster.Result.Nfs_all),
+				InputData = new InputData
+				{
+					ActiveData = activeData,
+					StorageData = storageData,
+					Barrels = barrels
+				}
+			};
+			var report = new ReportGenerator().GenerateReport(reportModel);
+			return File(report, "application/pdf", "report.pdf");
+		}
 
 		private static ActiveData FillActiveData(ActiveModel activeModel)
 		{

@@ -57,18 +57,21 @@ namespace Forcast.V2
 				logger.WriteLine($"Interation: {i}. Sdivg = {sdivg}. Sas/gas = {iv.Sas[i, 0] / iv.Gas[i, 0]}");
 				if (iv.Ton*ActiveData.U* sdivg <= r && r <= iv.Gau[i, 0]*StorageData.Ro)
 				{
+					logger.WriteLine("Condition: iv.Ton*ActiveData.U* sdivg <= r && r <= iv.Gau[i, 0]*StorageData.Ro (1)");
 					soap[i] = ActiveData.T <= iv.Ton
 						? ActiveData.T*ActiveData.U*sdivg + d
 						: iv.Ton*sdivg + d;
 				}
 				else if (iv.Gas[i, 0] < iv.Ton*StorageData.Ro)
 				{
+					logger.WriteLine("Condition: iv.Gas[i, 0] < iv.Ton*StorageData.Ro (2)");
 					soap[i] = ActiveData.T*ActiveData.U <= iv.Gas[i, 0]
 						? ActiveData.T*ActiveData.U*sdivg + d
 						: sdivg + d;
 				}
 				else
 				{
+					logger.WriteLine("Condition: else branch (3)");
 					soap[i] = ActiveData.T*ActiveData.U <= StorageData.Ro
 						? ActiveData.T*ActiveData.U*sdivg + d
 						: StorageData.Ro*sdivg + d;
